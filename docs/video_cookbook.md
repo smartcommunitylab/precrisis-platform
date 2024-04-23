@@ -5,7 +5,7 @@ This document outlines the steps to analyze video files and integrate them into 
 ## Table of Contents
 
 1. [Object Detector and Tracker (BUSCA)](#busca)
-2. [Anomaly Detector](#anomaly)
+2. [Anomaly Detector (LAVAD)](#anomaly)
 3. [Crowd Panic Module](#cpanic)
 4. [Crowd Violence Module](#cviolence)
 
@@ -89,27 +89,30 @@ with open(save_path+".json", "w") as f:
 The data object consists of:
 
 ```json
-"measurement": "object_tracker",
-"tags": {
-    "city": "City Name",
-    "camera": "Video Name",
-    "location": "Name of the Location",
-},
-"fields": {
-    "city": "City Name",
-    "camera": "Video Name",
-    "location": "Name of the Location",
-    "number_objects": "Total number of Objects",
-    "avg_speed": "Average Speed of the Objects",
-    "highest_speed": "Highest Speed of the Objects",
-    "min_speed": "Minimum Speed of the Objects",
-    "objects_aspect": "Number of Objects with Aspect Ratio above 1",
-    "avg_age": "Average Age of Objects (Number of Frames)",
-    "high_age": "Highest Age of Objects (Number of Frames)",
-    "min_age": "Minimum Age of Objects (Number of Frames)"
+{
+    "measurement": "object_tracker",
+    "tags": {
+        "city": "City Name",
+        "camera": "Video Name",
+        "location": "Name of the Location",
+    },
+    "fields": {
+        "city": "City Name",
+        "camera": "Video Name",
+        "location": "Name of the Location",
+        "number_objects": "Total number of Objects",
+        "avg_speed": "Average Speed of the Objects",
+        "highest_speed": "Highest Speed of the Objects",
+        "min_speed": "Minimum Speed of the Objects",
+        "objects_aspect": "Number of Objects with Aspect Ratio above 1",
+        "avg_age": "Average Age of Objects (Number of Frames)",
+        "high_age": "Highest Age of Objects (Number of Frames)",
+        "min_age": "Minimum Age of Objects (Number of Frames)"
+    }
 }
 ```
 ### Running
+---
 
 For example, to process the file `palace.mp4`:
 
@@ -146,7 +149,7 @@ CITY = "Name of the City"
 # insert busca thumb
 with open(THUMBNAIL_BUSCA, "rb") as file:
     encoded_file = base64.b64encode(file.read())
-    thumb = {
+    data = {
         "measurement": "thumbnails_busca",
         "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
         "fields": {
@@ -160,7 +163,7 @@ with open(THUMBNAIL_BUSCA, "rb") as file:
     # insert point
 
 # insert busca video
-base = {
+data = {
     "measurement": "video_busca",
     "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
     "fields": {
@@ -176,7 +179,13 @@ base = {
 ```
 
 <a name="anomaly"></a>
-## Anomaly Detector 
+## Anomaly Detector (LAVAD) 
+
+Clone the repository:
+
+```bash
+git clone https://github.com/luca-zanella-dvl/lavad
+```
 
 
 <a name="cpanic"></a>
@@ -255,7 +264,11 @@ To add to the database follow the following format:
 ```json
 {
     "measurement": "panic_module",
-    "tags": {"city": CITY, "camera": "File Name", "location": "Location Name"},
+    "tags": {
+        "city": "City Name",
+        "camera": "File Name",
+        "location": "Location Name"
+    },
     "fields": {
         "video_path": "Video name ex: panic_clip_7719.mp4",
         "duration": "Duration",
@@ -272,7 +285,7 @@ import base64
 
 with open(THUMBNAIL_FILE, "rb") as file:
     encoded_file = base64.b64encode(file.read())
-    thumb = {
+    data = {
         "measurement": "panic_module_thumb",
         "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
         "fields": {
@@ -314,3 +327,24 @@ Add the videos to be processed into the `test_videos` folder and run the followi
 ```Docker
 docker run -it -v /raid/home/videos:/app/Input_videos -v /raid/home/outputs:/app/Output --gpus '"device=1,2"' --rm certh_ca_ma_demo:0.0.6
 ```
+
+The results should be available in the `outputs` folder with a JSON file with the scores and a png graph ploting the score over time. To add the results in InfluxDB use the following table:
+
+
+```json
+{
+    "measurement": "crowd_violence",
+    "tags": {
+        "city": "City Name",
+        "camera": "Video File",
+        "location": "Location Name"
+    },
+    "fields": {
+        "city": "City Name",
+        "camera": "Video File",
+        "location": "Location Name",
+        "prob": "Prob from JSON file",
+    }
+}
+```
+
