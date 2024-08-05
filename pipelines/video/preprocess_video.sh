@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Step 0: get work directory and variables
+dir=$(pwd)
+workdir="${dir}/tmp"
+
+RECORDING_DATE="04/18/24 13:00:00"
+CITY="Vienna"
+LOCATION=""
+CAMERA_NAME=""
+
 # Step 1: Rename file
 
 # Check if exactly one argument (filename) is provided
@@ -18,7 +27,9 @@ sanitize_filename() { basename "${1}" | tr -d '[[:punct:] ]' | tr '[:upper:]' '[
 # filename="My File Name.with.special$char.txt"
 sanitized_name=$(sanitize_filename "$filename")
 
-mkdir tmp
+sanitized_name="${sanitized_name}.mp4"
+
+mkdir "$workdir"
 
 # Check if the file exists
 if [ ! -f "$filename" ]; then
@@ -27,13 +38,40 @@ if [ ! -f "$filename" ]; then
 fi
 
 # copy and replace name
-cp "$filename" tmp/"$sanitized_name"
+cp "$filename" "$workdir"/"$sanitized_name"
 
 echo "File renamed to: $sanitized_name"
 
-# Step 2: copy file to process folders
+mkdir "$workdir"/data
+
+# Step 2: run inference
+
+# Crowd Panic
+
+# create folders
+
+mkdir "$workdir"/Uploads
+
+# copy file to folder
+
+cp "$workdir"/"$sanitized_name" "$workdir"/Uploads
+
+# run inference
+
+docker run -it --rm --gpus all \
+    -p 8080:8080 \
+    -v "$workdir"/Uploads:/usr/src/app/Uploads \
+    -v "$workdir"/Uploads/"$sanitized_name":/usr/src/app/Uploads/"$sanitized_name" \
+    certh_cv_precrisis_cpd --video_path /usr/src/app/Uploads/"$sanitized_name"
+
+# create influx files
+
+python3 parsers/certh_cp_precrisis.py 
+
+# remove trash
+
+rm -r "$workdir"/Uploads
+
 
 # Crowd Violence
-
-
 
