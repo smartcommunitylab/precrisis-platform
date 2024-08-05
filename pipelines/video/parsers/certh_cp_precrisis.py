@@ -50,5 +50,5 @@ for f in mp4_files:
 
     shutil.copy2(f, OUTPUTFOLDER)
 
-with open("{}/cvpanic.json".format(OUTPUTFOLDER), "w") as outfile:
+with open("{}/cp.json".format(OUTPUTFOLDER), "w") as outfile:
     json.dump(influx_data, outfile)

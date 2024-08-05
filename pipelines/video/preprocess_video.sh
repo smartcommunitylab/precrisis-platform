@@ -64,6 +64,10 @@ docker run -it --rm --gpus all \
     -v "$workdir"/Uploads/"$sanitized_name":/usr/src/app/Uploads/"$sanitized_name" \
     certh_cv_precrisis_cpd --video_path /usr/src/app/Uploads/"$sanitized_name"
 
+# remove original file from folder
+
+rm "$workdir"/Uploads/"$sanitized_name"
+
 # create influx files
 
 python3 parsers/certh_cp_precrisis.py 
@@ -72,6 +76,20 @@ python3 parsers/certh_cp_precrisis.py
 
 rm -r "$workdir"/Uploads
 
-
 # Crowd Violence
+
+# create folders
+
+mkdir "$workdir"/videos
+
+mkdir "$workdir"/outputs
+
+cp "$workdir"/"$sanitized_name" "$workdir"/videos
+
+docker run -it -v "$workdir"/videos:/app/Input_videos -v "$workdir"/outputs:/app/Output --gpus '"device=1,2"' --rm certh_ca_ma_demo:0.0.6
+
+python3 parsers/certh_cv_precrisis.py
+
+rm -r "$workdir"/videos
+rm -r "$workdir"/outputs
 
