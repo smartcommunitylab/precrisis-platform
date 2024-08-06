@@ -4,10 +4,16 @@
 dir=$(pwd)
 workdir="${dir}/tmp"
 
+# processors paths
+BUSCA_DIR="${dir}/BUSCA"
+BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
+
+# video args
+filename="$1"
 RECORDING_DATE="04/18/24 13:00:00"
 CITY="Vienna"
+CAMERA=""
 LOCATION=""
-CAMERA_NAME=""
 
 # Step 1: Rename file
 
@@ -17,14 +23,10 @@ if [ $# -ne 1 ]; then
   exit 1
 fi
 
-# Get the filename from the argument
-filename="$1"
-
 # Function to remove special characters and lowercase the filename
 sanitize_filename() { basename "${1}" | tr -d '[[:punct:] ]' | tr '[:upper:]' '[:lower:]'; }
 
 # Get the cleaned filename
-# filename="My File Name.with.special$char.txt"
 sanitized_name=$(sanitize_filename "$filename")
 
 sanitized_name="${sanitized_name}.mp4"
@@ -92,4 +94,26 @@ python3 parsers/certh_cv_precrisis.py
 
 rm -r "$workdir"/videos
 rm -r "$workdir"/outputs
+
+# BUSCA
+
+# go to the busca folder
+
+mkdir "$BUSCA_DIR"/videos 
+
+cp "$workdir"/"$sanitized_name" "$BUSCA_DIR"/videos
+
+docker run --gpus '"device=1,2"' \
+ -it --rm -v "$BUSCA_DIR":/workspace/BUSCA \
+ "$BUSCA_IMAGE_NAME" \
+ python precrisis_demo.py --path videos/"$sanitized_name" --device gpu
+
+mv "$BUSCA_DIR"/videos/"$sanitized_name" "$BUSCA_DIR"/videos/"$sanitized_name"_busca.mp4 
+
+python3 parsers/fbk_bc_precrisis.py
+
+rm -r "$BUSCA_DIR"/videos
+rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
+
+# LAVAD
 
