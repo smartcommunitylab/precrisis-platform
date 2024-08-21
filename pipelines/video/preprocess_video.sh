@@ -12,8 +12,7 @@ BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
 filename="$1"
 RECORDING_DATE="04/18/24 13:00:00"
 CITY="Vienna"
-CAMERA=""
-LOCATION=""
+LOCATION="Austria"
 
 # Step 1: Rename file
 
@@ -29,7 +28,11 @@ sanitize_filename() { basename "${1}" | tr -d '[[:punct:] ]' | tr '[:upper:]' '[
 # Get the cleaned filename
 sanitized_name=$(sanitize_filename "$filename")
 
+sanitized_name_without_extension="${sanitized_name}"
+
 sanitized_name="${sanitized_name}.mp4"
+
+CAMERA="${sanitized_name}"
 
 mkdir "$workdir"
 
@@ -72,11 +75,11 @@ rm "$workdir"/Uploads/"$sanitized_name"
 
 # create influx files
 
-python3 parsers/certh_cp_precrisis.py 
+python3 parsers/certh_cp_precrisis.py "${workdir}/Uploads/${sanitized_name}_panic_clips.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 # remove trash
 
-rm -r "$workdir"/Uploads
+rm -f -r "$workdir"/Uploads
 
 # Crowd Violence
 
@@ -90,10 +93,10 @@ cp "$workdir"/"$sanitized_name" "$workdir"/videos
 
 docker run -it -v "$workdir"/videos:/app/Input_videos -v "$workdir"/outputs:/app/Output --gpus '"device=1,2"' --rm certh_ca_ma_demo:0.0.6
 
-python3 parsers/certh_cv_precrisis.py
+python3 parsers/certh_cv_precrisis.py "${workdir}/outputs/${sanitized_name_without_extension}.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
-rm -r "$workdir"/videos
-rm -r "$workdir"/outputs
+rm -f -r "$workdir"/videos
+rm -f -r "$workdir"/outputs
 
 # BUSCA
 
@@ -110,10 +113,11 @@ docker run --gpus '"device=1,2"' \
 
 mv "$BUSCA_DIR"/videos/"$sanitized_name" "$BUSCA_DIR"/videos/"$sanitized_name"_busca.mp4 
 
-python3 parsers/fbk_bc_precrisis.py
+python3 parsers/fbk_bc_precrisis.py "${BUSCA_DIR}/BUSCA_OUTPUT/${sanitized_name}.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 rm -r "$BUSCA_DIR"/videos
 rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
 
 # LAVAD
+
 

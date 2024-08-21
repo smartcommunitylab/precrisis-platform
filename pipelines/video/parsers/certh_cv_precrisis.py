@@ -34,7 +34,7 @@ with open(FILENAME, "r") as f:
 
         date_to_insert += timedelta(seconds=1)
 
-        influx_data.append(data)
+        influx_data.append(base)
 
 
 with open("{}/cv.json".format(OUTPUTFOLDER), "w") as outfile:
