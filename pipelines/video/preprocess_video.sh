@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # Step 0: get work directory and variables
-dir=$(pwd)
-workdir="${dir}/tmp"
+dir=$(    pwd)
 
 # processors paths
 BUSCA_DIR="${dir}/BUSCA"
@@ -33,6 +32,8 @@ sanitized_name_without_extension="${sanitized_name}"
 sanitized_name="${sanitized_name}.mp4"
 
 CAMERA="${sanitized_name}"
+
+workdir="${dir}/${sanitized_name_without_extension}_outputs"
 
 mkdir "$workdir"
 
@@ -120,4 +121,19 @@ rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
 
 # LAVAD
 
+docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v $(pwd):/usr/src/app -v /raid/home/dvl/projects/vbezerra/lavad/PRECRISIS_cams:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad /bin/bash
 
+# VIDEO CONVERSION
+
+mkdir "${workdir}/data/videos/"
+
+cd "${workdir}/data/"
+
+for i in *.mp4; do
+  docker run -v $(pwd):$(pwd) -w $(pwd)\
+          jrottenberg/ffmpeg:4.4-scratch -i "$i" -y videos/"$i"
+  
+  rm -f "$i"
+done
+
+cd "${dir}"
