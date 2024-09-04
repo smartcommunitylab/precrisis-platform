@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Step 0: get work directory and variables
-dir=$(    pwd)
+dir=$(pwd)
 
 # processors paths
 BUSCA_DIR="${dir}/BUSCA"
 BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
+AN_VIDEO_DIR="/raid/home/dvl/projects/vbezerra/precrisis_pipeline/marvel-videoanony"
 
 # video args
 filename="$1"
@@ -13,7 +14,7 @@ RECORDING_DATE="04/18/24 13:00:00"
 CITY="Vienna"
 LOCATION="Austria"
 
-# Step 1: Rename file
+# Step 1: Rename file and Anonymise
 
 # Check if exactly one argument (filename) is provided
 if [ $# -ne 1 ]; then
@@ -47,6 +48,28 @@ fi
 cp "$filename" "$workdir"/"$sanitized_name"
 
 echo "File renamed to: $sanitized_name"
+
+# Anonymise
+
+mkdir "$AN_VIDEO_DIR"/videos 
+
+cp "$workdir"/"$sanitized_name" "$AN_VIDEO_DIR"/videos/"$sanitized_name"
+
+# remove original file 
+
+rm "$workdir"/"$sanitized_name"
+
+docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus all anonymisation-vbezerra-dsl-1 \
+python src/anonymize.py --source videos/"$sanitized_name"
+
+# replace video
+
+cp -i "$AN_VIDEO_DIR"/runs/anonymize/exp/"$sanitized_name" "$workdir"/"$sanitized_name"
+
+# cleanup
+
+rm -r "$AN_VIDEO_DIR"/runs
+rm -r "$AN_VIDEO_DIR"/videos
 
 mkdir "$workdir"/data
 
@@ -121,7 +144,7 @@ rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
 
 # LAVAD
 
-docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v $(pwd):/usr/src/app -v /raid/home/dvl/projects/vbezerra/lavad/PRECRISIS_cams:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad /bin/bash
+# docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v $(pwd):/usr/src/app -v /raid/home/dvl/projects/vbezerra/lavad/PRECRISIS_cams:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad /bin/bash
 
 # VIDEO CONVERSION
 
