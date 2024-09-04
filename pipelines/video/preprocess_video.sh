@@ -144,7 +144,23 @@ rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
 
 # LAVAD
 
-# docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v $(pwd):/usr/src/app -v /raid/home/dvl/projects/vbezerra/lavad/PRECRISIS_cams:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad /bin/bash
+mkdir -p "${workdir}"/lavad_video/precrisis/videos/
+
+cp "$workdir"/"$sanitized_name" "${workdir}"/lavad_video/precrisis/videos/
+
+mkdir -p "${workdir}"/lavad_video/precrisis/annotations/
+
+docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v /raid/home/dvl/projects/lzanella/lavad:/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
+
+LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/flan-t5-xxl/276960_if_you_were_a_law_enforcement_agency,_how_would_you_rate_the_scene_described_on_a_scale_from_0_to_1,_with_0_representing_a_standard_scene_and_1_denoting_a_scene_with_suspicious_activities?"
+
+# copy file and parse output
+
+cp "$LAVAD_OUTPUT"/"$sanitized_name" "${workdir}/data/${sanitized_name_without_extension}_a.mp4"
+
+python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without_extension}_scores.json" "$CITY" "${sanitized_name_without_extension}_a.mp4" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
+
+rm -r "${workdir}"/lavad_video
 
 # VIDEO CONVERSION
 
