@@ -174,6 +174,10 @@ echo "$(date +"%Y-%m-%d %H:%M:%S"): END LAVAD $sanitized_name"
 
 # INFERENCE RUNNING
 
+# REMOVE ORIGINAL FILE
+
+rm "$workdir"/"$sanitized_name"
+
 # VIDEO CONVERSION
 echo "$(date +"%Y-%m-%d %H:%M:%S"): START VIDEO_CONVERSION $sanitized_name"
 
