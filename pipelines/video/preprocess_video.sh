@@ -166,7 +166,7 @@ LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/f
 
 cp "$LAVAD_OUTPUT"/"$sanitized_name" "${workdir}/data/${sanitized_name_without_extension}_a.mp4"
 
-python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without_extension}_scores.json" "$CITY" "${sanitized_name_without_extension}_a.mp4" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
+python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without_extension}_scores.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 rm -r "${workdir}"/lavad_video
 
