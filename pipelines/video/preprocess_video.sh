@@ -19,7 +19,7 @@ RECORDING_DATE="04/18/24 13:00:00"
 CITY="Vienna"
 LOCATION="Austria"
 #CAMERA=Video File Name
-GPU_DEVICE=0
+GPU_DEVICE='"device=0,1"'
 
 # video renaning and anonymisation
 
@@ -32,6 +32,8 @@ if [ ! -f "$filename" ]; then
   echo "Error: File '$filename' does not exist."
   exit 1
 fi
+
+start_time=$(date +%s)
 
 echo "$(date +"%Y-%m-%d %H:%M:%S"): START PROCESSING $filename"
 
@@ -67,7 +69,7 @@ cp "$workdir"/"$sanitized_name" "$AN_VIDEO_DIR"/videos/"$sanitized_name"
 
 rm "$workdir"/"$sanitized_name"
 
-docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus all "$AN_VIDEO_IMAGE_NAME" \
+docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus "$GPU_DEVICE" "$AN_VIDEO_IMAGE_NAME" \
 python src/anonymize.py --source videos/"$sanitized_name"
 
 cp -i "$AN_VIDEO_DIR"/runs/anonymize/exp/"$sanitized_name" "$workdir"/"$sanitized_name"
@@ -89,7 +91,7 @@ mkdir "$workdir"/Uploads
 
 cp "$workdir"/"$sanitized_name" "$workdir"/Uploads
 
-docker run -it --rm --gpus all \
+docker run -it --rm --gpus "$GPU_DEVICE" \
     -p 8080:8080 \
     -v "$workdir"/Uploads:/usr/src/app/Uploads \
     -v "$workdir"/Uploads/"$sanitized_name":/usr/src/app/Uploads/"$sanitized_name" \
@@ -117,7 +119,7 @@ mkdir "$workdir"/outputs
 
 cp "$workdir"/"$sanitized_name" "$workdir"/videos
 
-docker run -it -v "$workdir"/videos:/app/Input_videos -v "$workdir"/outputs:/app/Output --gpus '"device=1,2"' --rm certh_ca_ma_demo:0.0.6
+docker run -it -v "$workdir"/videos:/app/Input_videos -v "$workdir"/outputs:/app/Output --gpus "$GPU_DEVICE" --rm certh_ca_ma_demo:0.0.6
 
 python3 parsers/certh_cv_precrisis.py "${workdir}/outputs/${sanitized_name_without_extension}.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
@@ -134,7 +136,7 @@ mkdir "$BUSCA_DIR"/videos
 
 cp "$workdir"/"$sanitized_name" "$BUSCA_DIR"/videos
 
-docker run --gpus '"device=1,2"' \
+docker run --gpus "$GPU_DEVICE" \
  -it --rm -v "$BUSCA_DIR":/workspace/BUSCA \
  "$BUSCA_IMAGE_NAME" \
  python precrisis_demo.py --path videos/"$sanitized_name" --device gpu
@@ -158,7 +160,7 @@ cp "$workdir"/"$sanitized_name" "${workdir}"/lavad_video/precrisis/videos/
 
 mkdir -p "${workdir}"/lavad_video/precrisis/annotations/
 
-docker run --shm-size 64gb --name "$LAVAD_IMAGE_NAME" --gpus '"device=3,4"' --rm -it -v "$LAVAD_HOME_PATH":/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v "$LAVAD_LLAMA_PATH":/raid/home/dvl/projects/lzanella/llama/ -v "$LAVAD_ANOMALY_FRAMES":/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
+docker run --shm-size 64gb --name "$LAVAD_IMAGE_NAME" --gpus "$GPU_DEVICE" --rm -it -v "$LAVAD_HOME_PATH":/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v "$LAVAD_LLAMA_PATH":/raid/home/dvl/projects/lzanella/llama/ -v "$LAVAD_ANOMALY_FRAMES":/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
 
 LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/flan-t5-xxl/276960_if_you_were_a_law_enforcement_agency,_how_would_you_rate_the_scene_described_on_a_scale_from_0_to_1,_with_0_representing_a_standard_scene_and_1_denoting_a_scene_with_suspicious_activities?"
 
@@ -191,3 +193,11 @@ cd "${dir}"
 echo "$(date +"%Y-%m-%d %H:%M:%S"): END VIDEO_CONVERSION $sanitized_name"
 
 echo "$(date +"%Y-%m-%d %H:%M:%S"): END PROCESSING $filename"
+
+finish_time=$(date +%s)
+
+elapsed_time=$((finish_time  - start_time))
+
+((sec=elapsed_time%60, elapsed_time/=60, min=elapsed_time%60, hrs=elapsed_time/60))
+timestamp=$(printf "Total time taken - %d hours, %d minutes, and %d seconds." $hrs $min $sec)
+echo $timestamp
