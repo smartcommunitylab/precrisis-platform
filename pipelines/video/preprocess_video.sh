@@ -1,31 +1,42 @@
 #!/bin/bash
 
-# Step 0: get work directory and variables
+# configurations
 dir=$(pwd)
 
 # processors paths
 BUSCA_DIR="${dir}/BUSCA"
 BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
+AN_VIDEO_IMAGE_NAME="anonymisation-vbezerra-dsl-1"
 AN_VIDEO_DIR="/raid/home/dvl/projects/vbezerra/precrisis_pipeline/marvel-videoanony"
+LAVAD_IMAGE_NAME="lavad-lzanella-dvl-3-4"
+LAVAD_HOME_PATH="/raid/home/dvl/projects/lzanella/lavad"
+LAVAD_LLAMA_PATH="/raid/home/dvl/projects/lzanella/llama/"
+LAVAD_ANOMALY_FRAMES="/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/"
 
 # video args
 filename="$1"
 RECORDING_DATE="04/18/24 13:00:00"
 CITY="Vienna"
 LOCATION="Austria"
+#CAMERA=Video File Name
+GPU_DEVICE=0
 
-# Step 1: Rename file and Anonymise
+# video renaning and anonymisation
 
-# Check if exactly one argument (filename) is provided
 if [ $# -ne 1 ]; then
   echo "Usage: $0 <filename>"
   exit 1
 fi
 
-# Function to remove special characters and lowercase the filename
+if [ ! -f "$filename" ]; then
+  echo "Error: File '$filename' does not exist."
+  exit 1
+fi
+
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START PROCESSING $filename"
+
 sanitize_filename() { basename "${1}" | tr -d '[[:punct:] ]' | tr '[:upper:]' '[:lower:]'; }
 
-# Get the cleaned filename
 sanitized_name=$(sanitize_filename "$filename")
 
 sanitized_name_without_extension="${sanitized_name}"
@@ -34,22 +45,19 @@ sanitized_name="${sanitized_name}.mp4"
 
 CAMERA="${sanitized_name}"
 
-workdir="${dir}/${sanitized_name_without_extension}_outputs"
+workdir="${dir}/outputs/${sanitized_name_without_extension}_outputs"
+
+# workdir creation
 
 mkdir "$workdir"
 
-# Check if the file exists
-if [ ! -f "$filename" ]; then
-  echo "Error: File '$filename' does not exist."
-  exit 1
-fi
-
-# copy and replace name
 cp "$filename" "$workdir"/"$sanitized_name"
 
 echo "File renamed to: $sanitized_name"
 
-# Anonymise
+# anonymisation
+
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START ANONYMISATION $sanitized_name"
 
 mkdir "$AN_VIDEO_DIR"/videos 
 
@@ -59,33 +67,27 @@ cp "$workdir"/"$sanitized_name" "$AN_VIDEO_DIR"/videos/"$sanitized_name"
 
 rm "$workdir"/"$sanitized_name"
 
-docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus all anonymisation-vbezerra-dsl-1 \
+docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus all "$AN_VIDEO_IMAGE_NAME" \
 python src/anonymize.py --source videos/"$sanitized_name"
 
-# replace video
-
 cp -i "$AN_VIDEO_DIR"/runs/anonymize/exp/"$sanitized_name" "$workdir"/"$sanitized_name"
-
-# cleanup
 
 rm -r "$AN_VIDEO_DIR"/runs
 rm -r "$AN_VIDEO_DIR"/videos
 
 mkdir "$workdir"/data
 
-# Step 2: run inference
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END ANONYMISATION $sanitized_name"
+
+# INFERENCE RUNNING
 
 # Crowd Panic
 
-# create folders
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START CROWD_PANIC $sanitized_name"
 
 mkdir "$workdir"/Uploads
 
-# copy file to folder
-
 cp "$workdir"/"$sanitized_name" "$workdir"/Uploads
-
-# run inference
 
 docker run -it --rm --gpus all \
     -p 8080:8080 \
@@ -97,17 +99,17 @@ docker run -it --rm --gpus all \
 
 rm "$workdir"/Uploads/"$sanitized_name"
 
-# create influx files
-
 python3 parsers/certh_cp_precrisis.py "${workdir}/Uploads/${sanitized_name}_panic_clips.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 # remove trash
 
 rm -f -r "$workdir"/Uploads
 
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END CROWD_PANIC $sanitized_name"
+
 # Crowd Violence
 
-# create folders
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START CROWD_VIOLENCE $sanitized_name"
 
 mkdir "$workdir"/videos
 
@@ -122,9 +124,11 @@ python3 parsers/certh_cv_precrisis.py "${workdir}/outputs/${sanitized_name_witho
 rm -f -r "$workdir"/videos
 rm -f -r "$workdir"/outputs
 
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END CROWD_VIOLENCE $sanitized_name"
+
 # BUSCA
 
-# go to the busca folder
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START BUSCA $sanitized_name"
 
 mkdir "$BUSCA_DIR"/videos 
 
@@ -135,14 +139,18 @@ docker run --gpus '"device=1,2"' \
  "$BUSCA_IMAGE_NAME" \
  python precrisis_demo.py --path videos/"$sanitized_name" --device gpu
 
-mv "$BUSCA_DIR"/videos/"$sanitized_name" "$BUSCA_DIR"/videos/"$sanitized_name"_busca.mp4 
+mv "$BUSCA_DIR"/BUSCA_OUTPUT/"$sanitized_name" "$BUSCA_DIR"/BUSCA_OUTPUT/"$sanitized_name"_busca.mp4 
 
 python3 parsers/fbk_bc_precrisis.py "${BUSCA_DIR}/BUSCA_OUTPUT/${sanitized_name}.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 rm -r "$BUSCA_DIR"/videos
 rm -r "$BUSCA_DIR"/BUSCA_OUTPUT
 
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END BUSCA $sanitized_name"
+
 # LAVAD
+
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START LAVAD $sanitized_name"
 
 mkdir -p "${workdir}"/lavad_video/precrisis/videos/
 
@@ -150,11 +158,9 @@ cp "$workdir"/"$sanitized_name" "${workdir}"/lavad_video/precrisis/videos/
 
 mkdir -p "${workdir}"/lavad_video/precrisis/annotations/
 
-docker run --shm-size 64gb --name lavad-lzanella-dvl-3-4 --gpus '"device=3,4"' --rm -it -v /raid/home/dvl/projects/lzanella/lavad:/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v /raid/home/dvl/projects/lzanella/llama/:/raid/home/dvl/projects/lzanella/llama/ -v /raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/:/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
+docker run --shm-size 64gb --name "$LAVAD_IMAGE_NAME" --gpus '"device=3,4"' --rm -it -v "$LAVAD_HOME_PATH":/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v "$LAVAD_LLAMA_PATH":/raid/home/dvl/projects/lzanella/llama/ -v "$LAVAD_ANOMALY_FRAMES":/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
 
 LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/flan-t5-xxl/276960_if_you_were_a_law_enforcement_agency,_how_would_you_rate_the_scene_described_on_a_scale_from_0_to_1,_with_0_representing_a_standard_scene_and_1_denoting_a_scene_with_suspicious_activities?"
-
-# copy file and parse output
 
 cp "$LAVAD_OUTPUT"/"$sanitized_name" "${workdir}/data/${sanitized_name_without_extension}_a.mp4"
 
@@ -162,7 +168,12 @@ python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without
 
 rm -r "${workdir}"/lavad_video
 
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END LAVAD $sanitized_name"
+
+# INFERENCE RUNNING
+
 # VIDEO CONVERSION
+echo "$(date +"%Y-%m-%d %H:%M:%S"): START VIDEO_CONVERSION $sanitized_name"
 
 mkdir "${workdir}/data/videos/"
 
@@ -176,3 +187,7 @@ for i in *.mp4; do
 done
 
 cd "${dir}"
+
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END VIDEO_CONVERSION $sanitized_name"
+
+echo "$(date +"%Y-%m-%d %H:%M:%S"): END PROCESSING $filename"
