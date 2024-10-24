@@ -17,9 +17,13 @@ REGEX_TIME = "%m/%d/%y %H:%M:%S"
 with open(FILENAME, "r") as f:
     data = json.load(f)
     influx_data = []
-    n_frames = len(data.keys())
     date_to_insert = datetime.strptime(ORIGINAL_DATE, REGEX_TIME)
-    for i in range(n_frames):
+    for i in data:
+        score = 0
+        try:
+            score = sum(data[str(i)].values()) / len(data[str(i)])
+        except Exception as e:
+            print(e)
         base = {
             "time": str(date_to_insert),
             "measurement": "video_anomaly_score",
@@ -28,12 +32,13 @@ with open(FILENAME, "r") as f:
                 "city": CITY,
                 "camera": CAMERA,
                 "location": LOCATION,
-                "score": data[str(i)],
+                "score": score,
                 "frame": i,
-                "inspect": CAMERA,
+                "inspect": CAMERA + "_a.mp4",
             },
         }
         influx_data.append(base)
+        date_to_insert += timedelta(seconds=1)
 
 with open("{}/lavad.json".format(OUTPUTFOLDER), "w") as outfile:
     json.dump(influx_data, outfile)

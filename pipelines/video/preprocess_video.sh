@@ -9,24 +9,23 @@ BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
 AN_VIDEO_IMAGE_NAME="anonymisation-vbezerra-dsl-1"
 AN_VIDEO_DIR="/raid/home/dvl/projects/vbezerra/precrisis_pipeline/marvel-videoanony"
 LAVAD_IMAGE_NAME="lavad-lzanella-dvl-3-4"
-LAVAD_HOME_PATH="/raid/home/dvl/projects/lzanella/lavad"
-LAVAD_LLAMA_PATH="/raid/home/dvl/projects/lzanella/llama/"
-LAVAD_ANOMALY_FRAMES="/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/"
+LAVAD_HOME_PATH="/raid/home/dvl/projects/vbezerra/lavad/"
 
 # video args
 filename="$1"
-RECORDING_DATE="04/18/24 13:00:00"
-CITY="Vienna"
-LOCATION="Austria"
+RECORDING_DATE="$2"
+CITY="$3"
+LOCATION="$4"
 #CAMERA=Video File Name
-GPU_DEVICE='"device=0,1"'
+GPU_DEVICE="$5"
+
+if [ -z "$6" ]; then
+  ANONYMISATION="True"
+else
+  ANONYMISATION="False"
+fi
 
 # video renaning and anonymisation
-
-if [ $# -ne 1 ]; then
-  echo "Usage: $0 <filename>"
-  exit 1
-fi
 
 if [ ! -f "$filename" ]; then
   echo "Error: File '$filename' does not exist."
@@ -47,11 +46,17 @@ sanitized_name="${sanitized_name}.mp4"
 
 CAMERA="${sanitized_name}"
 
-workdir="${dir}/outputs/${sanitized_name_without_extension}_outputs"
+if [[ "$ANONYMISATION" == "False" ]]; then
+  workdir="${dir}/outputs/${sanitized_name_without_extension}_outputs_original"
+else
+  workdir="${dir}/outputs/${sanitized_name_without_extension}_outputs"
+fi
 
 # workdir creation
 
 mkdir "$workdir"
+
+mkdir "$workdir"/data
 
 cp "$filename" "$workdir"/"$sanitized_name"
 
@@ -59,28 +64,28 @@ echo "File renamed to: $sanitized_name"
 
 # anonymisation
 
-echo "$(date +"%Y-%m-%d %H:%M:%S"): START ANONYMISATION $sanitized_name"
+if [[ "$ANONYMISATION" == "True" ]]; then
 
-mkdir "$AN_VIDEO_DIR"/videos 
+  echo "$(date +"%Y-%m-%d %H:%M:%S"): START ANONYMISATION $sanitized_name"
 
-cp "$workdir"/"$sanitized_name" "$AN_VIDEO_DIR"/videos/"$sanitized_name"
+  mkdir "$AN_VIDEO_DIR"/videos 
 
-# remove original file 
+  cp "$workdir"/"$sanitized_name" "$AN_VIDEO_DIR"/videos/"$sanitized_name"
 
-rm "$workdir"/"$sanitized_name"
+  # remove original file 
 
-docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus "$GPU_DEVICE" "$AN_VIDEO_IMAGE_NAME" \
-python src/anonymize.py --source videos/"$sanitized_name"
+  rm "$workdir"/"$sanitized_name"
 
-cp -i "$AN_VIDEO_DIR"/runs/anonymize/exp/"$sanitized_name" "$workdir"/"$sanitized_name"
+  docker run -it -v "$AN_VIDEO_DIR":/app -u `id -u $USER` --gpus "$GPU_DEVICE" "$AN_VIDEO_IMAGE_NAME" \
+  python src/anonymize.py --source videos/"$sanitized_name"
 
-rm -r "$AN_VIDEO_DIR"/runs
-rm -r "$AN_VIDEO_DIR"/videos
+  cp -i "$AN_VIDEO_DIR"/runs/anonymize/exp/"$sanitized_name" "$workdir"/"$sanitized_name"
 
-mkdir "$workdir"/data
+  rm -r "$AN_VIDEO_DIR"/runs
+  rm -r "$AN_VIDEO_DIR"/videos
 
-echo "$(date +"%Y-%m-%d %H:%M:%S"): END ANONYMISATION $sanitized_name"
-
+  echo "$(date +"%Y-%m-%d %H:%M:%S"): END ANONYMISATION $sanitized_name"
+fi
 # INFERENCE RUNNING
 
 # Crowd Panic
@@ -160,13 +165,13 @@ cp "$workdir"/"$sanitized_name" "${workdir}"/lavad_video/precrisis/videos/
 
 mkdir -p "${workdir}"/lavad_video/precrisis/annotations/
 
-docker run --shm-size 64gb --name "$LAVAD_IMAGE_NAME" --gpus "$GPU_DEVICE" --rm -it -v "$LAVAD_HOME_PATH":/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets -v "$LAVAD_LLAMA_PATH":/raid/home/dvl/projects/lzanella/llama/ -v "$LAVAD_ANOMALY_FRAMES":/raid/home/dvl/datasets/UCFCrime/Anomaly-Frames/ dvl/lavad ./scripts/precrisis/run_eval.sh
+docker run --shm-size 64gb --gpus "$GPU_DEVICE" --rm -it -u `id -u $USER` -v "$LAVAD_HOME_PATH":/usr/src/app -v "${workdir}"/lavad_video:/usr/src/datasets lavad ./scripts/run_eval.sh
 
-LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/flan-t5-xxl/276960_if_you_were_a_law_enforcement_agency,_how_would_you_rate_the_scene_described_on_a_scale_from_0_to_1,_with_0_representing_a_standard_scene_and_1_denoting_a_scene_with_suspicious_activities?"
+LAVAD_OUTPUT="${workdir}/lavad_video/precrisis/scores/refined/llama-2-13b-chat/opt-6.7b-coco+opt-6.7b+flan-t5-xxl+flan-t5-xl+flan-t5-xl-coco/000001_if_you_were_a_law_enforcement_agency,_how_would_you_rate_the_scene_described_on_a_scale_from_0_to_1,_with_0_representing_a_standard_scene_and_1_denoting_a_scene_with_suspicious_activities?"
 
 cp "$LAVAD_OUTPUT"/"$sanitized_name" "${workdir}/data/${sanitized_name_without_extension}_a.mp4"
 
-python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without_extension}_scores.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
+python3 parsers/fbk_lavad_precrisis.py "${LAVAD_OUTPUT}/${sanitized_name_without_extension}.json" "$CITY" "$CAMERA" "$LOCATION" "$RECORDING_DATE" "${workdir}/data"
 
 rm -r "${workdir}"/lavad_video
 

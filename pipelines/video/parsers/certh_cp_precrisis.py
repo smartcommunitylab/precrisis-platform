@@ -19,9 +19,8 @@ with open(FILENAME, "r") as f:
     data = json.load(f)
     influx_data = []
 
+    date_to_insert = datetime.strptime(ORIGINAL_DATE, REGEX_TIME)
     for i in data:
-        date_to_insert = datetime.strptime(ORIGINAL_DATE, REGEX_TIME)
-        date_to_insert += timedelta(seconds=int(i))
         base = {
             "time": str(date_to_insert),
             "measurement": "panic_module",
@@ -30,6 +29,7 @@ with open(FILENAME, "r") as f:
         }
 
         influx_data.append(base)
+        date_to_insert += timedelta(seconds=1)
 
 # inser clips if any
 
