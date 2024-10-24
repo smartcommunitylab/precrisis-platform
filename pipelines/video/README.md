@@ -119,5 +119,49 @@ docker run --shm-size 64gb --gpus "$GPU_DEVICE" --rm -it -u `id -u $USER` -v "$(
 
 *Please note that LAVAD requires two GPUs with 32GB of VRAM each to run.*
 
-## Executing Pipeline
+#### Setup Pipeline
 
+Copy `process_video.sh` and the `parsers` folder to the same folder where the repositories were cloned. Set up the following variables in the script:
+
+```shell
+BUSCA_DIR # path of the BUSCA source files
+BUSCA_IMAGE_NAME # docker image name of BUSCA
+AN_VIDEO_IMAGE_NAME # docker image name of the Video Anonymization
+AN_VIDEO_DIR # path of the source code of the Video Anonymization
+LAVAD_HOME_PATH # path of the LAVAD source code
+```
+
+# Executing Pipeline
+
+To process one video in the pipeline, execute the following command:
+
+```shell
+./process_video.sh /raid/home/dvl/projects/vbezerra/precrisis_pipeline/test_videos/videos/cam_01_001.mp4 "04/18/24 13:00:00" "Mycity" "MyLocation" '"device=0,1"'
+```
+
+This command will generate an output folder called `cam_01_001_outputs` with the following content:
+
+<pre>└── <font color="#12488B"><b>data</b></font>
+    ├── bc.json
+    ├── cp.json
+    ├── cv.json
+    ├── lavad.json
+    └── <font color="#12488B"><b>videos</b></font>
+        ├── <font color="#A347BA"><b>cam01001mp4_a.mp4</b></font>
+        └── <font color="#A347BA"><b>cam01001mp4.mp4_busca.mp4</b></font>
+</pre>
+
+* `bc.json`: Results of BUSCA analysis in JSON format
+* `cp.json`: Results of Crowd Panic analysis in JSON format
+* `cv.json`: Results of Crowd Violence analysis in JSON format
+* `lavad.json`: Results of LAVAD in JSON format
+* `videos/cam_01_001_a.mp4`: Video output of LAVAD
+* `videos/cam_01_001_busca.mp4`: Video output of BUSCA
+
+# Insert into InfluxDB
+
+Execute the following command, passing the output folder as a parameter:
+
+```shell
+python pipelines/video/influx/insert_data_influx.py ~/cam_01_001_outputs
+```

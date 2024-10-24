@@ -8,7 +8,6 @@ BUSCA_DIR="${dir}/BUSCA"
 BUSCA_IMAGE_NAME="precrisis_busca-vbezerra-dsl-7:latest"
 AN_VIDEO_IMAGE_NAME="anonymisation-vbezerra-dsl-1"
 AN_VIDEO_DIR="/raid/home/dvl/projects/vbezerra/precrisis_pipeline/marvel-videoanony"
-LAVAD_IMAGE_NAME="lavad-lzanella-dvl-3-4"
 LAVAD_HOME_PATH="/raid/home/dvl/projects/vbezerra/lavad/"
 
 # video args
