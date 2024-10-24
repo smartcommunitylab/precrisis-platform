@@ -1,0 +1,699 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 5,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "gridPos": {
+          "h": 2,
+          "w": 6,
+          "x": 0,
+          "y": 0
+        },
+        "id": 7,
+        "options": {
+          "code": {
+            "language": "plaintext",
+            "showLineNumbers": false,
+            "showMiniMap": false
+          },
+          "content": "# ${Locations}\n\n",
+          "mode": "markdown"
+        },
+        "pluginVersion": "10.4.2",
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "hideFrom": {
+                "legend": false,
+                "tooltip": false,
+                "viz": false
+              }
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": [
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "lat"
+              },
+              "properties": [
+                {
+                  "id": "displayName",
+                  "value": "Latitude"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "long"
+              },
+              "properties": [
+                {
+                  "id": "displayName",
+                  "value": "Longitude"
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "Time"
+              },
+              "properties": [
+                {
+                  "id": "custom.hideFrom",
+                  "value": {
+                    "legend": true,
+                    "tooltip": true,
+                    "viz": true
+                  }
+                }
+              ]
+            },
+            {
+              "matcher": {
+                "id": "byName",
+                "options": "location"
+              },
+              "properties": [
+                {
+                  "id": "displayName",
+                  "value": "Location Name"
+                }
+              ]
+            }
+          ]
+        },
+        "gridPos": {
+          "h": 24,
+          "w": 18,
+          "x": 6,
+          "y": 0
+        },
+        "id": 5,
+        "options": {
+          "basemap": {
+            "config": {},
+            "name": "Layer 0",
+            "type": "default"
+          },
+          "controls": {
+            "mouseWheelZoom": true,
+            "showAttribution": true,
+            "showDebug": false,
+            "showMeasure": false,
+            "showScale": false,
+            "showZoom": true
+          },
+          "layers": [
+            {
+              "config": {
+                "showLegend": false,
+                "style": {
+                  "color": {
+                    "fixed": "super-light-blue"
+                  },
+                  "opacity": 0.4,
+                  "rotation": {
+                    "fixed": 0,
+                    "max": 360,
+                    "min": -360,
+                    "mode": "mod"
+                  },
+                  "size": {
+                    "fixed": 20,
+                    "max": 15,
+                    "min": 2
+                  },
+                  "symbol": {
+                    "fixed": "img/icons/marker/circle.svg",
+                    "mode": "fixed"
+                  },
+                  "symbolAlign": {
+                    "horizontal": "center",
+                    "vertical": "center"
+                  },
+                  "textConfig": {
+                    "fontSize": 12,
+                    "offsetX": 0,
+                    "offsetY": 0,
+                    "textAlign": "center",
+                    "textBaseline": "middle"
+                  }
+                }
+              },
+              "filterData": {
+                "id": "byRefId",
+                "options": "A"
+              },
+              "location": {
+                "latitude": "lat",
+                "longitude": "long",
+                "mode": "coords"
+              },
+              "name": "All Locations",
+              "tooltip": false,
+              "type": "markers"
+            },
+            {
+              "config": {
+                "showLegend": false,
+                "style": {
+                  "color": {
+                    "fixed": "orange"
+                  },
+                  "opacity": 1,
+                  "rotation": {
+                    "fixed": 0,
+                    "max": 360,
+                    "min": -360,
+                    "mode": "mod"
+                  },
+                  "size": {
+                    "fixed": 20,
+                    "max": 15,
+                    "min": 2
+                  },
+                  "symbol": {
+                    "fixed": "img/icons/marker/circle.svg",
+                    "mode": "fixed"
+                  },
+                  "symbolAlign": {
+                    "horizontal": "center",
+                    "vertical": "center"
+                  },
+                  "textConfig": {
+                    "fontSize": 12,
+                    "offsetX": 0,
+                    "offsetY": 0,
+                    "textAlign": "center",
+                    "textBaseline": "middle"
+                  }
+                }
+              },
+              "filterData": {
+                "id": "byRefId",
+                "options": "B"
+              },
+              "location": {
+                "latitude": "lat",
+                "longitude": "long",
+                "mode": "coords"
+              },
+              "name": "Selected Location",
+              "tooltip": true,
+              "type": "markers"
+            },
+            {
+              "config": {
+                "showLegend": false,
+                "style": {
+                  "color": {
+                    "fixed": "red"
+                  },
+                  "opacity": 1,
+                  "rotation": {
+                    "fixed": 0,
+                    "max": 360,
+                    "min": -360,
+                    "mode": "mod"
+                  },
+                  "size": {
+                    "fixed": 20,
+                    "max": 15,
+                    "min": 2
+                  },
+                  "symbol": {
+                    "fixed": "img/icons/marker/triangle.svg",
+                    "mode": "fixed"
+                  },
+                  "symbolAlign": {
+                    "horizontal": "center",
+                    "vertical": "center"
+                  },
+                  "textConfig": {
+                    "fontSize": 12,
+                    "offsetX": 0,
+                    "offsetY": 0,
+                    "textAlign": "center",
+                    "textBaseline": "middle"
+                  }
+                }
+              },
+              "filterData": {
+                "id": "byRefId",
+                "options": "C"
+              },
+              "location": {
+                "latitude": "lat",
+                "longitude": "long",
+                "mode": "coords"
+              },
+              "name": "Alerts",
+              "tooltip": true,
+              "type": "markers"
+            }
+          ],
+          "tooltip": {
+            "mode": "details"
+          },
+          "view": {
+            "allLayers": true,
+            "id": "coords",
+            "lat": 48.228046,
+            "lon": 16.357526,
+            "zoom": 13.21
+          }
+        },
+        "pluginVersion": "10.4.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [],
+            "measurement": "locations",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"lat\", \"long\", \"location\" FROM \"locations\" ",
+            "rawQuery": true,
+            "refId": "A",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "lat"
+                  ],
+                  "type": "field"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "long"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": []
+          },
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "locations",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"lat\", \"long\", \"location\" FROM \"locations\" WHERE (\"location\"::tag =~ /^$Locations$/)",
+            "rawQuery": true,
+            "refId": "B",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "lat"
+                  ],
+                  "type": "field"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "long"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "location::tag",
+                "operator": "=~",
+                "value": "/^$Locations$/"
+              }
+            ]
+          },
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [],
+            "hide": false,
+            "measurement": "locations",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"lat\", \"long\",  \"location\" FROM \"locations\" WHERE (\"location\"::tag = 'Ernst_Happel_Stadion')",
+            "rawQuery": true,
+            "refId": "C",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "lat"
+                  ],
+                  "type": "field"
+                }
+              ],
+              [
+                {
+                  "params": [
+                    "long"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "location::tag",
+                "operator": "=",
+                "value": "Ernst_Happel_Stadion"
+              }
+            ]
+          }
+        ],
+        "transparent": true,
+        "type": "geomap"
+      },
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 6,
+          "x": 0,
+          "y": 2
+        },
+        "id": 6,
+        "options": {
+          "autoPlay": true,
+          "buttons": [],
+          "controls": true,
+          "height": 0,
+          "heightMode": "auto",
+          "infinityPlay": false,
+          "noResultsMessage": "Nothing to display...",
+          "scale": "auto",
+          "toolbar": true,
+          "width": 0,
+          "widthMode": "auto",
+          "zoomType": "default"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [],
+            "measurement": "locations",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "query": "SELECT \"thumb\" FROM \"locations\" WHERE (\"location\"::tag =~ /^$Locations$/)",
+            "rawQuery": true,
+            "refId": "A",
+            "resultFormat": "table",
+            "select": [
+              [
+                {
+                  "params": [
+                    "thumb"
+                  ],
+                  "type": "field"
+                }
+              ]
+            ],
+            "tags": [
+              {
+                "key": "location::tag",
+                "operator": "=~",
+                "value": "/^$Locations$/"
+              }
+            ]
+          }
+        ],
+        "type": "volkovlabs-image-panel"
+      },
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "gridPos": {
+          "h": 3,
+          "w": 6,
+          "x": 0,
+          "y": 12
+        },
+        "id": 3,
+        "options": {
+          "code": {
+            "language": "plaintext",
+            "showLineNumbers": false,
+            "showMiniMap": false
+          },
+          "content": "<a href=\"https://precrisis.smartcommunitylab.it/d/edl3el4imuqkgb/video-analysis-2-0?orgId=1&var-Locations=${Locations}\">\n<div style=\"text-align:center\">\n<h1>Video Analysis</h1>\n</div>\n</a>\n\n<a href=\"https://precrisis.smartcommunitylab.it/d/bf98d901-b5d0-4b28-9c4a-b0b93f86e252/places-of-interest?orgId=1&var-Location=${Locations}&var-Radius=500&editIndex=1\">\n<div style=\"text-align:center\">\n<h1>Places of Interest</h1>\n</div>\n</a>",
+          "mode": "html"
+        },
+        "pluginVersion": "10.4.2",
+        "targets": [
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [
+              {
+                "params": [
+                  "$__interval"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "null"
+                ],
+                "type": "fill"
+              }
+            ],
+            "measurement": "clips",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "transparent": true,
+        "type": "text"
+      },
+      {
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 9,
+          "w": 6,
+          "x": 0,
+          "y": 15
+        },
+        "id": 1,
+        "options": {
+          "alwaysVisibleFilter": false,
+          "autoScroll": true,
+          "customValue": false,
+          "displayMode": "table",
+          "emptyValue": false,
+          "favorites": false,
+          "filter": false,
+          "groupSelection": false,
+          "header": true,
+          "padding": 10,
+          "persistent": false,
+          "saveSelectedGroup": false,
+          "saveSelectedGroupKey": "",
+          "showLabel": false,
+          "showName": false,
+          "statusSort": false,
+          "sticky": true,
+          "variable": "Locations"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "influxdb",
+              "uid": "ddiwgwjaadf5sd"
+            },
+            "groupBy": [
+              {
+                "params": [
+                  "$__interval"
+                ],
+                "type": "time"
+              },
+              {
+                "params": [
+                  "null"
+                ],
+                "type": "fill"
+              }
+            ],
+            "measurement": "clips",
+            "orderByTime": "ASC",
+            "policy": "default",
+            "refId": "A",
+            "resultFormat": "time_series",
+            "select": [
+              [
+                {
+                  "params": [
+                    "value"
+                  ],
+                  "type": "field"
+                },
+                {
+                  "params": [],
+                  "type": "mean"
+                }
+              ]
+            ],
+            "tags": []
+          }
+        ],
+        "transparent": true,
+        "type": "volkovlabs-variable-panel"
+      }
+    ],
+    "schemaVersion": 39,
+    "tags": [],
+    "templating": {
+      "list": [
+        {
+          "current": {
+            "selected": false,
+            "text": "Allianz_Stadion",
+            "value": "Allianz_Stadion"
+          },
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddiwgwjaadf5sd"
+          },
+          "definition": "select DISTINCT location from locations;",
+          "hide": 2,
+          "includeAll": false,
+          "multi": false,
+          "name": "Locations",
+          "options": [],
+          "query": "select DISTINCT location from locations;",
+          "refresh": 1,
+          "regex": "",
+          "skipUrlSync": false,
+          "sort": 0,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-5m",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Vienna Locations",
+    "uid": "adl2gjamk3sowc",
+    "version": 22,
+    "weekStart": ""
+  }
