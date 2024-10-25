@@ -1,6 +1,12 @@
-# Video Analysis Cookbook
+# Video Analysis Tables
 
 This document outlines the steps to analyze video files and integrate them into Grafana and InfluxDB.
+
+# Run InfluxDB
+
+```shell
+docker run -p 8083:8083 -p 8086:8086 -v "$(pwd)":/var/lib/influxdb influxdb:1.8.10
+```
 
 ## Table of Contents
 
@@ -16,89 +22,64 @@ This document outlines the steps to analyze video files and integrate them into 
 
 Clone the repository:
 
+```shell
+git clone https://gitlab.fbk.eu/lvaquerootal/PRECRISIS_BUSCA.git
 ```
-git clone https://gitlab.fbk.eu/lvaquerootal/PRECRISIS_BUSCA
+
+Download [model_busca.pth](https://drive.google.com/file/d/1jRYMVOc5wid9paCgJdEd3RhSxBC32O2h/view?usp=sharing) and store it in `models/BUSCA/motsynth/`.
+Download [model_feats.pth](https://drive.google.com/file/d/1ZNU0yNkhMTlLRSOC0PR82SwK1ic9OJ8Y/view?usp=sharing) and store it in `models/feature_extractor/market1501/`.
+Download [bytetrack_x_mot17.pth.tar](https://drive.google.com/file/d/1P4mY0Yyd3PPTybgZkjMYhFri88nTmJX5/view?usp=sharing) and store it in `pretrained/`.
+
+Edit the `precrisis_demo.py` file and replace its content with the content from the `pipelines/video/busca/precrisis_demo.py` file in this repository.
+
+Build the Docker image:
+
+```shell
+docker build --build-arg UID=$(id -u) --build-arg GID=$(id -g) -f Dockerfile -t precrisis_busca-vbezerra-dsl-7 .
 ```
 
-Edit the `precrisis_demo.py` file and include the following changes:
+To execute, use the following command:
 
-```python
-tracker = ...
-
-data_influx = []
-
-...
-
-outputs = tracker.track(frame)
-try:
-    # calculate objects
-    total = len(outputs)
-
-    if total != 0:
-        avg_speed = sum([out["speed"] for out in outputs])/total
-        high_speed = max([out["speed"] for out in outputs])
-        min_speed = min([out["speed"] for out in outputs])
-        high_age = max([out["age"] for out in outputs])
-        min_age = min(out["age"] for out in outputs)
-        avg_age = sum([out["age"] for out in outputs])/total
-        objects_aspect = len([out["aspect_ratio"] for out in outputs if out["aspect_ratio"] > 1])
-    else:
-        avg_speed = 0
-        high_speed = 0
-        min_speed = 0
-        high_age = 0
-        min_age = 0
-        avg_age = 0
-        objects_aspect = 0
-
-    base = {
-        "measurement": "object_tracker",
-        "tags": {
-            "city": "",
-            "camera": args.path.split("/")[-1],
-            "location": "",
-        },
-        "fields": {
-            "city": "",
-            "camera": args.path.split("/")[-1],
-            "location": "",
-            "number_objects": total,
-            "avg_speed": avg_speed,
-            "highest_speed": high_speed,
-            "min_speed": min_speed,
-            "objects_aspect": objects_aspect,
-            "avg_age": avg_age,
-            "high_age": high_age,
-            "min_age": min_age
-        },
-    }
-    data_influx.append(base)
-except Exception as e:
-    print(e)
-
-...
-
-# Closes all the frames 
-cv2.destroyAllWindows()
-
-# save json
-with open(save_path+".json", "w") as f:
-    json.dump(data_influx, f)
+```shell
+docker run --gpus "$GPU_DEVICE" \
+ -it --rm -v "$(pwd)":/workspace/BUSCA \
+ precrisis_busca-vbezerra-dsl-7 \
+ python precrisis_demo.py --path videos/videofile.mp4 --device gpu
 ```
+
+### InfluxDB Data
 
 The data object consists of:
+
+```json
+{
+    "measurement": "video_busca",
+    "tags": {
+        "city": "City Name",
+        "camera": "Video File Name",
+        "location": "Name of the Location"
+    },
+    "fields": {
+        "city": "City Name",
+        "camera": "Video File Name",
+        "location": "Name of the Location",
+        "inspect": "Video File path e.g. cam01001mp4.mp4_busca.mp4"
+    }
+
+}
+```
 
 ```json
 {
     "measurement": "object_tracker",
     "tags": {
         "city": "City Name",
-        "camera": "Video Name",
+        "camera": "Video File Name",
         "location": "Name of the Location",
     },
     "fields": {
         "city": "City Name",
-        "camera": "Video Name",
+        "camera": "Video File Name",
         "location": "Name of the Location",
         "number_objects": "Total number of Objects",
         "avg_speed": "Average Speed of the Objects",
@@ -111,240 +92,140 @@ The data object consists of:
     }
 }
 ```
-### Running
----
-
-For example, to process the file `palace.mp4`:
-
-Inside the repository, run the following commands to build and run the container:
-
-```
-./build.sh
-./run.sh
-```
-
-Then, inside the container, execute:
-
-```
-./precrisis_demo.py --path videos/palace.mp4 --device gpu
-```
-
-Navigate to the `BUSCA_OUTPUT` folder and convert the video to H256:
-
-```
-ffmpeg -i palace.mp4 -y palace_converted.mp4
-```
-
-Copy the converted video to the `videos` volume of Videoplayback. Insert the contents of the JSON file into Influx.
-
-Add Thumbnail and Video into Database:
-
-
-```python
-THUMBNAIL_BUSCA = "Path to the Thumbnail file"
-FILE_NAME = "palace.mp4"
-LOCATION_NAME = "Location Name"
-CITY = "Name of the City"
-
-# insert busca thumb
-with open(THUMBNAIL_BUSCA, "rb") as file:
-    encoded_file = base64.b64encode(file.read())
-    data = {
-        "measurement": "thumbnails_busca",
-        "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
-        "fields": {
-            "city": CITY,
-            "camera": FILE_NAME,
-            "location": LOCATION_NAME,
-            "image": encoded_file.decode("utf-8"),
-        },
-    }
-
-    # insert point
-
-# insert busca video
-data = {
-    "measurement": "video_busca",
-    "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
-    "fields": {
-        "city": CITY,
-        "camera": FILE_NAME,
-        "location": LOCATION_NAME,
-        "inspect": "https://precrisis.smartcommunitylab.it/show/videos/{}".format(VIDEO_FILE
-        ),
-    },
-}
-
-# insert point
-```
 
 <a name="anomaly"></a>
 ## Anomaly Detector (LAVAD) 
 
 Clone the repository:
 
-```bash
-git clone https://github.com/luca-zanella-dvl/lavad
+```shell
+git clone https://github.com/lucazanella/lavad.git
 ```
 
+Copy the `lavad/run_eval.sh` file from this repository and place it in the `scripts` folder inside the `lavad` directory.
+
+Edit the `requirements.txt` file and change the `numpy` version:
+
+* From `numpy>=1.19` to `numpy==1.26.4`
+
+Download `llama-2-13b-chat` from the official repository by following the [download instructions](https://github.com/meta-llama/llama#download) and place the model and the tokenizer in `libs/llama`.
+
+Build the Docker image:
+
+```shell
+./scripts/docker_build.sh
+```
+
+To execute, use the following command:
+
+```shell
+docker run --shm-size 64gb --gpus "$GPU_DEVICE" --rm -it -u `id -u $USER` -v "$(pwd)":/usr/src/app -v "$(pwd)"/lavad_video:/usr/src/datasets lavad ./scripts/run_eval.sh
+```
+
+*Please note that LAVAD requires two GPUs with 32GB of VRAM each to run.*
+
+### InfluxDB Data
+
+The data object consists of:
+
+```json
+{
+    "measurement": "video_anomaly_score",
+    "tags": {
+        "city": "City Name",
+        "camera": "Video File Name",
+        "location": "Name of the Location",
+    },
+    "fields": {
+        "city": "City Name",
+        "camera": "Video File Name",
+        "location": "Name of the Location",,
+        "score": "Float Score between 0 - 1",
+        "frame": "Frame Number",
+        "inspect": "LAVAD video output file e.g. cam01001mp4.mp4_a.mp4"
+    }
+}
+```
 
 <a name="cpanic"></a>
 ## Crowd Panic Module
 
-Download the tar image `certh_cv_precrisis_cpd_image.tar` and use Docker to load the image:
+CERTH has provided Docker images to be imported using Docker:
 
-```
-docker load < certh_cv_precrisis_cpd_image.tar
-```
+* Run: `docker load < certh_cv_precrisis_cpd_v2.tar`
 
-Create the following folders : 
-```
-test_videos
-Uploads
-```
+To execute, use the following commands:
 
-Add the videos to be processed into the `test_videos` folder and run the following command
-
-```Docker
-docker run -it --rm --gpus '"device=1,2"' -p 8080:8080 -v /raid/home/Uploads:/root/Uploads -v /raid/home/test_videos:/root/test_videos certh_cv_precrisis_cpd
+```shell
+docker run -it --rm --gpus "$GPU_DEVICE" \
+    -p 8080:8080 \
+    -v "$workdir"/Uploads:/usr/src/app/Uploads \
+    -v "$workdir"/Uploads/video_file.mp4:/usr/src/app/Uploads/video_file.mp4 \
+    certh_cv_precrisis_cpd --video_path /usr/src/app/Uploads/video_file.mp4
 ```
 
-The results are available in the `Upload` folder, if the model detects crowd panic clips will be created in a folder with the video name along with a JSON file with the detections.
+### InfluxDB Data
 
-Bellow a example of the JSON output:
-
-```json
-[
-    {
-        "video_path": "panic_clip_561.mp4",
-        "duration": 2.0,
-        "timestamp": 16.7,
-        "abnormal_score": 1.0,
-    },
-    {
-        "video_path": "panic_clip_1362.mp4",
-        "duration": 1.8,
-        "timestamp": 43.4,
-        "abnormal_score": 0.85,
-    },
-    {
-        "video_path": "panic_clip_1866.mp4",
-        "duration": 2.1,
-        "timestamp": 60.2,
-        "abnormal_score": 0.83,
-    },
-    {
-        "video_path": "panic_clip_2658.mp4",
-        "duration": 1.9,
-        "timestamp": 86.6,
-        "abnormal_score": 0.9,
-    },
-    {
-        "video_path": "panic_clip_3993.mp4",
-        "duration": 1.8,
-        "timestamp": 131.1,
-        "abnormal_score": 0.93,
-    },
-    {
-        "video_path": "panic_clip_6213.mp4",
-        "duration": 2.0,
-        "timestamp": 205.1,
-        "abnormal_score": 0.8,
-    },
-    {
-        "video_path": "panic_clip_7719.mp4",
-        "duration": 1.9,
-        "timestamp": 255.3,
-        "abnormal_score": 0.77,
-    }
-]
-```
-To add to the database follow the following format:
+The data object consists of:
 
 ```json
 {
     "measurement": "panic_module",
     "tags": {
         "city": "City Name",
-        "camera": "File Name",
-        "location": "Location Name"
+        "camera": "Video File Name",
+        "location": "Name of the Location",
     },
     "fields": {
-        "video_path": "Video name ex: panic_clip_7719.mp4",
-        "duration": "Duration",
-        "timestamp": "Timestamp",
-        "abnormal_score": "Abnormal Score",
-    },
+        "score": "Score Value"
+    }
 }
 ```
 
-Add the thumbnail:
-
-```python
-import base64
-
-with open(THUMBNAIL_FILE, "rb") as file:
-    encoded_file = base64.b64encode(file.read())
-    data = {
-        "measurement": "panic_module_thumb",
-        "tags": {"city": CITY, "camera": FILE_NAME, "location": LOCATION_NAME},
-        "fields": {
-            "city": CITY,
-            "camera": FILE_NAME,
-            "location": LOCATION_NAME,
-            "image": encoded_file.decode("utf-8"),
-        },
+```json
+{
+    "measurement": "panic_module_clips",
+    "tags": {
+        "city": "City Name",
+        "camera": "Video File Name",
+        "location": "Name of the Location",
+    },
+    "fields": {
+        "clip_name": "Video File output e.g. cam03001mp4.mp4_clip_1.mp4"
     }
-
-    # insert point
+}
 ```
-
-Convert the clips using the following command:
-
-```
-ffmpeg -i panic_clip_7719.mp4 -y panic_clip_7719_converted.mp4
-```
-
-Copy the converted video to the `videos` volume of Videoplayback.
 
 <a name="cviolence"></a>
 ## Crowd Violence Module
 
-Download the tar image `certh_ca_violence_v2.tar` and use Docker to load the image:
+CERTH has provided Docker images to be imported using Docker:
 
-```
-docker load < certh_ca_violence_v2.tar
-```
+* Run: `docker load < certh_ca_violence_v2.tar`
 
-Create the following folders : 
-```
-outputs
-videos
+To execute, use the following commands:
+
+```shell
+docker run -it -v "$workdir"/videos:/app/Input_videos -v "$workdir"/outputs:/app/Output --gpus "$GPU_DEVICE" --rm certh_ca_ma_demo:0.0.6
 ```
 
-Add the videos to be processed into the `test_videos` folder and run the following command
+### InfluxDB Data
 
-```Docker
-docker run -it -v /raid/home/videos:/app/Input_videos -v /raid/home/outputs:/app/Output --gpus '"device=1,2"' --rm certh_ca_ma_demo:0.0.6
-```
-
-The results should be available in the `outputs` folder with a JSON file with the scores and a png graph ploting the score over time. To add the results in InfluxDB use the following table:
-
+The data object consists of:
 
 ```json
 {
     "measurement": "crowd_violence",
     "tags": {
         "city": "City Name",
-        "camera": "Video File",
-        "location": "Location Name"
+        "camera": "Video File Name",
+        "location": "Name of the Location",
     },
     "fields": {
         "city": "City Name",
-        "camera": "Video File",
-        "location": "Location Name",
-        "prob": "Prob from JSON file",
+        "camera": "Video File Name",
+        "location": "Name of the Location",
+        "prob": "Score Value"
     }
 }
 ```
-
