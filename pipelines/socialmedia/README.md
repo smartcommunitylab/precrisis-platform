@@ -2,66 +2,24 @@
 
 ## Emotion Analysis
 
-Edit the notebook and add the following lines to the notebook:
+Copy the csv files to the `./content3/precrisis-text-analysis/` folder.
 
-```python
-locations = ['Allianz_Stadion',
-             'Donauinsel',
-             'Ernst_Happel_Stadion',
-             'Heldenplatz',
-             'Rathausplatz',
-             'Schottenring',
-             'Waehring']
-emotions = ["anger", "anticipation", "disgust", "fear", "joy", "sadness", "surprise", "trust"]
+Run the `pipelines/socialmedia/emotions/Vienna_text_analysis.ipynb` Notebook, the results will be stored on `text_analysis_vienna.json`.
 
-emotion_plot_data = []
+## Insert Data into InfluxDB
 
-for location in locations:
-    dataframe = pd.read_csv(f"./content3/precrisis-text-analysis/{location}_dataset_EmotionsNorm_mean.tsv", sep="\t")
-    for emotion in emotions:
-        d = {"city": "Vienna","location": location, "emotion": emotion, "score": float(dataframe[emotion].values[0])}
-        base = {
-                "measurement": "emotions",
-                "tags": d,
-                "fields": d,
-            }
-        emotion_plot_data.append(base)
+Install the `influxdb` library with the following command:
 
-emotion_plot_data
-    
+```shell
+pip install influxdb
 ```
 
-```python
-import base64
+Run the following script, passing the JSON output data path as an argument:
 
-plots = []
-for location in wordcloud_dict:
-    for emotion in wordcloud_dict[location]:
-        wc = wordcloud_dict[location][emotion]
-        print("\n\n")
-        print(f"{location.upper()} - {emotion.split('_')[-1]} emotions")
-        plt.figure(figsize=(20, 20))
-        plt.imshow(wc, interpolation='bilinear')
-        plt.axis('off')
-        plt.savefig("myimage.png", format='png')
-        with open("myimage.png", "rb") as image_file:
-            encoded_string = base64.b64encode(image_file.read())
-            base = {
-                "measurement": "wordclouds",
-                "tags": {"city": "Vienna", "location": location},
-                "fields": {"location": location, "image": encoded_string.decode("utf-8")},
-            }
-            plots.append(base)
-print(plots)
+```shell
+python influx/insert_points.py text_analysis_vienna.json
 ```
 
-```python
-import json
-all = emotion_plot_data + plots
-
-with open("text_analysis_vienna.json", "w") as j:
-    json.dump(all, j)
-```
 
 ## Points of Interest
 
