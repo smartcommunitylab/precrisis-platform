@@ -1,2926 +1,2926 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 1,
-    "links": [],
-    "liveNow": false,
-    "panels": [
+  "annotations": {
+    "list": [
       {
+        "builtIn": 1,
         "datasource": {
-          "type": "influxdb",
-          "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 3,
-          "x": 0,
-          "y": 0
-        },
-        "id": 2,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "![image info](https://precrisis-project.eu/wp-content/uploads/2021/07/precrisis.svg)",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "refId": "A"
-          }
-        ],
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 19,
-          "x": 3,
-          "y": 0
-        },
-        "id": 10,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "<a href=\"https://precrisis.smartcommunitylab.it/\">\n\n<h3>Home</h3>\n</a>\n\n<h1>${Location}</h1>",
-          "mode": "html"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "datasource",
-          "uid": "-- Dashboard --"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 10,
-          "x": 0,
-          "y": 3
-        },
-        "id": 40,
-        "options": {
-          "alwaysVisibleFilter": false,
-          "autoScroll": false,
-          "customValue": false,
-          "displayMode": "minimize",
-          "emptyValue": false,
-          "favorites": false,
-          "filter": false,
-          "groupSelection": false,
-          "header": true,
-          "padding": 10,
-          "persistent": false,
-          "saveSelectedGroup": false,
-          "saveSelectedGroupKey": "",
-          "showLabel": false,
-          "showName": false,
-          "statusSort": false,
-          "sticky": false,
-          "variable": "Location"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "datasource",
-              "uid": "-- Dashboard --"
-            },
-            "panelId": 9,
-            "refId": "A"
-          }
-        ],
-        "transparent": true,
-        "type": "volkovlabs-variable-panel"
-      },
-      {
-        "datasource": {
-          "type": "datasource",
-          "uid": "-- Dashboard --"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 10,
-          "x": 13,
-          "y": 3
-        },
-        "id": 43,
-        "options": {
-          "alwaysVisibleFilter": false,
-          "autoScroll": false,
-          "customValue": false,
-          "displayMode": "minimize",
-          "emptyValue": false,
-          "favorites": false,
-          "filter": false,
-          "groupSelection": false,
-          "header": true,
-          "padding": 10,
-          "persistent": false,
-          "saveSelectedGroup": false,
-          "saveSelectedGroupKey": "",
-          "showLabel": false,
-          "showName": false,
-          "statusSort": false,
-          "sticky": false,
-          "variable": "Radius"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "datasource",
-              "uid": "-- Dashboard --"
-            },
-            "panelId": 9,
-            "refId": "A"
-          }
-        ],
-        "transparent": true,
-        "type": "volkovlabs-variable-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 23,
-          "x": 0,
-          "y": 6
-        },
-        "id": 35,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "## Points of Interest",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 23,
-          "x": 0,
-          "y": 8
-        },
-        "id": 21,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "This map visualizes the location of the points of interest within the selected radius for the chosen location. Points of interest, among others, include commercial activities, schools, cultural and political institutions and the location of leisure activities.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 14,
-          "w": 23,
-          "x": 0,
-          "y": 10
-        },
-        "id": 9,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "light-yellow"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": false,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "displayProperties": [],
-              "location": {
-                "geojson": "builds",
-                "mode": "geojson"
-              },
-              "name": "Buildings",
-              "query": "A",
-              "type": "markers"
-            },
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "super-light-blue"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Points of Interest",
-                "mode": "geojson"
-              },
-              "name": "Points of Interest",
-              "query": "B",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "builds",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "buildings"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "radius::tag",
-                "operator": "=~",
-                "value": "/^$Radius$/"
-              }
-            ]
-          },
-          {
-            "alias": "Points of Interest",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "B",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "pois_gdf"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "radius::tag",
-                "operator": "=~",
-                "value": "/^$Radius$/"
-              }
-            ]
-          }
-        ],
-        "title": "Points of Interest",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 22,
-          "x": 0,
-          "y": 24
-        },
-        "id": 27,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "### Social Media Analysis",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 22,
-          "x": 0,
-          "y": 26
-        },
-        "id": 36,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "This section shows the textual analysis of social media posts about the selected area.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "datasource",
-          "uid": "-- Dashboard --"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 23,
-          "x": 0,
-          "y": 28
-        },
-        "id": 42,
-        "options": {
-          "alwaysVisibleFilter": false,
-          "autoScroll": false,
-          "customValue": false,
-          "displayMode": "minimize",
-          "emptyValue": false,
-          "favorites": false,
-          "filter": false,
-          "groupSelection": false,
-          "header": true,
-          "padding": 10,
-          "persistent": false,
-          "saveSelectedGroup": false,
-          "saveSelectedGroupKey": "",
-          "showLabel": false,
-          "showName": false,
-          "statusSort": false,
-          "sticky": false,
-          "variable": "Location"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "datasource",
-              "uid": "-- Dashboard --"
-            },
-            "panelId": 9,
-            "refId": "A"
-          }
-        ],
-        "transparent": true,
-        "type": "volkovlabs-variable-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 10,
-          "x": 0,
-          "y": 31
-        },
-        "id": 22,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "## Emotions\nDistribution of emotions expressed in social media posts about the selected area.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 13,
-          "x": 10,
-          "y": 31
-        },
-        "id": 25,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "#### Negative Emotions Word Cloud\nMost relevant words in posts associated with anger, disgust, fear and sadness.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "palette-classic"
-            },
-            "custom": {
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              }
-            },
-            "fieldMinMax": false,
-            "mappings": [],
-            "unit": "percentunit"
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 9,
-          "x": 0,
-          "y": 34
-        },
-        "id": 11,
-        "options": {
-          "displayLabels": [],
-          "legend": {
-            "displayMode": "list",
-            "placement": "right",
-            "showLegend": true,
-            "values": [
-              "value"
-            ]
-          },
-          "pieType": "pie",
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull"
-            ],
-            "fields": "",
-            "values": false
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "alias": "Anger",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "anger"
-              }
-            ]
-          },
-          {
-            "alias": "Anticipation",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "B",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "anticipation"
-              }
-            ]
-          },
-          {
-            "alias": "Disgust",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "C",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "disgust"
-              }
-            ]
-          },
-          {
-            "alias": "Fear",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "D",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "fear"
-              }
-            ]
-          },
-          {
-            "alias": "Joy",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "E",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "joy"
-              }
-            ]
-          },
-          {
-            "alias": "Sadness",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "F",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "sadness"
-              }
-            ]
-          },
-          {
-            "alias": "Surprise",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "G",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "surprise"
-              }
-            ]
-          },
-          {
-            "alias": "Trust",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "emotions",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "H",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "city::tag",
-                "operator": "=",
-                "value": "Vienna"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "emotion::tag",
-                "operator": "=",
-                "value": "trust"
-              }
-            ]
-          }
-        ],
-        "title": "Emotions",
-        "transparent": true,
-        "type": "piechart"
-      },
-      {
-        "datasource": {},
-        "gridPos": {
-          "h": 18,
-          "w": 8,
-          "x": 10,
-          "y": 34
-        },
-        "id": 12,
-        "options": {
-          "autoPlay": true,
-          "buttons": [],
-          "controls": true,
-          "height": 0,
-          "heightMode": "auto",
-          "infinityPlay": false,
-          "name": "image",
-          "noResultsMessage": "Nothing to display...",
-          "scale": "auto",
-          "toolbar": true,
-          "width": 0,
-          "widthMode": "original",
-          "zoomType": "default"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "measurement": "wordclouds",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "A",
-            "resultFormat": "table",
-            "select": [
-              [
-                {
-                  "params": [
-                    "image"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "transparent": true,
-        "type": "volkovlabs-image-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 3,
-          "w": 22,
-          "x": 0,
-          "y": 52
-        },
-        "id": 26,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "#### Topic Analysis\nTopics discussed in social media posts about the selected area.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 21,
-          "w": 22,
-          "x": 0,
-          "y": 55
-        },
-        "id": 46,
-        "options": {
-          "SVGBaseFix": true,
-          "add100Percentage": true,
-          "calcsMutation": "standard",
-          "centerAlignContent": true,
-          "codeData": "{\n  \"text\": \"Random text\"\n}",
-          "css": "* {\n  font-family: Open Sans;\n}\n\n.box {\n  border: solid #555 2px;\n  border-radius: 10px;\n  padding: 10px 20px;\n}\n",
-          "dynamicData": false,
-          "dynamicFieldDisplayValues": false,
-          "dynamicHtmlGraphics": false,
-          "dynamicProps": false,
-          "html": "<iframe id=\"plotiframe\"></iframe>",
-          "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
-          "onInitOnResize": false,
-          "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\nconst iframehtml = htmlNode.getElementById('plotiframe');\n\n\nif (iframehtml) {\n  const valueField = data.series[0]?.fields[1];\n  iframehtml.src = \"https://precrisis.smartcommunitylab.it/show/plot/\" + valueField.values.toString() + \"_2dim_embeddingSpace-new.html\";\n}\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.toString();\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
-          "overflow": "hidden",
-          "panelupdateOnMount": true,
-          "reduceOptions": {
-            "calcs": [
-              "lastNotNull",
-              "last",
-              "firstNotNull",
-              "first",
-              "min",
-              "max",
-              "mean",
-              "sum",
-              "count",
-              "range",
-              "delta",
-              "step",
-              "diff",
-              "logmin",
-              "allIsZero",
-              "allIsNull",
-              "diffperc"
-            ]
-          },
-          "renderOnMount": true,
-          "rootCSS": "",
-          "useGrafanaScrollbar": true
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [],
-            "measurement": "locations",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"location\" FROM \"locations\" WHERE (\"location\"::tag =~ /^$Location$/)",
-            "rawQuery": true,
-            "refId": "A",
-            "resultFormat": "table",
-            "select": [
-              [
-                {
-                  "params": [
-                    "location"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "transparent": true,
-        "type": "gapit-htmlgraphics-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 22,
-          "x": 0,
-          "y": 76
-        },
-        "id": 28,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "### Street Network",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 23,
-          "x": 0,
-          "y": 78
-        },
-        "id": 37,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "The maps below visualize three types of street networks within the selected radius for the chosen location. The specific types are: Pedestrian networks (blue), Vehicle networks (red), Bike networks (green).",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 16,
-          "w": 7,
-          "x": 0,
-          "y": 80
-        },
-        "id": 1,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "blue"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "pedestrian ",
-                "mode": "geojson"
-              },
-              "name": "Pedestrian Streets",
-              "query": "E",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "pedestrian ",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "E",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "pedestrian_streets"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "radius::tag",
-                "operator": "=~",
-                "value": "/^$Radius$/"
-              }
-            ]
-          }
-        ],
-        "title": "Pedestrian Street Network",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 16,
-          "w": 8,
-          "x": 7,
-          "y": 80
-        },
-        "id": 18,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "red"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Vehicles ",
-                "mode": "geojson"
-              },
-              "name": "Vehicle Streets",
-              "query": "D",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Vehicles ",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "D",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "vehicle_streets"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "radius::tag",
-                "operator": "=~",
-                "value": "/^$Radius$/"
-              }
-            ]
-          }
-        ],
-        "title": "Vehicle Street Network",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 16,
-          "w": 8,
-          "x": 15,
-          "y": 80
-        },
-        "id": 17,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-green"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Bikes",
-                "mode": "geojson"
-              },
-              "name": "Bike Streets",
-              "query": "C",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Bikes",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "C",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "bike_streets"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              },
-              {
-                "condition": "AND",
-                "key": "radius::tag",
-                "operator": "=~",
-                "value": "/^$Radius$/"
-              }
-            ]
-          }
-        ],
-        "title": "Bicicle Street Network",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 22,
-          "x": 0,
-          "y": 96
-        },
-        "id": 29,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "### Services",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 23,
-          "x": 0,
-          "y": 98
-        },
-        "id": 38,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "The maps below visualize three types of services within the selected radius for the chosen location. The specific service types are: Hospitals (red), Police Stations (blue) and Fire Stations (orange)",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 7,
-          "x": 0,
-          "y": 100
-        },
-        "id": 4,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-red"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Hospitals",
-                "mode": "geojson"
-              },
-              "name": "Hospitals",
-              "query": "F",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Hospitals",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "F",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "hospitals"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Hospital Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 8,
-          "x": 7,
-          "y": 100
-        },
-        "id": 20,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-blue"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Police Stations",
-                "mode": "geojson"
-              },
-              "name": "Police Stations",
-              "query": "G",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Police Stations",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "G",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "police"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Police Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 8,
-          "x": 15,
-          "y": 100
-        },
-        "id": 19,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "orange"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Fire Station",
-                "mode": "geojson"
-              },
-              "name": "Fire Stations",
-              "query": "H",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Fire Station",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "limit": "6",
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "H",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "fire_station"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Fire Station Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 22,
-          "x": 0,
-          "y": 118
-        },
-        "id": 31,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "### Shortest Paths",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 23,
-          "x": 0,
-          "y": 120
-        },
-        "id": 39,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "The maps below visualize the shortest paths for the closest services. From left to right, the maps show: the shortest path to the nearest hospital, the shortest path to the nearest police station and the shortest path to the nearest fire station.",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 7,
-          "x": 0,
-          "y": 122
-        },
-        "id": 32,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-red"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Hospitals",
-                "mode": "geojson"
-              },
-              "name": "Hospitals",
-              "query": "F",
-              "type": "markers"
-            },
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-red"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Hospitals Places",
-                "mode": "geojson"
-              },
-              "name": "Hospitals",
-              "query": "A",
-              "titleField": "Hospitals Places",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Hospitals",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "F",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "hospitals_route"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          },
-          {
-            "alias": "Hospitals Places",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "hospitals"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Hospital Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 8,
-          "x": 7,
-          "y": 122
-        },
-        "id": 33,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-blue"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Police Stations",
-                "mode": "geojson"
-              },
-              "name": "Police Stations",
-              "query": "G",
-              "type": "markers"
-            },
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "dark-blue"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Police Route",
-                "mode": "geojson"
-              },
-              "name": "Police Place",
-              "query": "A",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Police Stations",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "G",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "police"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          },
-          {
-            "alias": "Police Route",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "police_route"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Police Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green"
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 18,
-          "w": 8,
-          "x": 15,
-          "y": 122
-        },
-        "id": 34,
-        "options": {
-          "basemap": {
-            "config": {},
-            "type": "default"
-          },
-          "controls": {
-            "mouseWheelZoom": true,
-            "showAttribution": true,
-            "showDebug": false,
-            "showLayercontrol": true,
-            "showScale": false,
-            "showZoom": true
-          },
-          "layers": [
-            {
-              "config": {
-                "cluster": false,
-                "clusterDistance": 20,
-                "clusterMinDistance": 0,
-                "clusterValue": "size",
-                "color": {
-                  "fixed": "orange"
-                },
-                "enableGradient": false,
-                "enableShadow": false,
-                "fillOpacity": 0.4,
-                "iconSize": 9,
-                "pinShape": "marker",
-                "shape": "circle",
-                "showLegend": true,
-                "showPin": false,
-                "size": {
-                  "fixed": 5,
-                  "max": 15,
-                  "min": 2
-                }
-              },
-              "location": {
-                "geojson": "Fire Station",
-                "mode": "geojson"
-              },
-              "name": "Fire Stations",
-              "query": "H",
-              "type": "markers"
-            }
-          ],
-          "view": {
-            "id": "coords",
-            "lat": 48.205955,
-            "lon": 16.332212,
-            "shared": true,
-            "zoom": 11.4
-          }
-        },
-        "targets": [
-          {
-            "alias": "Fire Station",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "points_of_interest",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
-            "rawQuery": false,
-            "refId": "H",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "geojson"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "type"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "poi_type::tag",
-                "operator": "=",
-                "value": "fire_station_route"
-              },
-              {
-                "condition": "AND",
-                "key": "location::tag",
-                "operator": "=~",
-                "value": "/^$Location$/"
-              }
-            ]
-          }
-        ],
-        "title": "Fire Station Services",
-        "transparent": true,
-        "type": "orchestracities-map-panel"
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "refresh": "",
-    "schemaVersion": 39,
-    "tags": [],
-    "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "Allianz_Stadion",
-            "value": "Allianz_Stadion"
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "select DISTINCT location from points_of_interest;",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "Location",
-          "options": [],
-          "query": "select DISTINCT location from points_of_interest;",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 1,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 3,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
         },
+        "content": "![image info](https://precrisis-project.eu/wp-content/uploads/2021/07/precrisis.svg)",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
         {
-          "current": {
-            "selected": false,
-            "text": "500",
-            "value": "500"
-          },
           "datasource": {
             "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
           },
-          "definition": "select DISTINCT \"radius\" from points_of_interest;",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "Radius",
-          "options": [],
-          "query": "select DISTINCT \"radius\" from points_of_interest;",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
-        {
-          "current": {
-            "selected": true,
-            "text": [
-              "All"
-            ],
-            "value": [
-              "$__all"
-            ]
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "SELECT DISTINCT \"topic\" FROM \"location_topics\" WHERE (\"location\"::tag =~ /^$Location$/)",
-          "hide": 2,
-          "includeAll": true,
-          "multi": true,
-          "name": "Topics",
-          "options": [],
-          "query": "SELECT DISTINCT \"topic\" FROM \"location_topics\" WHERE (\"location\"::tag =~ /^$Location$/)",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 1,
-          "type": "query"
+          "refId": "A"
         }
-      ]
+      ],
+      "type": "text"
     },
-    "time": {
-      "from": "2024-09-30T22:00:00.000Z",
-      "to": "2024-10-31T22:59:59.000Z"
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 19,
+        "x": 3,
+        "y": 0
+      },
+      "id": 10,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "<a href=\"https://precrisis.smartcommunitylab.it/\">\n\n<h3>Home</h3>\n</a>\n\n<h1>${Location}</h1>",
+        "mode": "html"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
     },
-    "timepicker": {},
-    "timezone": "",
-    "title": "Places of Interest",
-    "uid": "bf98d901-b5d0-4b28-9c4a-b0b93f86e252",
-    "version": 74,
-    "weekStart": ""
-  }
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 10,
+        "x": 0,
+        "y": 3
+      },
+      "id": 40,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "customValue": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showLabel": false,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "Location"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 9,
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-variable-panel"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 10,
+        "x": 13,
+        "y": 3
+      },
+      "id": 43,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "customValue": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showLabel": false,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "Radius"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 9,
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-variable-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 6
+      },
+      "id": 35,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "## Points of Interest",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 8
+      },
+      "id": 21,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "This map visualizes the location of the points of interest within the selected radius for the chosen location. Points of interest, among others, include commercial activities, schools, cultural and political institutions and the location of leisure activities.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 23,
+        "x": 0,
+        "y": 10
+      },
+      "id": 9,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "light-yellow"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": false,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "displayProperties": [],
+            "location": {
+              "geojson": "builds",
+              "mode": "geojson"
+            },
+            "name": "Buildings",
+            "query": "A",
+            "type": "markers"
+          },
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "super-light-blue"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Points of Interest",
+              "mode": "geojson"
+            },
+            "name": "Points of Interest",
+            "query": "B",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "builds",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "buildings"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "radius::tag",
+              "operator": "=~",
+              "value": "/^$Radius$/"
+            }
+          ]
+        },
+        {
+          "alias": "Points of Interest",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "pois_gdf"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "radius::tag",
+              "operator": "=~",
+              "value": "/^$Radius$/"
+            }
+          ]
+        }
+      ],
+      "title": "Points of Interest",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 24
+      },
+      "id": 27,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "### Social Media Analysis",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 26
+      },
+      "id": 36,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "This section shows the textual analysis of social media posts about the selected area.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "datasource",
+        "uid": "-- Dashboard --"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 23,
+        "x": 0,
+        "y": 28
+      },
+      "id": 42,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "customValue": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showLabel": false,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "Location"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "datasource",
+            "uid": "-- Dashboard --"
+          },
+          "panelId": 9,
+          "refId": "A"
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-variable-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 10,
+        "x": 0,
+        "y": 31
+      },
+      "id": 22,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "## Emotions\nDistribution of emotions expressed in social media posts about the selected area.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 13,
+        "x": 10,
+        "y": 31
+      },
+      "id": 25,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "#### Negative Emotions Word Cloud\nMost relevant words in posts associated with anger, disgust, fear and sadness.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "fieldMinMax": false,
+          "mappings": [],
+          "unit": "percentunit"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 9,
+        "x": 0,
+        "y": 34
+      },
+      "id": 11,
+      "options": {
+        "displayLabels": [],
+        "legend": {
+          "displayMode": "list",
+          "placement": "right",
+          "showLegend": true,
+          "values": [
+            "value"
+          ]
+        },
+        "pieType": "pie",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "Anger",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "anger"
+            }
+          ]
+        },
+        {
+          "alias": "Anticipation",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "anticipation"
+            }
+          ]
+        },
+        {
+          "alias": "Disgust",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "disgust"
+            }
+          ]
+        },
+        {
+          "alias": "Fear",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "fear"
+            }
+          ]
+        },
+        {
+          "alias": "Joy",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "joy"
+            }
+          ]
+        },
+        {
+          "alias": "Sadness",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "sadness"
+            }
+          ]
+        },
+        {
+          "alias": "Surprise",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "surprise"
+            }
+          ]
+        },
+        {
+          "alias": "Trust",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "emotions",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "city::tag",
+              "operator": "=",
+              "value": "Vienna"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "emotion::tag",
+              "operator": "=",
+              "value": "trust"
+            }
+          ]
+        }
+      ],
+      "title": "Emotions",
+      "transparent": true,
+      "type": "piechart"
+    },
+    {
+      "datasource": {},
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 10,
+        "y": 34
+      },
+      "id": 12,
+      "options": {
+        "autoPlay": true,
+        "buttons": [],
+        "controls": true,
+        "height": 0,
+        "heightMode": "auto",
+        "infinityPlay": false,
+        "name": "image",
+        "noResultsMessage": "Nothing to display...",
+        "scale": "auto",
+        "toolbar": true,
+        "width": 0,
+        "widthMode": "original",
+        "zoomType": "default"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "measurement": "wordclouds",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "image"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "transparent": true,
+      "type": "volkovlabs-image-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 3,
+        "w": 22,
+        "x": 0,
+        "y": 52
+      },
+      "id": 26,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "#### Topic Analysis\nTopics discussed in social media posts about the selected area.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 21,
+        "w": 22,
+        "x": 0,
+        "y": 55
+      },
+      "id": 46,
+      "options": {
+        "SVGBaseFix": true,
+        "add100Percentage": true,
+        "calcsMutation": "standard",
+        "centerAlignContent": true,
+        "codeData": "{\n  \"text\": \"Random text\"\n}",
+        "css": "* {\n  font-family: Open Sans;\n}\n\n.box {\n  border: solid #555 2px;\n  border-radius: 10px;\n  padding: 10px 20px;\n}\n",
+        "dynamicData": false,
+        "dynamicFieldDisplayValues": false,
+        "dynamicHtmlGraphics": false,
+        "dynamicProps": false,
+        "html": "<iframe id=\"plotiframe\"></iframe>",
+        "onInit": "// Sets the text from customProperties\nconst htmlgraphicsText = htmlNode.getElementById('htmlgraphics-text');\n\nif (htmlgraphicsText) {\n  htmlgraphicsText.textContent = customProperties.text;\n\n  // Change the text color based on the theme\n  if (theme.isDark) {\n    htmlgraphicsText.style.color = 'green';\n  } else {\n    htmlgraphicsText.style.color = 'red';\n  }\n}\n",
+        "onInitOnResize": false,
+        "onRender": "// Sets the value from the first series on every refresh\nconst htmlgraphicsValue = htmlNode.getElementById('htmlgraphics-value');\nconst iframehtml = htmlNode.getElementById('plotiframe');\n\n\nif (iframehtml) {\n  const valueField = data.series[0]?.fields[1];\n  iframehtml.src = \"https://precrisis.smartcommunitylab.it/show/plot/\" + valueField.values.toString() + \"_2dim_embeddingSpace-new.html\";\n}\n\nif (htmlgraphicsValue) {\n  const valueField = data.series[0]?.fields[1];\n  if (valueField) {\n    const length = valueField.values.length;\n    htmlgraphicsValue.textContent = valueField.values.toString();\n  } else {\n    htmlgraphicsValue.textContent = \"No data\"\n  }\n}\n",
+        "overflow": "hidden",
+        "panelupdateOnMount": true,
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull",
+            "last",
+            "firstNotNull",
+            "first",
+            "min",
+            "max",
+            "mean",
+            "sum",
+            "count",
+            "range",
+            "delta",
+            "step",
+            "diff",
+            "logmin",
+            "allIsZero",
+            "allIsNull",
+            "diffperc"
+          ]
+        },
+        "renderOnMount": true,
+        "rootCSS": "",
+        "useGrafanaScrollbar": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddiwgwjaadf5sd"
+          },
+          "groupBy": [],
+          "measurement": "locations",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"location\" FROM \"locations\" WHERE (\"location\"::tag =~ /^$Location$/)",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "table",
+          "select": [
+            [
+              {
+                "params": [
+                  "location"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "transparent": true,
+      "type": "gapit-htmlgraphics-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 76
+      },
+      "id": 28,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "### Street Network",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 78
+      },
+      "id": 37,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "The maps below visualize three types of street networks within the selected radius for the chosen location. The specific types are: Pedestrian networks (blue), Vehicle networks (red), Bike networks (green).",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 7,
+        "x": 0,
+        "y": 80
+      },
+      "id": 1,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "blue"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "pedestrian ",
+              "mode": "geojson"
+            },
+            "name": "Pedestrian Streets",
+            "query": "E",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "pedestrian ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "E",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "pedestrian_streets"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "radius::tag",
+              "operator": "=~",
+              "value": "/^$Radius$/"
+            }
+          ]
+        }
+      ],
+      "title": "Pedestrian Street Network",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 8,
+        "x": 7,
+        "y": 80
+      },
+      "id": 18,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "red"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Vehicles ",
+              "mode": "geojson"
+            },
+            "name": "Vehicle Streets",
+            "query": "D",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Vehicles ",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "D",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "vehicle_streets"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "radius::tag",
+              "operator": "=~",
+              "value": "/^$Radius$/"
+            }
+          ]
+        }
+      ],
+      "title": "Vehicle Street Network",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 16,
+        "w": 8,
+        "x": 15,
+        "y": 80
+      },
+      "id": 17,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-green"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Bikes",
+              "mode": "geojson"
+            },
+            "name": "Bike Streets",
+            "query": "C",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Bikes",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "bike_streets"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            },
+            {
+              "condition": "AND",
+              "key": "radius::tag",
+              "operator": "=~",
+              "value": "/^$Radius$/"
+            }
+          ]
+        }
+      ],
+      "title": "Bicicle Street Network",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 96
+      },
+      "id": 29,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "### Services",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 98
+      },
+      "id": 38,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "The maps below visualize three types of services within the selected radius for the chosen location. The specific service types are: Hospitals (red), Police Stations (blue) and Fire Stations (orange)",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 7,
+        "x": 0,
+        "y": 100
+      },
+      "id": 4,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-red"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Hospitals",
+              "mode": "geojson"
+            },
+            "name": "Hospitals",
+            "query": "F",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Hospitals",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "hospitals"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Hospital Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 7,
+        "y": 100
+      },
+      "id": 20,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-blue"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Police Stations",
+              "mode": "geojson"
+            },
+            "name": "Police Stations",
+            "query": "G",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Police Stations",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "police"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Police Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 15,
+        "y": 100
+      },
+      "id": 19,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "orange"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Fire Station",
+              "mode": "geojson"
+            },
+            "name": "Fire Stations",
+            "query": "H",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Fire Station",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "limit": "6",
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "fire_station"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Fire Station Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 22,
+        "x": 0,
+        "y": 118
+      },
+      "id": 31,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "### Shortest Paths",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 23,
+        "x": 0,
+        "y": 120
+      },
+      "id": 39,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
+        },
+        "content": "The maps below visualize the shortest paths for the closest services. From left to right, the maps show: the shortest path to the nearest hospital, the shortest path to the nearest police station and the shortest path to the nearest fire station.",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 7,
+        "x": 0,
+        "y": 122
+      },
+      "id": 32,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-red"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Hospitals",
+              "mode": "geojson"
+            },
+            "name": "Hospitals",
+            "query": "F",
+            "type": "markers"
+          },
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-red"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Hospitals Places",
+              "mode": "geojson"
+            },
+            "name": "Hospitals",
+            "query": "A",
+            "titleField": "Hospitals Places",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Hospitals",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "F",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "hospitals_route"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        },
+        {
+          "alias": "Hospitals Places",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "hospitals"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Hospital Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 7,
+        "y": 122
+      },
+      "id": 33,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-blue"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Police Stations",
+              "mode": "geojson"
+            },
+            "name": "Police Stations",
+            "query": "G",
+            "type": "markers"
+          },
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "dark-blue"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Police Route",
+              "mode": "geojson"
+            },
+            "name": "Police Place",
+            "query": "A",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Police Stations",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "G",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "police"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        },
+        {
+          "alias": "Police Route",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "police_route"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Police Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 18,
+        "w": 8,
+        "x": 15,
+        "y": 122
+      },
+      "id": 34,
+      "options": {
+        "basemap": {
+          "config": {},
+          "type": "default"
+        },
+        "controls": {
+          "mouseWheelZoom": true,
+          "showAttribution": true,
+          "showDebug": false,
+          "showLayercontrol": true,
+          "showScale": false,
+          "showZoom": true
+        },
+        "layers": [
+          {
+            "config": {
+              "cluster": false,
+              "clusterDistance": 20,
+              "clusterMinDistance": 0,
+              "clusterValue": "size",
+              "color": {
+                "fixed": "orange"
+              },
+              "enableGradient": false,
+              "enableShadow": false,
+              "fillOpacity": 0.4,
+              "iconSize": 9,
+              "pinShape": "marker",
+              "shape": "circle",
+              "showLegend": true,
+              "showPin": false,
+              "size": {
+                "fixed": 5,
+                "max": 15,
+                "min": 2
+              }
+            },
+            "location": {
+              "geojson": "Fire Station",
+              "mode": "geojson"
+            },
+            "name": "Fire Stations",
+            "query": "H",
+            "type": "markers"
+          }
+        ],
+        "view": {
+          "id": "coords",
+          "lat": 48.205955,
+          "lon": 16.332212,
+          "shared": true,
+          "zoom": 11.4
+        }
+      },
+      "targets": [
+        {
+          "alias": "Fire Station",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "f52d484e-7faa-405d-8503-8501cfc3de84"
+          },
+          "groupBy": [],
+          "hide": false,
+          "measurement": "points_of_interest",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"geojson\" FROM \"points_of_interest\" WHERE (\"poi_type\"::tag = 'bike_streets') AND $timeFilter",
+          "rawQuery": false,
+          "refId": "H",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "geojson"
+                ],
+                "type": "field"
+              }
+            ],
+            [
+              {
+                "params": [
+                  "type"
+                ],
+                "type": "field"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "poi_type::tag",
+              "operator": "=",
+              "value": "fire_station_route"
+            },
+            {
+              "condition": "AND",
+              "key": "location::tag",
+              "operator": "=~",
+              "value": "/^$Location$/"
+            }
+          ]
+        }
+      ],
+      "title": "Fire Station Services",
+      "transparent": true,
+      "type": "orchestracities-map-panel"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "Allianz_Stadion",
+          "value": "Allianz_Stadion"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "select DISTINCT location from points_of_interest;",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Location",
+        "options": [],
+        "query": "select DISTINCT location from points_of_interest;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "500",
+          "value": "500"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "select DISTINCT \"radius\" from points_of_interest;",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Radius",
+        "options": [],
+        "query": "select DISTINCT \"radius\" from points_of_interest;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "SELECT DISTINCT \"topic\" FROM \"location_topics\" WHERE (\"location\"::tag =~ /^$Location$/)",
+        "hide": 2,
+        "includeAll": true,
+        "multi": true,
+        "name": "Topics",
+        "options": [],
+        "query": "SELECT DISTINCT \"topic\" FROM \"location_topics\" WHERE (\"location\"::tag =~ /^$Location$/)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2024-09-30T22:00:00.000Z",
+    "to": "2024-10-31T22:59:59.000Z"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Places of Interest",
+  "uid": "bf98d901-b5d0-4b28-9c4a-b0b93f86e252",
+  "version": 74,
+  "weekStart": ""
+}

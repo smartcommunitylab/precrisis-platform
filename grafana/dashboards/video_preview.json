@@ -1,790 +1,609 @@
 {
-    "annotations": {
-      "list": [
-        {
-          "builtIn": 1,
-          "datasource": {
-            "type": "grafana",
-            "uid": "-- Grafana --"
-          },
-          "enable": true,
-          "hide": true,
-          "iconColor": "rgba(0, 211, 255, 1)",
-          "name": "Annotations & Alerts",
-          "type": "dashboard"
-        }
-      ]
-    },
-    "editable": true,
-    "fiscalYearStartMonth": 0,
-    "graphTooltip": 0,
-    "id": 7,
-    "links": [],
-    "panels": [
+  "annotations": {
+    "list": [
       {
+        "builtIn": 1,
         "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
+          "type": "grafana",
+          "uid": "-- Grafana --"
         },
-        "gridPos": {
-          "h": 2,
-          "w": 12,
-          "x": 0,
-          "y": 0
-        },
-        "id": 8,
-        "options": {
-          "code": {
-            "language": "plaintext",
-            "showLineNumbers": false,
-            "showMiniMap": false
-          },
-          "content": "<a href=\"https://precrisis.smartcommunitylab.it/d/edl3el4imuqkgb/video-analysis-2-0?orgId=1&var-Locations=${Locations}&var-Video=${Video}\">\n<div style=\"text-align:center\">\n<h3>Back</h3>\n</div>\n</a>\n",
-          "mode": "markdown"
-        },
-        "pluginVersion": "10.4.2",
-        "transparent": true,
-        "type": "text"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": []
-        },
-        "gridPos": {
-          "h": 2,
-          "w": 12,
-          "x": 12,
-          "y": 0
-        },
-        "id": 4,
-        "options": {
-          "alwaysVisibleFilter": false,
-          "autoScroll": false,
-          "customValue": false,
-          "displayMode": "minimize",
-          "emptyValue": false,
-          "favorites": false,
-          "filter": false,
-          "groupSelection": false,
-          "header": true,
-          "padding": 10,
-          "persistent": false,
-          "saveSelectedGroup": false,
-          "saveSelectedGroupKey": "",
-          "showLabel": false,
-          "showName": false,
-          "statusSort": false,
-          "sticky": false,
-          "variable": "Clips"
-        },
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "measurement": "clips",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "value"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": []
-          }
-        ],
-        "transparent": true,
-        "type": "volkovlabs-variable-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 14,
-          "w": 6,
-          "x": 0,
-          "y": 2
-        },
-        "id": 6,
-        "options": {
-          "autoPlay": true,
-          "customBackground": false,
-          "geolocate": false,
-          "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${Video_Busca}",
-          "loop": true,
-          "videoId": "eQpyJQ2womo",
-          "videoType": "iframe"
-        },
-        "title": "Video",
-        "type": "innius-video-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 14,
-          "w": 6,
-          "x": 6,
-          "y": 2
-        },
-        "id": 7,
-        "options": {
-          "autoPlay": true,
-          "customBackground": false,
-          "geolocate": false,
-          "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${AnomalyVideo}",
-          "loop": true,
-          "videoId": "eQpyJQ2womo",
-          "videoType": "iframe"
-        },
-        "title": "Anomaly Detection",
-        "type": "innius-video-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "gridPos": {
-          "h": 14,
-          "w": 5,
-          "x": 12,
-          "y": 2
-        },
-        "id": 5,
-        "options": {
-          "autoPlay": true,
-          "customBackground": false,
-          "geolocate": false,
-          "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${Clips}",
-          "loop": true,
-          "videoId": "eQpyJQ2womo",
-          "videoType": "iframe"
-        },
-        "title": "Crowd Panic Clips",
-        "type": "innius-video-panel"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "mode": "thresholds"
-            },
-            "custom": {
-              "align": "auto",
-              "cellOptions": {
-                "type": "auto"
-              },
-              "inspect": false
-            },
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "red",
-                  "value": 80
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "video_path"
-              },
-              "properties": [
-                {
-                  "id": "links",
-                  "value": []
-                },
-                {
-                  "id": "displayName",
-                  "value": "Clip"
-                },
-                {
-                  "id": "custom.align",
-                  "value": "center"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "abnormal_score"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "Panic Score"
-                },
-                {
-                  "id": "custom.align",
-                  "value": "center"
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "duration"
-              },
-              "properties": [
-                {
-                  "id": "displayName",
-                  "value": "Duration"
-                },
-                {
-                  "id": "custom.align",
-                  "value": "center"
-                },
-                {
-                  "id": "custom.hidden",
-                  "value": false
-                }
-              ]
-            },
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Time"
-              },
-              "properties": [
-                {
-                  "id": "custom.hidden",
-                  "value": true
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 14,
-          "w": 7,
-          "x": 17,
-          "y": 2
-        },
-        "id": 2,
-        "options": {
-          "cellHeight": "sm",
-          "footer": {
-            "countRows": false,
-            "fields": "",
-            "reducer": [
-              "sum"
-            ],
-            "show": false
-          },
-          "showHeader": true,
-          "sortBy": [
-            {
-              "desc": true,
-              "displayName": "Panic Score"
-            }
-          ]
-        },
-        "pluginVersion": "10.4.2",
-        "targets": [
-          {
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [],
-            "hide": false,
-            "measurement": "panic_module",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"duration\", \"abnormal_score\", \"video_path\" FROM \"panic_module\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-            "rawQuery": true,
-            "refId": "A",
-            "resultFormat": "table",
-            "select": [
-              [
-                {
-                  "params": [
-                    "duration"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "abnormal_score"
-                  ],
-                  "type": "field"
-                }
-              ],
-              [
-                {
-                  "params": [
-                    "video_path"
-                  ],
-                  "type": "field"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "camera::tag",
-                "operator": "=~",
-                "value": "/^$Camera$/"
-              }
-            ]
-          }
-        ],
-        "title": "Crowd Panic Clips",
-        "type": "table"
-      },
-      {
-        "datasource": {
-          "type": "influxdb",
-          "uid": "ddiwgwjaadf5sd"
-        },
-        "fieldConfig": {
-          "defaults": {
-            "color": {
-              "fixedColor": "red",
-              "mode": "fixed"
-            },
-            "custom": {
-              "axisBorderShow": false,
-              "axisCenteredZero": false,
-              "axisColorMode": "text",
-              "axisLabel": "",
-              "axisPlacement": "auto",
-              "barAlignment": 0,
-              "drawStyle": "line",
-              "fillOpacity": 0,
-              "gradientMode": "none",
-              "hideFrom": {
-                "legend": false,
-                "tooltip": false,
-                "viz": false
-              },
-              "insertNulls": false,
-              "lineInterpolation": "linear",
-              "lineStyle": {
-                "fill": "solid"
-              },
-              "lineWidth": 3,
-              "pointSize": 5,
-              "scaleDistribution": {
-                "type": "linear"
-              },
-              "showPoints": "always",
-              "spanNulls": true,
-              "stacking": {
-                "group": "A",
-                "mode": "none"
-              },
-              "thresholdsStyle": {
-                "mode": "area"
-              }
-            },
-            "mappings": [],
-            "max": 1,
-            "min": 0,
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "green",
-                  "value": null
-                },
-                {
-                  "color": "#EAB839",
-                  "value": 0.4
-                },
-                {
-                  "color": "red",
-                  "value": 0.6
-                }
-              ]
-            }
-          },
-          "overrides": [
-            {
-              "matcher": {
-                "id": "byName",
-                "options": "Crowd Violence"
-              },
-              "properties": [
-                {
-                  "id": "color",
-                  "value": {
-                    "fixedColor": "blue",
-                    "mode": "fixed"
-                  }
-                }
-              ]
-            }
-          ]
-        },
-        "gridPos": {
-          "h": 10,
-          "w": 24,
-          "x": 0,
-          "y": 16
-        },
-        "id": 3,
-        "options": {
-          "legend": {
-            "calcs": [],
-            "displayMode": "list",
-            "placement": "bottom",
-            "showLegend": true
-          },
-          "tooltip": {
-            "mode": "single",
-            "sort": "none"
-          }
-        },
-        "targets": [
-          {
-            "alias": "Anomaly Score",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "hide": false,
-            "measurement": "video_anomaly_score",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"score\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/) ",
-            "rawQuery": true,
-            "refId": "A",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "camera::tag",
-                "operator": "=~",
-                "value": "/^$Video$/"
-              }
-            ]
-          },
-          {
-            "alias": "Crowd Violence",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "hide": false,
-            "measurement": "video_anomaly_score",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"prob\" FROM \"crowd_violence\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-            "rawQuery": true,
-            "refId": "B",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "camera::tag",
-                "operator": "=~",
-                "value": "/^$Video$/"
-              }
-            ]
-          },
-          {
-            "alias": "Crowd Panic",
-            "datasource": {
-              "type": "influxdb",
-              "uid": "ddiwgwjaadf5sd"
-            },
-            "groupBy": [
-              {
-                "params": [
-                  "$__interval"
-                ],
-                "type": "time"
-              },
-              {
-                "params": [
-                  "null"
-                ],
-                "type": "fill"
-              }
-            ],
-            "hide": false,
-            "measurement": "video_anomaly_score",
-            "orderByTime": "ASC",
-            "policy": "default",
-            "query": "SELECT \"score\" FROM \"panic_module\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-            "rawQuery": true,
-            "refId": "C",
-            "resultFormat": "time_series",
-            "select": [
-              [
-                {
-                  "params": [
-                    "score"
-                  ],
-                  "type": "field"
-                },
-                {
-                  "params": [],
-                  "type": "mean"
-                }
-              ]
-            ],
-            "tags": [
-              {
-                "key": "camera::tag",
-                "operator": "=~",
-                "value": "/^$Video$/"
-              }
-            ]
-          }
-        ],
-        "title": "Anomaly Detection",
-        "type": "timeseries"
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
-    ],
-    "schemaVersion": 39,
-    "tags": [],
-    "templating": {
-      "list": [
-        {
-          "current": {
-            "selected": false,
-            "text": "cam01001mp4.mp4",
-            "value": "cam01001mp4.mp4"
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "select DISTINCT camera from video_busca;",
-          "hide": 1,
-          "includeAll": false,
-          "multi": false,
-          "name": "Video",
-          "options": [],
-          "query": "select DISTINCT camera from video_busca;",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
+    ]
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 7,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false,
+          "showMiniMap": false
         },
-        {
-          "current": {
-            "selected": false,
-            "text": "Allianz_Stadion",
-            "value": "Allianz_Stadion"
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "select DISTINCT location from locations;",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "Locations",
-          "options": [],
-          "query": "select DISTINCT location from locations;",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
+        "content": "<a href=\"https://precrisis.smartcommunitylab.it/d/edl3el4imuqkgb/video-analysis-2-0?orgId=1&var-Locations=${Locations}&var-Video=${Video}\">\n<div style=\"text-align:center\">\n<h3>Back</h3>\n</div>\n</a>\n",
+        "mode": "markdown"
+      },
+      "pluginVersion": "10.4.2",
+      "transparent": true,
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
         },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 2,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 4,
+      "options": {
+        "alwaysVisibleFilter": false,
+        "autoScroll": false,
+        "customValue": false,
+        "displayMode": "minimize",
+        "emptyValue": false,
+        "favorites": false,
+        "filter": false,
+        "groupSelection": false,
+        "header": true,
+        "padding": 10,
+        "persistent": false,
+        "saveSelectedGroup": false,
+        "saveSelectedGroupKey": "",
+        "showLabel": false,
+        "showName": false,
+        "statusSort": false,
+        "sticky": false,
+        "variable": "Clips"
+      },
+      "targets": [
         {
-          "current": {
-            "isNone": true,
-            "selected": false,
-            "text": "None",
-            "value": ""
-          },
           "datasource": {
             "type": "influxdb",
             "uid": "ddiwgwjaadf5sd"
           },
-          "definition": "SELECT \"clip_name\" FROM \"panic_module_clips\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "Clips",
-          "options": [],
-          "query": "SELECT \"clip_name\" FROM \"panic_module_clips\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
-        {
-          "current": {
-            "selected": false,
-            "text": "cam01001mp4.mp4",
-            "value": "cam01001mp4.mp4"
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "SELECT \"inspect\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "AnomalyVideo",
-          "options": [],
-          "query": "SELECT \"inspect\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/)",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
-        },
-        {
-          "current": {
-            "selected": false,
-            "text": "cam01001mp4.mp4_busca.mp4",
-            "value": "cam01001mp4.mp4_busca.mp4"
-          },
-          "datasource": {
-            "type": "influxdb",
-            "uid": "ddiwgwjaadf5sd"
-          },
-          "definition": "select DISTINCT inspect from video_busca WHERE (\"camera\"::tag =~ /^$Video$/);",
-          "hide": 2,
-          "includeAll": false,
-          "multi": false,
-          "name": "Video_Busca",
-          "options": [],
-          "query": "select DISTINCT inspect from video_busca WHERE (\"camera\"::tag =~ /^$Video$/);",
-          "refresh": 1,
-          "regex": "",
-          "skipUrlSync": false,
-          "sort": 0,
-          "type": "query"
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "measurement": "clips",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
         }
-      ]
+      ],
+      "transparent": true,
+      "type": "volkovlabs-variable-panel"
     },
-    "time": {
-      "from": "2024-04-18T13:00:00.000Z",
-      "to": "2024-04-18T13:21:29.000Z"
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 6,
+        "x": 0,
+        "y": 2
+      },
+      "id": 6,
+      "options": {
+        "autoPlay": true,
+        "customBackground": false,
+        "geolocate": false,
+        "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${Video_Busca}",
+        "loop": true,
+        "videoId": "eQpyJQ2womo",
+        "videoType": "iframe"
+      },
+      "title": "Video",
+      "type": "innius-video-panel"
     },
-    "timepicker": {},
-    "timezone": "browser",
-    "title": "Video Preview",
-    "uid": "edl6da9hfek1sa",
-    "version": 24,
-    "weekStart": ""
-  }
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 6,
+        "x": 9,
+        "y": 2
+      },
+      "id": 7,
+      "options": {
+        "autoPlay": true,
+        "customBackground": false,
+        "geolocate": false,
+        "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${AnomalyVideo}",
+        "loop": true,
+        "videoId": "eQpyJQ2womo",
+        "videoType": "iframe"
+      },
+      "title": "Anomaly Detection",
+      "type": "innius-video-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "gridPos": {
+        "h": 14,
+        "w": 5,
+        "x": 19,
+        "y": 2
+      },
+      "id": 5,
+      "options": {
+        "autoPlay": true,
+        "customBackground": false,
+        "geolocate": false,
+        "iframeURL": "https://precrisis.smartcommunitylab.it/show/videos/${Clips}",
+        "loop": true,
+        "videoId": "eQpyJQ2womo",
+        "videoType": "iframe"
+      },
+      "title": "Crowd Panic Clips",
+      "type": "innius-video-panel"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "ddiwgwjaadf5sd"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "red",
+            "mode": "fixed"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineStyle": {
+              "fill": "solid"
+            },
+            "lineWidth": 3,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "always",
+            "spanNulls": true,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "area"
+            }
+          },
+          "mappings": [],
+          "max": 1,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.4
+              },
+              {
+                "color": "red",
+                "value": 0.6
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Crowd Violence"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "alias": "Anomaly Score",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddiwgwjaadf5sd"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "video_anomaly_score",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"score\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/) ",
+          "rawQuery": true,
+          "refId": "A",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "camera::tag",
+              "operator": "=~",
+              "value": "/^$Video$/"
+            }
+          ]
+        },
+        {
+          "alias": "Crowd Violence",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddiwgwjaadf5sd"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "video_anomaly_score",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"prob\" FROM \"crowd_violence\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+          "rawQuery": true,
+          "refId": "B",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "camera::tag",
+              "operator": "=~",
+              "value": "/^$Video$/"
+            }
+          ]
+        },
+        {
+          "alias": "Crowd Panic",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "ddiwgwjaadf5sd"
+          },
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "measurement": "video_anomaly_score",
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "SELECT \"score\" FROM \"panic_module\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+          "rawQuery": true,
+          "refId": "C",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "score"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": [
+            {
+              "key": "camera::tag",
+              "operator": "=~",
+              "value": "/^$Video$/"
+            }
+          ]
+        }
+      ],
+      "title": "Anomaly Detection",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": false,
+          "text": "cam01001mp4.mp4",
+          "value": "cam01001mp4.mp4"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "select DISTINCT camera from video_busca;",
+        "hide": 1,
+        "includeAll": false,
+        "multi": false,
+        "name": "Video",
+        "options": [],
+        "query": "select DISTINCT camera from video_busca;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "Allianz_Stadion",
+          "value": "Allianz_Stadion"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "select DISTINCT location from locations;",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Locations",
+        "options": [],
+        "query": "select DISTINCT location from locations;",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "isNone": true,
+          "selected": false,
+          "text": "None",
+          "value": ""
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "SELECT \"clip_name\" FROM \"panic_module_clips\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Clips",
+        "options": [],
+        "query": "SELECT \"clip_name\" FROM \"panic_module_clips\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "cam01001mp4.mp4_a.mp4",
+          "value": "cam01001mp4.mp4_a.mp4"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "SELECT \"inspect\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "AnomalyVideo",
+        "options": [],
+        "query": "SELECT \"inspect\" FROM \"video_anomaly_score\" WHERE (\"camera\"::tag =~ /^$Video$/)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": false,
+          "text": "cam01001mp4.mp4_busca.mp4",
+          "value": "cam01001mp4.mp4_busca.mp4"
+        },
+        "datasource": {
+          "type": "influxdb",
+          "uid": "ddiwgwjaadf5sd"
+        },
+        "definition": "select DISTINCT inspect from video_busca WHERE (\"camera\"::tag =~ /^$Video$/);",
+        "hide": 2,
+        "includeAll": false,
+        "multi": false,
+        "name": "Video_Busca",
+        "options": [],
+        "query": "select DISTINCT inspect from video_busca WHERE (\"camera\"::tag =~ /^$Video$/);",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "2024-04-18T13:00:00.211Z",
+    "to": "2024-04-18T13:01:06.681Z"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Video Preview",
+  "uid": "edl6da9hfek1sa",
+  "version": 26,
+  "weekStart": ""
+}
