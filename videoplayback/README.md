@@ -1,13 +1,16 @@
 # VideoPlayback
 ## Setting Up
 
-Create the following varibles for authentication:
+Create a `env` file following varibles for authentication:
 
-```
-GOOGLE_CLIENT_ID: Google client Id
-GOOGLE_CLIENT_SECRET: Google client Secret
-GOOGLE_DISCOVERY_URL: Google Discovery URL
-EXTERNAL_URL: external address (https://example-videos.org/show)
+```shell
+GOOGLE_CLIENT_ID= CLIENT ID
+GOOGLE_CLIENT_SECRET= CLIENT SECRET
+GOOGLE_DISCOVERY_URL=https://aac.platform.smartcommunitylab.it/.well-known/openid-configuration
+REDIRECT_URI= https://myurl/show/login/callback
+LOGIN_URI= https://myurl/show/login
+OAUTHLIB_INSECURE_TRANSPORT=1
+EXTERNAL_URL= https://myurl/show
 ```
 
 Create a volume for storing the videos and mount on `/app/videos/`

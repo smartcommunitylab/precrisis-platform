@@ -4,6 +4,7 @@ import os
 from os import listdir
 from os.path import isfile, join
 from unicodedata import name
+from dotenv import load_dotenv
 
 import flask_login
 import requests
@@ -19,6 +20,8 @@ from flask import (
 from flask_login import LoginManager, UserMixin, login_user
 from matplotlib import use
 from oauthlib.oauth2 import WebApplicationClient
+
+load_dotenv("env")
 
 # configuration
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID", None)
@@ -84,7 +87,7 @@ def load_user(user_id):
     return user
 
 
-@app.route("/login")
+@app.route("/show/login")
 def login():
     # Find out what URL to hit for Google login
     google_provider_cfg = get_google_provider_cfg()
@@ -100,7 +103,7 @@ def login():
     return redirect(request_uri)
 
 
-@app.route("/login/callback")
+@app.route("/show/login/callback")
 def callback():
     # Get authorization code Google sent back to you
     code = request.args.get("code")
@@ -165,26 +168,27 @@ def update_files():
     return filenames
 
 
-@app.route("/")
+@app.route("/show/show/")
+@flask_login.login_required
 def home():
     return "Hello World"
 
 
-@app.route("/videos/<path:path>")
-# @flask_login.login_required
+@app.route("/show/videos/<path:path>")
+@flask_login.login_required
 def send_video(path):
     return send_from_directory("videos", path)
 
 
-@app.route("/twitter-explorer/<path:path>")
+@app.route("/show/plot/<path:path>")
 # @flask_login.login_required
 def send_explorer(path):
-    return send_from_directory("twitter-explorer", path)
+    return send_from_directory("plot", path)
 
 
-@app.route("/grafana/<path:path>")
-def send_images(path):
-    return send_from_directory("images-grafana", path)
+# @app.route("/grafana/<path:path>")
+# def send_images(path):
+#     return send_from_directory("images-grafana", path)
 
 
 @app.route("/<id>/<timestamp>")
