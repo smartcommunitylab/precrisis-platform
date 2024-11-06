@@ -4,7 +4,7 @@
 
 ### DGX1 FBK
 
-If running on the DGX1, navigate to `dvl/projects/vbezerra/precrisis_pipeline/` and run the `build_pipeline.sh` script.
+If running on the DGX1, navigate to `dvl/projects/vbezerra/precrisis_pipeline/` and run the `build.sh` script.
 
 ### From Scratch
 
