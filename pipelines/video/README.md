@@ -68,9 +68,7 @@ Clone the repository:
 git clone https://gitlab.fbk.eu/lvaquerootal/PRECRISIS_BUSCA.git
 ```
 
-Download [model_busca.pth](https://drive.google.com/file/d/1jRYMVOc5wid9paCgJdEd3RhSxBC32O2h/view?usp=sharing) and store it in `models/BUSCA/motsynth/`.
-Download [model_feats.pth](https://drive.google.com/file/d/1ZNU0yNkhMTlLRSOC0PR82SwK1ic9OJ8Y/view?usp=sharing) and store it in `models/feature_extractor/market1501/`.
-Download [bytetrack_x_mot17.pth.tar](https://drive.google.com/file/d/1P4mY0Yyd3PPTybgZkjMYhFri88nTmJX5/view?usp=sharing) and store it in `pretrained/`.
+Download the `models` and `pretrained` from the Google Drive (https://drive.google.com/drive/folders/16CKlk6LOEiiRTtTSfQ5Saw0cYMYy45pB?usp=drive_link) folders and paste on the BUSCA root folder.
 
 Edit the `precrisis_demo.py` file and replace its content with the content from the `busca/precrisis_demo.py` file in this repository.
 
