@@ -12,13 +12,13 @@ from flask import (
     Flask,
     Response,
     redirect,
+    session,
     render_template,
     request,
     send_from_directory,
     url_for,
 )
 from flask_login import LoginManager, UserMixin, login_user
-from matplotlib import use
 from oauthlib.oauth2 import WebApplicationClient
 
 load_dotenv("env")
@@ -52,8 +52,6 @@ class User(UserMixin):
             return self.oath_passed
 
 
-original_url = ""
-
 users = {}
 
 # flask config
@@ -73,10 +71,13 @@ def get_google_provider_cfg():
 
 @login_manager.unauthorized_handler
 def unauthorized():
-    global original_url
     original_url = str(request.path)
+    session["original_url"] = original_url
     return redirect(EXTERNAL_URL + "/login")
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -156,10 +157,13 @@ def callback():
 
     # Send user back to homepage
     # return redirect(url_for("index"))
-    global original_url
-    url_redirec = original_url.split("/")
-    go_bak = url_for("show_video", id=url_redirec[1], timestamp=url_redirec[2])
-    return redirect(go_bak)
+    next = session.get("original_url")
+    if next:
+        session.pop("original_url", None)
+        return redirect(next)
+    # url_redirec = original_url.split("/")
+    # go_bak = url_for("show_video", id=url_redirec[1], timestamp=url_redirec[2])
+    # return redirect(go_bak)
     # return "Logged"
 
 
