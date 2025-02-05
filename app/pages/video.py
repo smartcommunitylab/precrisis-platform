@@ -15,7 +15,7 @@ def get_database_session():
 SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 
 def get_cameras():
-    ls = list(get_database_session().query('select distinct camera as camera from object_tracker where  "location"::tag =~ /^' + st.session_state.current_location + '$/  and camera !~/^cam.*/ ').get_points())
+    ls = list(get_database_session().query('select distinct camera as camera from object_tracker where  "location"::tag =~ /^' + st.session_state.current_location + '$/  and camera !~/^cam.*/ and camera !~/.*20240529.*/').get_points())
     return ls
 
 def get_interval(camera):
