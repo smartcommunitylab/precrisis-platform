@@ -257,7 +257,12 @@ with st.expander("Services", expanded=True):
 
 
 with st.expander("Shortest Paths", expanded=True):
-    st.write("The maps below visualize the shortest paths for the closest services. The map shows: the shortest path to the nearest hospital, the shortest path to the nearest police station and the shortest path to the nearest fire station.")
+    st.write(
+        """
+        The maps below visualize the shortest paths for the closest services. 
+        The map shows: the shortest path to the nearest hospital, the shortest path to the nearest police station and the shortest path to the nearest fire station.
+        To use this feature, please search for an address or cl ick on one of the Alert circles.
+        """)
 
     geojson = pdk.Layer(
         "GeoJsonLayer",
