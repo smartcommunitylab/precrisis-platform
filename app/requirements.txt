@@ -10,3 +10,4 @@ pydeck==0.9.1
 scipy==1.15.1
 geopy==2.4.1
 scikit-learn==1.6.1
+streamlit_folium==0.24.0
