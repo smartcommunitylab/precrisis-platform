@@ -7,16 +7,19 @@ st.set_page_config(layout="wide")
 
 @st.cache_resource
 def get_database_session():
-    client = InfluxDBClient(host=os.environ['INFLUXDB_HOST'], port=os.environ['INFLUXDB_PORT'], database=os.environ['INFLUXDB_DATABASE'])
+    client = InfluxDBClient(host=os.getenv('INFLUXDB_HOST', "localhost"), port=os.getenv('INFLUXDB_PORT', 8086), database=os.getenv('INFLUXDB_DATABASE', 'precrisis'))
     return client
 
 if 'locations' not in st.session_state:
     result = get_database_session().query('select city,lat,long,location, thumb from locations;')
     ls = list(result.get_points())
+    # import pandas as pd
+    # print(pd.DataFrame.from_records(ls))
+
     st.session_state.locations = ls
     st.session_state.current_location = ls[0]["location"]
-    st.session_state.current_country = os.environ['COUNTRY']
-    st.session_state.current_city = os.environ['CITY']
+    st.session_state.current_country = os.getenv('COUNTRY', "Austria")
+    st.session_state.current_city = os.getenv('CITY', "Vienna")
 
 video = st.Page("pages/video.py", title="Video Analysis")
 pos = st.Page("pages/pos.py", title="Places of Interest")
