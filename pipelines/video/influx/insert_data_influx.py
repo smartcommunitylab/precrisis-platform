@@ -15,7 +15,11 @@ for root, dirs, files in os.walk(directory):
             with open(file_path, "r") as f:
                 data = json.load(f)
                 for d in data:
-                    client.write_points([d])
+                    try:
+                        client.write_points([d])
+                    except Exception as e:
+                        print(f"Error writing data to InfluxDB: {e}")
+                        print(f"Data: {d}")
         # if file.endswith("_busca.mp4"):
         #     pass
 
