@@ -47,8 +47,20 @@ fig.add_trace(go.Scattermap(
         lon=current_df.long,
         mode='markers',
         marker=go.scattermap.Marker(
-            size=20,
+            size=25,
             color='rgb(255, 120, 10)',
+            opacity=0.9
+        ),
+        text=current_df.location,
+        hoverinfo='text'
+    ))
+fig.add_trace(go.Scattermap(
+        lat=current_df.lat,
+        lon=current_df.long,
+        mode='markers',
+        marker=go.scattermap.Marker(
+            size=10,
+            color='rgb(255, 255, 255)',
             opacity=0.9
         ),
         text=current_df.location,

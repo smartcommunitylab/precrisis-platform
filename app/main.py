@@ -2,6 +2,7 @@ import streamlit as st
 from influxdb import InfluxDBClient
 import os
 import base64
+import pandas as pd
 
 st.set_page_config(layout="wide")
 
@@ -13,6 +14,8 @@ def get_database_session():
 if 'locations' not in st.session_state:
     result = get_database_session().query('select city,lat,long,location, thumb from locations;')
     ls = list(result.get_points())
+    ls.sort(key=lambda x: x["location"])
+
     # import pandas as pd
     # print(pd.DataFrame.from_records(ls))
 
@@ -21,13 +24,18 @@ if 'locations' not in st.session_state:
     st.session_state.current_country = os.getenv('COUNTRY', "Austria")
     st.session_state.current_city = os.getenv('CITY', "Vienna")
 
-video = st.Page("pages/video.py", title="Video Analysis")
-pos = st.Page("pages/pos.py", title="Places of Interest")
-wm = st.Page("pages/wm.py", title="Warning Messages")
+    ls = list(get_database_session().query('SELECT "lat", "long",  "location", "score", "camera"  FROM "alerts"').get_points())
+    alert_df = pd.DataFrame.from_records([x for x in ls ])
+    alert_df = alert_df[["lat", "long", "location", "score", "camera"]].drop_duplicates().groupby(["lat", "long", "location", "camera"]).mean().reset_index()
+    st.session_state.alert_location_names = alert_df[["location"]].drop_duplicates()['location'].tolist()
+
+
+pos = st.Page("pages/urban.py", title="Urban Layer")
+video = st.Page("pages/video.py", title="Human Dynamics Layer")
+sp = st.Page("pages/perceptions.py", title="Perceptions Layer")
+wm = st.Page("pages/wm.py", title="Counter-Action Layer")
 home = st.Page("pages/home.py", title="Home")
-sp = st.Page("pages/sp.py", title="Safety Perception")
-ur = st.Page("pages/ur.py", title="Urban Resiliency")
-user_pages = [home, video, pos, ur, sp, wm]
+user_pages = [home, pos, video, sp, wm]
 
 pg = st.navigation(user_pages, position="hidden")
 
@@ -35,19 +43,24 @@ pg = st.navigation(user_pages, position="hidden")
 with st.sidebar:
     st.image("https://precrisis-project.eu/wp-content/uploads/2021/07/precrisis.svg")
     st.page_link("pages/home.py", label="Home")
-    st.page_link("pages/video.py", label="Video Analysis")
-    st.page_link("pages/pos.py", label="Places of Interest")
-    st.page_link("pages/ur.py", label="Urban Resiliency")
-    st.page_link("pages/sp.py", label="Safety Perception")
-    st.page_link("pages/wm.py", label="Warning Messages")
+    st.page_link("pages/urban.py", label="Urban Layer")
+    st.page_link("pages/video.py", label="Human Dynamics Layer")
+    st.page_link("pages/perceptions.py", label="Perceptions Layer")
+    st.page_link("pages/wm.py", label="Counter-Action Layer")
+    st.divider()
 
 
     location_container = st.container()
+    def format_func(x):
+        res = x["location"] + ':red[:material/error:]' if x["location"] in st.session_state.alert_location_names else x["location"]
+        res = res.replace("_", " ")
+        return res
 
-    place = st.radio("Locations", [x["location"] for x in st.session_state.locations])
-    st.session_state.current_location = place
-    location_container.header(place)
-    location = [x for x in st.session_state.locations if x["location"] == place][0]
+    place = st.radio("Locations", [x for x in st.session_state.locations], format_func=format_func, index=0)
+    st.session_state.current_location = place["location"]
+    location_container.header("Selected Location")
+    location_container.subheader(place['location'].replace("_", " "))
+    location = [x for x in st.session_state.locations if x["location"] == place["location"]][0]
     location_container.image(base64.decodebytes(bytes(location["thumb"], "utf-8")))
     
 pg.run()
