@@ -10,10 +10,11 @@ directory = sys.argv[1]
 
 for root, dirs, files in os.walk(directory):
     for file in files:
-        if file.endswith(".json"):
+        if file == 'lavad.json' or file == 'cv.json' or file == 'cp.json' or file == 'bc.json':
             file_path = os.path.join(root, file)
             with open(file_path, "r") as f:
                 data = json.load(f)
+                print(f"Processing file: {file_path}")
                 for d in data:
                     try:
                         client.write_points([d])
