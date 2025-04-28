@@ -9,6 +9,7 @@ import osmnx as ox
 from shapely import to_geojson
 from shapely.geometry import MultiLineString, Point
 
+import pandas as pd
 # helper functions
 
 
@@ -67,16 +68,20 @@ def get_distance_travel(origin, destination, net_type):
 
 # ARGS
 CITY = sys.argv[1]
-
-LOCATIONS = {
-    "Allianz_Stadion": (48.19802059, 16.26601893),
-    "Donauinsel": (48.21069623, 16.43500653),
-    "Ernst_Happel_Stadion": (48.20720609, 16.42098409),
-    "Heldenplatz": (48.20662377, 16.36351103),
-    "Rathausplatz": (48.21064294, 16.35875444),
-    "Schottenring": (48.21365638, 16.37065462),
-    "Waehring": (48.22914869, 16.33905238),
-}
+df = pd.read_csv(f"./data/{CITY.lower()}-locations.csv")
+ls = df.to_dict(orient="records")
+LOCATIONS = {}
+for i in range(len(ls)):
+    LOCATIONS[ls[i]["name"]] = (float(ls[i]["latitude"]), float(ls[i]["longitude"]))
+# LOCATIONS = {
+#     "Allianz_Stadion": (48.19802059, 16.26601893),
+#     "Donauinsel": (48.21069623, 16.43500653),
+#     "Ernst_Happel_Stadion": (48.20720609, 16.42098409),
+#     "Heldenplatz": (48.20662377, 16.36351103),
+#     "Rathausplatz": (48.21064294, 16.35875444),
+#     "Schottenring": (48.21365638, 16.37065462),
+#     "Waehring": (48.22914869, 16.33905238),
+# }
 
 OUTPUT = sys.argv[2]
 
@@ -89,7 +94,7 @@ for LOCATION_NAME in LOCATIONS:
     # the full list of pois tags can be found here
     # https://wiki.openstreetmap.org/wiki/Map_features
     # here we open use a dictionary with a list of "reasonable" POIs
-    with open("pois_dict.pickle", "rb") as handle:
+    with open("pipelines/socialmedia/points_of_interest/pois_dict.pickle", "rb") as handle:
         pois_dict = pickle.load(handle)
 
         pois_dict["amenity"].append("parking")

@@ -69,7 +69,10 @@ def get_video():
 
 def get_anomaly_video():
     ls = list(get_database_session().query(f'select DISTINCT inspect from video_anomaly_score WHERE ("camera"::tag =~ /^{st.session_state.current_camera}$/);').get_points())
-    return ls[0]["distinct"] if len(ls) > 0 else None
+    link = ls[0]["distinct"] if len(ls) > 0 else None
+    if link:
+        link = link.replace("mp4.mp4", "mp4")
+    return link
 
 def get_clips():
     ls = list(get_database_session().query(f'SELECT "clip_name" FROM "panic_module_clips" WHERE ("camera"::tag =~ /^{st.session_state.current_camera}$/);').get_points())

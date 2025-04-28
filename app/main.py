@@ -11,8 +11,11 @@ def get_database_session():
     client = InfluxDBClient(host=os.getenv('INFLUXDB_HOST', "localhost"), port=os.getenv('INFLUXDB_PORT', 8086), database=os.getenv('INFLUXDB_DATABASE', 'precrisis'))
     return client
 
+st.session_state.current_city = os.getenv('CITY', "Vienna")
+st.session_state.current_country = os.getenv('COUNTRY', "Austria")
+
 if 'locations' not in st.session_state:
-    result = get_database_session().query('select city,lat,long,location, thumb from locations;')
+    result = get_database_session().query(f"select city,lat,long,location, thumb from locations;")
     ls = list(result.get_points())
     ls.sort(key=lambda x: x["location"])
 
@@ -21,8 +24,6 @@ if 'locations' not in st.session_state:
 
     st.session_state.locations = ls
     st.session_state.current_location = ls[0]["location"]
-    st.session_state.current_country = os.getenv('COUNTRY', "Austria")
-    st.session_state.current_city = os.getenv('CITY', "Vienna")
 
     ls = list(get_database_session().query('SELECT "lat", "long",  "location", "score", "camera"  FROM "alerts"').get_points())
     alert_df = pd.DataFrame.from_records([x for x in ls ])
@@ -61,6 +62,6 @@ with st.sidebar:
     location_container.header("Selected Location")
     location_container.subheader(place['location'].replace("_", " "))
     location = [x for x in st.session_state.locations if x["location"] == place["location"]][0]
-    location_container.image(base64.decodebytes(bytes(location["thumb"], "utf-8")))
+    location_container.image(base64.decodebytes(bytes(location["thumb"], "utf-8")), use_container_width=True)
     
 pg.run()

@@ -360,7 +360,7 @@ def create_map(CITY, RESPONDER_TYPE):
 
 # asyncio.run(init())
 
-st.header(st.session_state.current_location)
+st.header(st.session_state.current_location.replace("_", " "))
 st.write(
     """
 The urban layer offers a set of intuitive and accessible
