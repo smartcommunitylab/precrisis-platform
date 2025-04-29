@@ -21,6 +21,7 @@ import osmnx
 import networkx as nx
 import os
 
+
 @st.cache_resource
 def get_database_session():
     client = InfluxDBClient(host=os.getenv('INFLUXDB_HOST', "localhost"), port=os.getenv('INFLUXDB_PORT', 8086), database=os.getenv('INFLUXDB_DATABASE', 'precrisis'))
@@ -29,7 +30,12 @@ def get_database_session():
 
 @st.cache_resource
 def get_graph():
-    graph = osmnx.graph_from_place(f"{st.session_state.current_city}, {st.session_state.current_country}", network_type = 'drive')
+    place = f"{st.session_state.current_city}, {st.session_state.current_country}"
+    print(place)
+    if st.session_state.current_city == "Sofia":
+        place = "Sofia, Sredec, Sofia City, Sofia-City, Bulgaria"
+
+    graph = osmnx.graph_from_place(place, network_type = 'drive')
     # graph = osmnx.project_graph(graph)
     return graph
 

@@ -164,13 +164,14 @@ st.header("Safety Perception")
 st.write("""
         This submodule utilizes cutting-edge multi-modal AI models—specifically, Llava 1.6—to
         assess perceived safety across urban environments. The images used for analysis are
-        primarily sourced from Place Pulse 2.0, a widely recognized open-access dataset containing
-        hundreds of thousands of images of public spaces from cities around the world. In some
-        cases, images are also provided directly by project partners.
+         primarily sourced from NUS Global Streetscapes ([Hou et al., 2024](https://doi.org/10.1016/j.isprsjprs.2024.06.023)), a widely recognized
+         open-access dataset containing millions of images of public spaces from cities around the
+         world. In some cases, images are also provided directly by project partners.
 
         Each image in the dataset is accompanied by a safety perception score, derived from human
         survey responses. The AI model is trained on this data to learn how to predict whether a
         given location appears safe or unsafe based solely on its visual features.
+        
         The interactive map in this submodule displays available locations within the user-selected
         city. Each point on the map represents an image and is color-coded:
         - :green[Green] points indicate locations the AI model perceives as safe.
