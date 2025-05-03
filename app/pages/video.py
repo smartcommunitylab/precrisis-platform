@@ -117,6 +117,17 @@ def get_dataframe(date):
         return 'background-color:#e6ffe6;' if v >= 0 and v <= 0.6 else 'background-color:#ffe6e6;' if v> 0.6 else ''
     return df.style.format(lambda v: ' ').map(hl, props='')
 
+def get_camera_name(c):
+    if 'Sofia' == st.session_state.current_city:
+        c = c.replace("poligon2", "").replace("ipcamera", "")
+        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
+        return s
+    elif 'Vienna' == st.session_state.current_city:
+        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
+        return s
+    else:
+        return c
+
 # PAGE (VIDEO)
 
 st.header(st.session_state.current_location.replace("_", " "))
@@ -124,13 +135,14 @@ st.header(st.session_state.current_location.replace("_", " "))
 # pois = get_pois()
 # df = get_poi_df(pois["features"])
 
+
 cam1, cam2, cam3 = st.columns([1,1,1], vertical_alignment="bottom")
 with cam1:
     cameras = get_cameras()
 
     curr_camera = None
     if len(cameras) > 0:
-        curr_camera = st.selectbox("Camera", [x["camera"] for x in cameras])
+        curr_camera = st.selectbox("Camera", [x["camera"] for x in cameras], format_func=get_camera_name)
         st.session_state.current_camera = curr_camera
     else:
         st.write("No camera data available")
@@ -169,72 +181,73 @@ if curr_camera:
                 print(e)
 
     with ct2:
-        # VIDEO ANOMALY
-        if vadf.size > 0:
+        with st.container(height=480, border=False):
+            # VIDEO ANOMALY
+            if vadf.size > 0:
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=vadf["time"], y=vadf["score"]))
+                fig.add_hline(y=0.6, line_width=3, line_dash="dash", line_color="red")
+                fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
+                fig.update_layout( title=dict( text='Anomaly Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+                with st.container(border=True):
+                    st.plotly_chart(fig, use_container_width=True)
+
+            # VIOLENCE
+            if vdf.size > 0:
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=vdf["time"], y=vdf["prob"]))
+                fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
+                fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
+                fig.update_layout( title=dict( text='Crowd Violence Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+
+                with st.container(border=True):
+                    st.plotly_chart(fig, use_container_width=True)
+            
+            # PANIC
+            if pdf.size > 0:
+                fig = go.Figure()
+                fig.add_trace(go.Scatter(x=pdf["time"], y=pdf["score"]))
+                fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
+                fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
+                fig.update_layout( title=dict( text='Crowd Panic Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+
+                with st.container(border=True):
+                    st.plotly_chart(fig, use_container_width=True)
+
+            # PEDESTRIAN NUM
+            df = pd.DataFrame.from_records(pedestrian_num(curr_camera, __from, __to))
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=vadf["time"], y=vadf["score"]))
-            fig.add_hline(y=0.6, line_width=3, line_dash="dash", line_color="red")
-            fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-            fig.update_layout( title=dict( text='Anomaly Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+            fig.add_trace(go.Scatter(x=df["time"], y=df["number_objects"]))
+            fig.update_layout( title=dict( text='Number of Pedestrians' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+
             with st.container(border=True):
                 st.plotly_chart(fig, use_container_width=True)
 
-        # VIOLENCE
-        if vdf.size > 0:
+            # PEDESTRIAN PERSISTENCE
+            df = pd.DataFrame.from_records(pedestrian(curr_camera, __from, __to))
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=vdf["time"], y=vdf["prob"]))
-            fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
-            fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-            fig.update_layout( title=dict( text='Crowd Violence Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
-
-            with st.container(border=True):
-                st.plotly_chart(fig, use_container_width=True)
-        
-        # PANIC
-        if pdf.size > 0:
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=pdf["time"], y=pdf["score"]))
-            fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
-            fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-            fig.update_layout( title=dict( text='Crowd Panic Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+            fig.add_trace(go.Scatter(x=df["time"], y=df["avg_age"], name="Avg", marker_color="#709CEC"))
+            fig.add_trace(go.Scatter(x=df["time"], y=df["min_age"], name="Min", marker_color="green"))
+            fig.add_trace(go.Scatter(x=df["time"], y=df["high_age"], name="Max", marker_color="#9035C0"))
+            fig.add_hline(y=200, line_width=1, line_color="red")
+            fig.add_hline(y=100, line_width=1, line_color="orange")
+            fig.add_hline(y=50, line_width=1, line_color="green")
+            fig.update_layout( title=dict( text='Persistence of Pedestrians (Frames)' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
 
             with st.container(border=True):
                 st.plotly_chart(fig, use_container_width=True)
 
-        # PEDESTRIAN NUM
-        df = pd.DataFrame.from_records(pedestrian_num(curr_camera, __from, __to))
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df["time"], y=df["number_objects"]))
-        fig.update_layout( title=dict( text='Number of Pedestrians' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+            # PEDESTRIAN SPEED
+            fig = go.Figure()
+            fig.add_trace(go.Scatter(x=df["time"], y=df["avg_speed"], name="Avg", marker_color="#EDD021"))
+            fig.add_trace(go.Scatter(x=df["time"], y=df["highest_speed"], name="Max", marker_color="#9035C0"))
+            fig.add_hline(y=0.04, line_width=1, line_color="red")
+            fig.add_hline(y=0.03, line_width=1, line_color="orange")
+            fig.add_hline(y=0.02, line_width=1, line_color="green")
+            fig.update_layout( title=dict( text='Pedestrian Speed' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
 
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-
-        # PEDESTRIAN PERSISTENCE
-        df = pd.DataFrame.from_records(pedestrian(curr_camera, __from, __to))
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df["time"], y=df["avg_age"], name="Avg", marker_color="#709CEC"))
-        fig.add_trace(go.Scatter(x=df["time"], y=df["min_age"], name="Min", marker_color="green"))
-        fig.add_trace(go.Scatter(x=df["time"], y=df["high_age"], name="Max", marker_color="#9035C0"))
-        fig.add_hline(y=200, line_width=1, line_color="red")
-        fig.add_hline(y=100, line_width=1, line_color="orange")
-        fig.add_hline(y=50, line_width=1, line_color="green")
-        fig.update_layout( title=dict( text='Persistence of Pedestrians (Frames)' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
-
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
-
-        # PEDESTRIAN SPEED
-        fig = go.Figure()
-        fig.add_trace(go.Scatter(x=df["time"], y=df["avg_speed"], name="Avg", marker_color="#EDD021"))
-        fig.add_trace(go.Scatter(x=df["time"], y=df["highest_speed"], name="Max", marker_color="#9035C0"))
-        fig.add_hline(y=0.04, line_width=1, line_color="red")
-        fig.add_hline(y=0.03, line_width=1, line_color="orange")
-        fig.add_hline(y=0.02, line_width=1, line_color="green")
-        fig.update_layout( title=dict( text='Pedestrian Speed' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
-
-        with st.container(border=True):
-            st.plotly_chart(fig, use_container_width=True)
+            with st.container(border=True):
+                st.plotly_chart(fig, use_container_width=True)
     # exp = st.expander("**Video Details...**")
     # with exp:
 
