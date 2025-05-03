@@ -60,65 +60,33 @@ def get_emotions():
     ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
     return ls[0]
 
+def get_emotions_svg():
+    url = f"../data/perception/{st.session_state.current_city.lower()}/piecharts/{st.session_state.current_city.lower()}_{st.session_state.current_location}_emotion_piechart.svg"
+    with open(url, "r") as image_file:
+        return image_file.read()
+        # encoded_string = base64.b64encode(image_file.read())
+        # return encoded_string.decode('utf-8')
+
 def get_wordcloud():
     ls = list(get_database_session().query('SELECT "image" FROM "wordclouds" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/)'))
     return ls[0]
 
-def search_address(address):
-    geolocator = Nominatim(user_agent="precrisis")
-    str = f"{address}, {st.session_state.current_city}, {st.session_state.current_country}"
-    res = geolocator.geocode(str)
-    if res:
-        return {"latitude": res.latitude, "longitude": res.longitude}
-    else:
-        return None
+def get_wordcloud_pos_img():
+    url = f"../data/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_positive.png"
+    with open(url, "rb") as image_file:
+        return image_file.read()
 
+def get_wordcloud_neg_img():
+    url = f"../data/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_negative.png"
+    with open(url, "rb") as image_file:
+        return image_file.read()
 
-def haversine(lon1, lat1, lon2, lat2):
-    """
-    Calculate the great circle distance in kilometers between two points 
-    on the earth (specified in decimal degrees)
-    """
-    # convert decimal degrees to radians 
-    lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+def get_summary():
+    url = f"../data/perception/{st.session_state.current_city.lower()}/summaries/{st.session_state.current_city.lower()}_{st.session_state.current_location}_top_sentiment.json"
+    with open(url, "r") as file:
+        summary = json.load(file)
+        return summary['positive_summarization'], summary['negative_summarization']
 
-    # haversine formula 
-    dlon = lon2 - lon1 
-    dlat = lat2 - lat1 
-    a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-    c = 2 * asin(sqrt(a)) 
-    r = 6371 # Radius of earth in kilometers. Use 3956 for miles. Determines return value units.
-    return c * r
-
-def find_shortest_path(graph, location_orig, location_dest, optimizer):
-    # find the nearest node to the departure and arrival location
-    node_orig = osmnx.nearest_nodes(graph, location_orig[0], location_orig[1])
-    node_dest = osmnx.nearest_nodes(graph, location_dest[0], location_dest[1])
-    route = nx.shortest_path(graph, node_orig, node_dest, weight=optimizer.lower())
-    route = osmnx.routing.route_to_gdf(graph, route, weight='length')
-    route = osmnx.projection.project_gdf(route, to_latlong=True)
-    route = json.loads(route.to_json(to_wgs84=True))
-    return route
-
-def shortest(location, pois):
-    res = {}
-    res_dist = {}
-    for p in pois["features"]:
-        t = p["v"]
-        l = p["geometry"]["coordinates"] if p["geometry"]["type"] == "Point" else p["geometry"]["coordinates"][0][0]
-        dist = haversine(location["longitude"], location["latitude"], l[0], l[1])
-        if t not in res_dist:
-            res_dist[t] = dist
-            res[t] = l
-        else: 
-            if dist < res_dist[t]:
-                res_dist[t] = dist
-                res[t] = l
-    g = get_graph()
-    for t in res:
-        res[t] = find_shortest_path(g, [location["longitude"], location["latitude"]], res[t], "length")
-    # print(res)
-    return res
 
 
 def get_pois_list():
@@ -140,24 +108,38 @@ st.header(st.session_state.current_location.replace("_", " "))
 with st.expander("Social Media Analysis", expanded=True):
     st.write("This section shows the textual analysis of social media posts about the selected area.")
 
-    c1, c2 = st.columns(2, vertical_alignment="top")
+    c1, c2, c3 = st.columns(3, vertical_alignment="top")
+    pos, neg = get_summary()
 
     with c1:
         st.subheader("Emotions")
         st.write("Distribution of emotions expressed in social media posts about the selected area.")
-        df = pd.DataFrame.from_records(get_emotions())
-        fig = px.pie(df, values='score', names='emotion')
-        st.plotly_chart(fig, use_container_width=True)
+        # buff = bytes(get_emotions_img(), "utf-8")
+        st.image(get_emotions_svg())
+        # df = pd.DataFrame.from_records(get_emotions())
+        # fig = px.pie(df, values='score', names='emotion')
+        # st.plotly_chart(fig, use_container_width=True)
 
     with c2:
-        st.subheader("Negative Emotions Word Cloud")
-        st.write("Most relevant words in posts associated with anger, disgust, fear and sadness.")
-        st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
+        st.subheader("Positive Word Cloud")
+        st.write("Most relevant words in posts associated with joy, anticipation and trust.")
+        st.image(get_wordcloud_pos_img())
+        st.subheader("Positive Emotions Summary")
+        st.write(pos)
+        # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
 
+    with c3:
+        st.subheader("Negative Word Cloud")
+        st.write("Most relevant words in posts associated with anger, disgust, fear and sadness.")
+        st.image(get_wordcloud_neg_img())
+        st.subheader("Negative Emotions Summary")
+        st.write(neg)
+        # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
     
     st.subheader("Topic Analysis")
     st.write("Topics discussed in social media posts about the selected area.")
-    components.iframe("https://precrisis.smartcommunitylab.it/show/plot/" + st.session_state.current_location + "_2dim_embeddingSpace-new.html", height=770, scrolling=True)
+    # components.iframe("https://precrisis.smartcommunitylab.it/show/plot/" + st.session_state.current_location + "_2dim_embeddingSpace-new.html", height=770, scrolling=True)
+    components.iframe(f"https://precrisis.smartcommunitylab.it/show/plot/{st.session_state.current_city.lower()}_{st.session_state.current_location}_new-embeddingspace-2d.html", height=770, scrolling=True)
 
 st.header("Safety Perception")
 
