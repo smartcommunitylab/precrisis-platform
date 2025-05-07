@@ -112,8 +112,8 @@ with st.expander("Social Media Analysis", expanded=True):
     pos, neg = get_summary()
 
     with c1:
-        st.subheader("Emotions")
-        st.write("Distribution of emotions expressed in social media posts about the selected area.")
+        st.subheader("Emotion distribution")
+        st.write("*Distribution of emotions expressed in social media posts about this location, indicated as the percentage of posts that express each emotion.*")
         # buff = bytes(get_emotions_img(), "utf-8")
         st.image(get_emotions_svg())
         # df = pd.DataFrame.from_records(get_emotions())
@@ -121,23 +121,25 @@ with st.expander("Social Media Analysis", expanded=True):
         # st.plotly_chart(fig, use_container_width=True)
 
     with c2:
-        st.subheader("Positive Word Cloud")
-        st.write("Most relevant words in posts associated with joy, anticipation and trust.")
+        st.subheader("Positive posts word cloud")
+        st.write("*Words that are more common in positive social media posts concerning this location.*")
         st.image(get_wordcloud_pos_img())
-        st.subheader("Positive Emotions Summary")
+        st.subheader("Summary of positive aspects")
+        st.write("*Summaries of positive aspects mentioned in social media posts about this location.*")
         st.write(pos)
         # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
 
     with c3:
-        st.subheader("Negative Word Cloud")
-        st.write("Most relevant words in posts associated with anger, disgust, fear and sadness.")
+        st.subheader("Negative posts word cloud")
+        st.write("*Words that are more common in negative social media posts concerning this location.*")
         st.image(get_wordcloud_neg_img())
-        st.subheader("Negative Emotions Summary")
+        st.subheader("Summary of negative aspects")
+        st.write("*Summaries of negative aspects mentioned in social media posts about this location.*")
         st.write(neg)
         # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
     
     st.subheader("Topic Analysis")
-    st.write("Topics discussed in social media posts about the selected area.")
+    st.write("*Main topics that are discussed on social media posts about this location, extracted automatically. Each post is represented as a dot, the color of the dot indicates the topic discussed in the post. You can hover over the dots to read (pseudonymized) posts.*")
     # components.iframe("https://precrisis.smartcommunitylab.it/show/plot/" + st.session_state.current_location + "_2dim_embeddingSpace-new.html", height=770, scrolling=True)
     components.iframe(f"https://precrisis.smartcommunitylab.it/show/plot/{st.session_state.current_city.lower()}_{st.session_state.current_location}_new-embeddingspace-2d.html", height=770, scrolling=True)
 
