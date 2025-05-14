@@ -42,7 +42,14 @@ pg = st.navigation(user_pages, position="hidden")
 
 
 with st.sidebar:
-    st.image("https://precrisis-project.eu/wp-content/uploads/2021/07/precrisis.svg")
+    st.logo("https://precrisis-project.eu/wp-content/uploads/2021/07/precrisis.svg", size="large", link="https://precrisis-project.eu/")
+    style = '''
+    <style>
+    img[data-testid="stLogo"]{height: 4rem;}
+    </style>
+    '''
+    st.markdown(style, unsafe_allow_html=True)
+
     st.page_link("pages/home.py", label="Home")
     st.page_link("pages/urban.py", label="Urban Layer")
     st.page_link("pages/video.py", label="Human Dynamics Layer")

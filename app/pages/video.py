@@ -16,9 +16,28 @@ def get_database_session():
 
 SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 
+TIMINGMAP = {
+    "Vienna": {
+        "video_anomaly_score": 0.04,
+        "crowd_violence": 1,
+        "panic_module": 1,
+        "object_tracker": 1,
+    },
+    "Sofia": {
+        "video_anomaly_score": 0.04,
+        "crowd_violence": 5/8,
+        "panic_module": 0.08,
+        "object_tracker": 0.24,
+    }
+}
+
 def get_cameras():
-    ls = list(get_database_session().query('select distinct camera as camera from video_busca where  "location"::tag =~ /^' + st.session_state.current_location + '$/ and camera !~/^cam.*/ and camera !~/.*20240529.*/').get_points())
+    ls = list(get_database_session().query('select camera, max(score) as score from video_anomaly_score where  "location"::tag =~ /^' + st.session_state.current_location + '$/ and camera !~/^cam.*/ and camera !~/.*20240529.*/ group by camera').get_points())
     return ls
+
+# def get_camera_anomaly(camera):
+    # alerts = list(client.query('select * from video_anomaly_score where "score"::field > 0.6;').get_points())
+
 
 def get_interval(camera):
     ls = list(get_database_session().query('SELECT score, time FROM "video_anomaly_score" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/) order by time ').get_points())
@@ -42,26 +61,60 @@ def get_poi_df(pois):
     df = pd.DataFrame.from_records(pois)
     return df[["id", "v"]]
 
+
+def adjust_timeseries(res, interval, has_frame=True):
+    if len(res) == 0:
+        return res
+    start_time = datetime.strptime(res[0]["time"], "%Y-%m-%dT%H:%M:%SZ")
+    start_date = start_time.date()
+    start_date = datetime(start_date.year, start_date.month, start_date.day)
+    start_timestamp = datetime.timestamp(start_date)
+    prev_ts = None
+    prev_f = 0
+    for i in range(len(res)):
+        x = res[i]
+        if has_frame: frame = int(x['frame'])
+        else:
+            if prev_ts == x['time']:
+                frame = prev_f
+            else:
+                prev_ts = x['time']
+                prev_f = prev_f + 1 
+                frame = prev_f
+            # print(frame)
+
+        x["time"] = datetime.fromtimestamp(start_timestamp + frame*interval) 
+    return res
+
+
 def video_anomaly(camera):
-    ls = list(get_database_session().query('SELECT score, time FROM "video_anomaly_score" WHERE ("camera"::tag =~ /^' + camera + '$/) '))
-    return ls[0] if len(ls) > 0 else []
+    ls = list(get_database_session().query('SELECT score, frame, time FROM "video_anomaly_score" WHERE ("camera"::tag =~ /^' + camera + '$/) '))
+    res = ls[0] if len(ls) > 0 else []
+    return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['video_anomaly_score'], True)
+
 def violence(camera, fr = None, to = None):
     ls = list(get_database_session().query('SELECT prob, time FROM "crowd_violence" WHERE ("camera"::tag =~ /^' + camera + '$/) and time  <= \'' + to + '\' and time >= \'' + fr+'\''))
-    return ls[0] if len(ls) > 0 else []
+    res = ls[0] if len(ls) > 0 else []
+    return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['crowd_violence'], False)
 
 def panic(camera, fr = None, to = None):
     ls = list(get_database_session().query('SELECT score, time FROM "panic_module" WHERE ("camera"::tag =~ /^' + camera + '$/) and time  <= \'' + to + '\' and time >= \'' + fr+'\''))
-    return ls[0] if len(ls) > 0 else []
+    res = ls[0] if len(ls) > 0 else []
+    return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['panic_module'], False)
 
 def pedestrian_num(camera, fr = None, to = None):
-    query = 'SELECT number_objects, time FROM "object_tracker" WHERE ("camera"::tag =~ /^' + camera + '$/) and time  <= \'' + to + '\' and time >= \'' + fr+'\'' 
+    query = 'SELECT number_objects, time FROM "object_tracker" WHERE ("camera"::tag =~ /^' + camera + '$/) and time  <= \'' + to + '\' and time >= \'' + fr+'\' order by time' 
     ls = list(get_database_session().query(query))
-    return ls[0] if len(ls) > 0 else []
+    res = ls[0] if len(ls) > 0 else []
+    # print(len(res))
+
+    return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['object_tracker'], False)
 
 
 def pedestrian(camera, fr = None, to = None):
     ls = list(get_database_session().query('SELECT "avg_age", "min_age", "high_age", "avg_speed", "highest_speed", time FROM "object_tracker" WHERE ("camera"::tag =~ /^' + camera + '$/) and time  <= \'' + to + '\' and time >= \'' + fr+'\''))
-    return ls[0] if len(ls) > 0 else []
+    res = ls[0] if len(ls) > 0 else []
+    return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['object_tracker'], False)
 
 def get_video():
     ls = list(get_database_session().query(f'select DISTINCT inspect from video_busca WHERE ("camera"::tag =~ /^{st.session_state.current_camera}$/);').get_points())
@@ -117,20 +170,28 @@ def get_dataframe(date):
         return 'background-color:#e6ffe6;' if v >= 0 and v <= 0.6 else 'background-color:#ffe6e6;' if v> 0.6 else ''
     return df.style.format(lambda v: ' ').map(hl, props='')
 
-def get_camera_name(c):
+def get_camera_name(camera):
+    c = camera["camera"]
+    s = c
     if 'Sofia' == st.session_state.current_city:
         c = c.replace("poligon2", "").replace("ipcamera", "")
         s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
-        return s
     elif 'Vienna' == st.session_state.current_city:
         s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
-        return s
-    else:
-        return c
+
+    if camera["score"] > 0.6:
+        s = s + ' (anomaly detected)'
+    return s
 
 # PAGE (VIDEO)
+style = '''
+<style>
+div[data-testid="stMainBlockContainer"] {padding: 3rem 5rem 5rem 5rem !important;}
+</style>
+'''
+st.markdown(style, unsafe_allow_html=True)
 
-st.header(st.session_state.current_location.replace("_", " "))
+st.header("Human Dynamics Layer: " +st.session_state.current_location.replace("_", " "))
 
 # pois = get_pois()
 # df = get_poi_df(pois["features"])
@@ -139,10 +200,11 @@ st.header(st.session_state.current_location.replace("_", " "))
 cam1, cam2, cam3 = st.columns([1,1,1], vertical_alignment="bottom")
 with cam1:
     cameras = get_cameras()
+    cameras.sort(key=lambda x: x["camera"])
 
     curr_camera = None
     if len(cameras) > 0:
-        curr_camera = st.selectbox("Camera", [x["camera"] for x in cameras], format_func=get_camera_name)
+        curr_camera = st.selectbox("Camera", [x for x in cameras], format_func=get_camera_name)["camera"]
         st.session_state.current_camera = curr_camera
     else:
         st.write("No camera data available")
@@ -160,7 +222,7 @@ if curr_camera:
     with cam2:
         __from, __to = get_interval(curr_camera)
         __from_date = __from.split("T")[0]
-        d = st.date_input("Date", datetime.strptime(__from_date, "%Y-%m-%d"))
+        # d = st.date_input("Date", datetime.strptime(__from_date, "%Y-%m-%d"))
 
 
     with cam3:
@@ -179,16 +241,16 @@ if curr_camera:
                 v1 = st.video(f"{SERVER_URL}/videos/{video}", autoplay=True, loop=True)
             except Exception as e: 
                 print(e)
-
+        
     with ct2:
-        with st.container(height=480, border=False):
+        # with st.container(height=800, border=False):
             # VIDEO ANOMALY
             if vadf.size > 0:
                 fig = go.Figure()
                 fig.add_trace(go.Scatter(x=vadf["time"], y=vadf["score"]))
                 fig.add_hline(y=0.6, line_width=3, line_dash="dash", line_color="red")
                 fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-                fig.update_layout( title=dict( text='Anomaly Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+                fig.update_layout( title=dict( text='Anomaly Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0})
                 with st.container(border=True):
                     st.plotly_chart(fig, use_container_width=True)
 
@@ -198,56 +260,61 @@ if curr_camera:
                 fig.add_trace(go.Scatter(x=vdf["time"], y=vdf["prob"]))
                 fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
                 fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-                fig.update_layout( title=dict( text='Crowd Violence Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+                fig.update_layout( title=dict( text='Crowd Violence Activity Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0})
 
                 with st.container(border=True):
                     st.plotly_chart(fig, use_container_width=True)
             
-            # PANIC
-            if pdf.size > 0:
-                fig = go.Figure()
-                fig.add_trace(go.Scatter(x=pdf["time"], y=pdf["score"]))
-                fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
-                fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
-                fig.update_layout( title=dict( text='Crowd Panic Activity Detection' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
 
-                with st.container(border=True):
-                    st.plotly_chart(fig, use_container_width=True)
+    ct11, ct12, ct13 = st.columns([1, 1, 1])
+    with ct11:
+        # PEDESTRIAN NUM
+        df = pd.DataFrame.from_records(pedestrian_num(curr_camera, __from, __to))
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=df["time"], y=df["number_objects"]))
+        fig.update_layout( title=dict( text='Number of Pedestrians' ), height=200, margin={"r":0,"t":30,"l":0,"b":0})
 
-            # PEDESTRIAN NUM
-            df = pd.DataFrame.from_records(pedestrian_num(curr_camera, __from, __to))
+        with st.container(border=True):
+            st.plotly_chart(fig, use_container_width=True)
+    with ct12:
+        # PEDESTRIAN PERSISTENCE
+        df = pd.DataFrame.from_records(pedestrian(curr_camera, __from, __to))
+        fig = go.Figure()
+        fig.add_trace(go.Scatter(x=df["time"], y=df["avg_age"], name="Avg", marker_color="#709CEC"))
+        fig.add_trace(go.Scatter(x=df["time"], y=df["min_age"], name="Min", marker_color="green"))
+        fig.add_trace(go.Scatter(x=df["time"], y=df["high_age"], name="Max", marker_color="#9035C0"))
+        fig.add_hline(y=200, line_width=1, line_color="red")
+        fig.add_hline(y=100, line_width=1, line_color="orange")
+        fig.add_hline(y=50, line_width=1, line_color="green")
+        fig.update_layout( title=dict( text='Persistence of Pedestrians (Frames)' ), height=200, margin={"r":0,"t":30,"l":0,"b":0})
+
+        with st.container(border=True):
+            st.plotly_chart(fig, use_container_width=True)
+
+    with ct13:
+        # PANIC
+        if pdf.size > 0:
             fig = go.Figure()
-            fig.add_trace(go.Scatter(x=df["time"], y=df["number_objects"]))
-            fig.update_layout( title=dict( text='Number of Pedestrians' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+            fig.add_trace(go.Scatter(x=pdf["time"], y=pdf["score"]))
+            fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
+            fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
+            fig.update_layout( title=dict( text='Crowd Panic Activity Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0})
 
             with st.container(border=True):
                 st.plotly_chart(fig, use_container_width=True)
 
-            # PEDESTRIAN PERSISTENCE
-            df = pd.DataFrame.from_records(pedestrian(curr_camera, __from, __to))
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=df["time"], y=df["avg_age"], name="Avg", marker_color="#709CEC"))
-            fig.add_trace(go.Scatter(x=df["time"], y=df["min_age"], name="Min", marker_color="green"))
-            fig.add_trace(go.Scatter(x=df["time"], y=df["high_age"], name="Max", marker_color="#9035C0"))
-            fig.add_hline(y=200, line_width=1, line_color="red")
-            fig.add_hline(y=100, line_width=1, line_color="orange")
-            fig.add_hline(y=50, line_width=1, line_color="green")
-            fig.update_layout( title=dict( text='Persistence of Pedestrians (Frames)' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
-
-            with st.container(border=True):
-                st.plotly_chart(fig, use_container_width=True)
 
             # PEDESTRIAN SPEED
-            fig = go.Figure()
-            fig.add_trace(go.Scatter(x=df["time"], y=df["avg_speed"], name="Avg", marker_color="#EDD021"))
-            fig.add_trace(go.Scatter(x=df["time"], y=df["highest_speed"], name="Max", marker_color="#9035C0"))
-            fig.add_hline(y=0.04, line_width=1, line_color="red")
-            fig.add_hline(y=0.03, line_width=1, line_color="orange")
-            fig.add_hline(y=0.02, line_width=1, line_color="green")
-            fig.update_layout( title=dict( text='Pedestrian Speed' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
+            # fig = go.Figure()
+            # fig.add_trace(go.Scatter(x=df["time"], y=df["avg_speed"], name="Avg", marker_color="#EDD021"))
+            # fig.add_trace(go.Scatter(x=df["time"], y=df["highest_speed"], name="Max", marker_color="#9035C0"))
+            # fig.add_hline(y=0.04, line_width=1, line_color="red")
+            # fig.add_hline(y=0.03, line_width=1, line_color="orange")
+            # fig.add_hline(y=0.02, line_width=1, line_color="green")
+            # fig.update_layout( title=dict( text='Pedestrian Speed' ), height=300, margin={"r":0,"t":30,"l":0,"b":0})
 
-            with st.container(border=True):
-                st.plotly_chart(fig, use_container_width=True)
+            # with st.container(border=True):
+            #     st.plotly_chart(fig, use_container_width=True)
     # exp = st.expander("**Video Details...**")
     # with exp:
 

@@ -50,18 +50,38 @@ def get_poi_df(pois):
     if df.empty: return df
     return df[["id", "v"]]
 
+def type_to_label(type):
+    if type == "pois_gdf":
+        return "Points of Interest"
+    elif type == "buildings":
+        return "Building"
+    elif type == "pedestrian_streets":
+        return "Pedestrian Street"
+    elif type == "vehicle_streets":
+        return "Vehicle Street"
+    elif type == "bike_streets":
+        return "Bike Street"
+    elif type == "hospitals":
+        return "Hospital"
+    elif type == "police":
+        return "Police Station" 
+    elif type == "fire_station":
+        return "Fire Station"
+    else:
+        return type
+
 def get_pois(types, radius, colors):
     res = {"type": "FeatureCollection", "features": []}
     for type in types:
         color = colors[type]
         ls = list(get_database_session().query('SELECT * FROM "points_of_interest" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/' + (' AND "radius"::tag = \''+str(radius)+'\'' if radius else '')+' AND "poi_type"::tag = \''+type+'\')').get_points())
-        res['features'] = res['features'] + [{"type": "Feature", "properties": {"v": 1, "color": color, "fill_color": color + [70]}, "geometry": json.loads(x["geojson"]), "id": type+str(i), "v": type} for i,x in enumerate(ls)]
+        res['features'] = res['features'] + [{"type": "Feature", "properties": {"v": 1, "color": color, "fill_color": color + [70]}, "geometry": json.loads(x["geojson"]), "id": type+str(i), "v": type_to_label(type)} for i,x in enumerate(ls)]
     return res        
 
 def get_alerts():
     res = {"type": "FeatureCollection", "features": []}
     ls = list(get_database_session().query('SELECT "lat", "long",  "location", "score", "camera"  FROM "alerts"').get_points())
-    res['features'] = [{"type": "Feature", "properties": {"v": x["location"], "color": [255,0,0], "fill_color": [255,0,0,70]}, "geometry": {"type": "Point", "coordinates": [x["long"], x["lat"]]}, "id": "alert"+str(i), "type": "alert"} for i,x in enumerate(ls)]    
+    res['features'] = [{"type": "Feature", "properties": {"v": x["location"].replace("_", " "), "color": [255,0,0], "fill_color": [255,0,0,70]}, "geometry": {"type": "Point", "coordinates": [x["long"], x["lat"]]}, "id": "alert"+str(i), "type": "alert"} for i,x in enumerate(ls)]    
     return res
 
 def get_emotions():
@@ -365,31 +385,64 @@ def create_map(CITY, RESPONDER_TYPE):
 # PAGE
 
 # asyncio.run(init())
+style = '''
+<style>
+div[data-testid="stMainBlockContainer"] {padding: 3rem 5rem 5rem 5rem !important;}
+div[data-testid="stExpander"] summary div[data-testid="stMarkdownContainer"] p {font-size: 1.2rem; font-weight: 600 !important;}
+span[aria-label="Pedestrian, close by backspace"] {background-color: rgb(0, 104, 201)}
+span[aria-label="Vehicle, close by backspace"] {background-color: rgb(255, 43, 43)}
+span[aria-label="Bike, close by backspace"] {background-color: rgb(21, 130, 55)}
+span[aria-label="Hospitals, close by backspace"] {background-color: rgb(255, 43, 43)}
+span[aria-label="Police, close by backspace"] {background-color: rgb(0, 104, 201)}
+span[aria-label="Fire station, close by backspace"] {background-color: rgb(217, 90, 0)}
+</style>
+'''
+st.markdown(style, unsafe_allow_html=True)
 
-st.header(st.session_state.current_location.replace("_", " "))
+
+st.header('Urban Layer: ' + st.session_state.current_location.replace("_", " "))
+# st.write(
+#     """
+# The urban layer offers a set of intuitive and accessible
+# tools designed to describe the ecological context surrounding a specific location. It includes
+# four interrelated analytical components, each of which can be customized by selecting
+# different radii -- 500 meters, 800 meters, 1,400 meters, or 4,000 meters -- allowing users to
+# explore the area at varying levels of granularity, from micro to macro scale.
+#     """
+# )
 st.write(
     """
 The urban layer offers a set of intuitive and accessible
 tools designed to describe the ecological context surrounding a specific location. It includes
-four interrelated analytical components, each of which can be customized by selecting
-different radii -- 500 meters, 800 meters, 1,400 meters, or 4,000 meters -- allowing users to
+four interrelated analytical components allowing users to
 explore the area at varying levels of granularity, from micro to macro scale.
     """
 )
 
-c1, c2 = st.columns(2)
+# c1, c2 = st.columns(2)
 
-with c1:
-    st.subheader("Points of Interest")
-    st.write(
-        """
-        This map visualizes the distribution of buildings within the selected radius around a chosen point, helping to understand the built density of the area. Points of interest, among others, include commercial activities, schools, cultural and political institutions and the location of leisure activities.
-        """)
+# with c1:
+#     st.subheader("Points of Interest")
+#     st.write(
+#         """
+#         This map visualizes the distribution of buildings within the selected radius around a chosen point, helping to understand the built density of the area. Points of interest, among others, include commercial activities, schools, cultural and political institutions and the location of leisure activities.
+#         """)
 
 
-with c2:
-    radius = st.selectbox('Radius', [500, 800, 1000, 4000])
-    zoom = 14 if radius == 500 else 13 if radius == 800 else 12 if radius == 1000 else 10
+# with c2:
+#     radius = st.selectbox('Radius', [500, 800, 1000, 4000])
+#     zoom = 14 if radius == 500 else 13 if radius == 800 else 12 if radius == 1000 else 10
+
+
+st.subheader("Points of Interest")
+st.write(
+    """
+    This map visualizes the distribution of buildings within the selected radius around a chosen point, helping to understand the built density of the area. Points of interest, among others, include commercial activities, schools, cultural and political institutions and the location of leisure activities.
+    """)
+
+
+radius = 800
+zoom = 13
 
 current_location = [x for x in st.session_state.locations if x["location"] == st.session_state.current_location][0]
 INITIAL_VIEW_STATE = pdk.ViewState(latitude=current_location["lat"], longitude=current_location["long"], zoom=zoom, pitch=0)
@@ -404,15 +457,20 @@ geojson = pdk.Layer(
     stroked=True,
     filled=True,
     extruded=False,
+    pickable=True,
     wireframe=False,
     get_fill_color="properties.fill_color",
     get_line_color="properties.color",
+    get_text="properties.color",
+    auto_highlight=True,
+    get_text_size=12
 )
 r = pdk.Deck(
     layers=[geojson],
     initial_view_state=INITIAL_VIEW_STATE,
     map_provider="mapbox",
-    map_style=None
+    map_style=None,
+    tooltip={"text": "{v}"}
 )
 st.pydeck_chart(r, use_container_width=True)
 
@@ -471,6 +529,7 @@ with st.expander("Services", expanded=True):
         service_tags = [x.lower().replace(" ", "_") for x in selected_services]
 
     colors = {"police": [40, 93, 208], "hospitals": [213, 24, 52], "fire_station": [221, 117, 47]}
+    ext_colors = {"Police Station": [40, 93, 208], "Hospital": [213, 24, 52], "Fire Station": [221, 117, 47]}
     pois = get_pois(service_tags, None, colors)
 
     # print(pois)
@@ -548,7 +607,6 @@ with st.expander("Shortest Paths", expanded=True):
     layers = [geojson, alert_layer]
 
     def render_from_location(location, layers):
-        print(location)
         if location is not None:
             df = pd.DataFrame([{"lat": location["latitude"], "lon": location["longitude"], "coordinates": [location["longitude"], location["latitude"]]}])
             layer = pdk.Layer(
@@ -571,7 +629,7 @@ with st.expander("Shortest Paths", expanded=True):
                     pickable=False,
                     stroked=True,
                     filled=True,
-                    get_line_color=colors[k],
+                    get_line_color=ext_colors[k],
                     line_width_units=pdk.types.String('pixels'),
                     get_line_width=3,
                     auto_highlight=True

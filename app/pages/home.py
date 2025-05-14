@@ -19,13 +19,32 @@ def get_alerts_as_df():
 
 
 current_df = pd.DataFrame.from_records([x for x in st.session_state.locations if x['location'] == st.session_state.current_location])
+current_df["location"] = current_df["location"].str.replace("_", " ")
 df = pd.DataFrame.from_records(st.session_state.locations)
+df["location"] = df["location"].str.replace("_", " ")
 alert_df = get_alerts_as_df()
+alert_df["location"] = alert_df["location"].str.replace("_", " ") + "<br><b>See alert at Human Dynamics Layer</b>"
 
 center_lat = df["lat"].mean(axis=0)
 center_lon = df["long"].mean(axis=0)
 
-st.title("PRECRISIS Platform")
+style = '''
+<style>
+div[data-testid="stMainBlockContainer"] {padding: 3rem 5rem 5rem 5rem !important;}
+</style>
+'''
+st.markdown(style, unsafe_allow_html=True)
+
+c1,c2 = st.columns([1, 1], vertical_alignment="top", gap="small")
+
+with c1:
+    st.title("Home")
+with c2:
+    c21, c22 = st.columns([1, 4], gap="small", vertical_alignment="center")
+    with c21:
+        st.image("assets/eu.jpg", width=100)
+    with c22:
+        st.markdown("This project has received funding from the European Union's Internal Security Fund under grant agreement No. **ISFP-2022-TFI-AG-PROTECT-02-101100539**.")
 
 fig = go.Figure()
 

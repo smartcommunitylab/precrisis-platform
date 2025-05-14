@@ -5,7 +5,7 @@ import plotly.graph_objects as go
 import pandas as pd
 import streamlit.components.v1 as components
 import os
-
+import json
 @st.cache_resource
 def get_database_session():
     client = InfluxDBClient(host=os.getenv('INFLUXDB_HOST', "localhost"), port=os.getenv('INFLUXDB_PORT', 8086), database=os.getenv('INFLUXDB_DATABASE', 'precrisis'))
@@ -19,7 +19,15 @@ def get_alerts_as_df():
     
     return alert_df
 
+def get_alert_text(location):
+    return alert_texts[location]
+
+url = f"../data/{st.session_state.current_city.lower()}-alerts.json"
+with open(url, "r") as file:
+    alert_texts = json.load(file)
+
 alert_df = get_alerts_as_df()
+alert_df["location"] = alert_df["location"].apply(lambda x: x.replace("_", " ") +": " + get_alert_text(x)) # replace("_", " ")
 center_lat = alert_df["lat"].mean(axis=0)
 center_lon = alert_df["long"].mean(axis=0)
 

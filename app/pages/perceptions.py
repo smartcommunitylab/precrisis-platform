@@ -57,8 +57,19 @@ def get_alerts():
     return res
 
 def get_emotions():
-    ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
-    return ls[0]
+    # ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
+    # return ls[0]
+    url = f"../data/perception/{st.session_state.current_city.lower()}/{st.session_state.current_city.lower()}-emotion-distribution.json"
+    emotions = ["anger", "joy", "sadness", "fear"]
+    with open(url, "r") as file:
+        j = json.load(file)
+        res = []
+        for idx in range(len(j[st.session_state.current_location])):
+            # res[emotions[idx]] = j[st.session_state.current_location][idx]
+            res.append({"emotion": emotions[idx], "score": j[st.session_state.current_location][idx]})
+        return res
+    
+
 
 def get_emotions_svg():
     url = f"../data/perception/{st.session_state.current_city.lower()}/piecharts/{st.session_state.current_city.lower()}_{st.session_state.current_location}_emotion_piechart.svg"
@@ -92,18 +103,26 @@ def get_summary():
 def get_pois_list():
     ls = list(get_database_session().query('select Classification as SClassification, ID as SID, Keywords as Keywords, lat as slat, lon as slon from safety_perception').get_points())
     return ls
-def get_pois(ls):
+def get_pois(ls, types=['Safe', 'Unsafe']):
     res = {"type": "FeatureCollection", "features": []}
     colors = {'Safe': [25, 115, 14], 'Unsafe': [224, 47, 68]}
-    res['features'] = [{"type": "Feature", "properties": {"v": x["Keywords"], "color": colors[x["SClassification"]]}, "geometry": {"type": "Point", "coordinates": [x["slon"], x["slat"]]}, "id": "poi"+str(i), "keywords": x["Keywords"], "type": "poi"} for i,x in enumerate(ls)]    
+    res['features'] = [{"type": "Feature", "properties": {"v": x["Keywords"], "color": colors[x["SClassification"]]}, "geometry": {"type": "Point", "coordinates": [x["slon"], x["slat"]]}, "id": "poi"+str(i), "keywords": x["Keywords"], "type": "poi"} for i,x in enumerate(ls) if x["SClassification"] in types]  
     return res
 
 
 # PAGE
 
 # asyncio.run(init())
+style = '''
+<style>
+div[data-testid="stMainBlockContainer"] {padding: 3rem 5rem 5rem 5rem !important;}
+span[aria-label="Safe, close by backspace"] {background-color: rgb(25, 115, 14)}
+span[aria-label="Unsafe, close by backspace"] {background-color: rgb(224, 47, 68)}
+</style>
+'''
+st.markdown(style, unsafe_allow_html=True)
 
-st.header(st.session_state.current_location.replace("_", " "))
+st.header('Perceptions Layer: '+ st.session_state.current_location.replace("_", " "))
 
 with st.expander("Social Media Analysis", expanded=True):
     st.write("This section shows the textual analysis of social media posts about the selected area.")
@@ -115,10 +134,11 @@ with st.expander("Social Media Analysis", expanded=True):
         st.subheader("Emotion distribution")
         st.write("*Distribution of emotions expressed in social media posts about this location, indicated as the percentage of posts that express each emotion.*")
         # buff = bytes(get_emotions_img(), "utf-8")
-        st.image(get_emotions_svg())
-        # df = pd.DataFrame.from_records(get_emotions())
-        # fig = px.pie(df, values='score', names='emotion')
-        # st.plotly_chart(fig, use_container_width=True)
+        # st.image(get_emotions_svg())
+        df = pd.DataFrame.from_records(get_emotions())
+        print(df)
+        fig = px.pie(df, values='score', names='emotion', color_discrete_sequence=px.colors.sequential.Oranges)
+        st.plotly_chart(fig, use_container_width=True)
 
     with c2:
         st.subheader("Positive posts word cloud")
@@ -167,9 +187,11 @@ st.write("""
          """)
 poi_list = get_pois_list()
 poi_df = pd.DataFrame.from_records([x for x in poi_list ]).rename(columns={"slat": "lat", "slon": "lng"})
-pois = get_pois(poi_list)
 current_location = [x for x in st.session_state.locations if x["location"] == st.session_state.current_location][0]
 INITIAL_VIEW_STATE = pdk.data_utils.compute_view(poi_df[["lng", "lat"]]) 
+
+selected_tags = st.multiselect("Safety perception", ["Safe", "Unsafe"], label_visibility="collapsed", default=["Safe", "Unsafe"])
+pois = get_pois(poi_list, selected_tags)
 
 geojson = pdk.Layer(
         "GeoJsonLayer",
