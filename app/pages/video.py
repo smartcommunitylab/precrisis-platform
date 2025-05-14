@@ -19,9 +19,9 @@ SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 TIMINGMAP = {
     "Vienna": {
         "video_anomaly_score": 0.04,
-        "crowd_violence": 1,
-        "panic_module": 1,
-        "object_tracker": 1,
+        "crowd_violence": 5/8,
+        "panic_module": 0.08,
+        "object_tracker": 0.04,
     },
     "Sofia": {
         "video_anomaly_score": 0.04,

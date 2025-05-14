@@ -23,12 +23,14 @@ if 'locations' not in st.session_state:
     # print(pd.DataFrame.from_records(ls))
 
     st.session_state.locations = ls
-    st.session_state.current_location = ls[0]["location"]
 
     ls = list(get_database_session().query('SELECT "lat", "long",  "location", "score", "camera"  FROM "alerts"').get_points())
     alert_df = pd.DataFrame.from_records([x for x in ls ])
     alert_df = alert_df[["lat", "long", "location", "score", "camera"]].drop_duplicates().groupby(["lat", "long", "location", "camera"]).mean().reset_index()
-    st.session_state.alert_location_names = alert_df[["location"]].drop_duplicates()['location'].tolist()
+    alert_names = alert_df[["location"]].drop_duplicates()['location'].tolist()
+    alert_names.sort()
+    st.session_state.alert_location_names = alert_names
+    st.session_state.current_location = alert_names[0] if len(alert_names) > 0 else ls[0]["location"]
 
 
 pos = st.Page("pages/urban.py", title="Urban Layer")
@@ -64,7 +66,9 @@ with st.sidebar:
         res = res.replace("_", " ")
         return res
 
-    place = st.radio("Locations", [x for x in st.session_state.locations], format_func=format_func, index=0)
+    index = st.session_state.locations.index([x for x in st.session_state.locations if x["location"] == st.session_state.current_location][0])
+
+    place = st.radio("Locations", [x for x in st.session_state.locations], format_func=format_func, index=index)
     st.session_state.current_location = place["location"]
     location_container.header("Selected Location")
     location_container.subheader(place['location'].replace("_", " "))
