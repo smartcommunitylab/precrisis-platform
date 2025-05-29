@@ -14,7 +14,7 @@ def get_database_session():
     client = InfluxDBClient(host=os.getenv('INFLUXDB_HOST', "localhost"), port=os.getenv('INFLUXDB_PORT', 8086), database=os.getenv('INFLUXDB_DATABASE', 'precrisis'))
     return client
 
-SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '/Users/raman/projects/SmartCommunity/precrisis'
+SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 
 TIMINGMAP = {
     "Vienna": {
