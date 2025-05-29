@@ -16,7 +16,7 @@ def get_database_session():
 
 SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 
-
+# ADJUSTMENT FOR VIDEO DURATION
 TIMINGMAP = {
     "Vienna": {
         "video_anomaly_score": 0.06,
@@ -28,7 +28,26 @@ TIMINGMAP = {
         "video_anomaly_score": 0.033,
     }
 }
-def get_camera_name(camera):
+# HARDCODED CAMERA NAMES FOR LIMASSOL
+limassol_name_mapping = {
+    "cam1scenario1mp4.mp4": "Cam 1-04-16-2025 09:04",
+    "cam1scenario2mp4.mp4": "Cam 1-04-16-2025 09:44",
+    "cam1scenario3mp4.mp4": "Cam 1-04-16-2025 10:10",
+    "cam3scenario3mp4.mp4": "Cam 3-04-16-2025 10:11",
+    "cam3scenario4mp4.mp4": "Cam 3-04-16-2025 10:32",
+    "cam1scenario4mp4.mp4": "Cam 1-04-16-2025 10:32",
+    "cam1scenario5mp4.mp4": "Cam 1-04-16-2025 11:01",
+    "cam2scenario1mp4.mp4": "Cam 2-04-16-2025 09:04",
+    "cam3scenario5mp4.mp4": "Cam 3-04-16-2025 11:01",
+    "cam2scenario2mp4.mp4": "Cam 2-04-16-2025 09:44",
+    "cam2scenario3mp4.mp4": "Cam 2-04-16-2025 10:11",
+    "cam2scenario4mp4.mp4": "Cam 2-04-16-2025 10:32",
+    "cam2scenario5mp4.mp4": "Cam 2-04-16-2025 11:01",
+    "cam3scenario2mp4.mp4": "Cam 3-04-16-2025 09:44",
+}
+
+# MAPPING OF CAMERA NAMES FOR READABILITY
+def get_camera_name(camera):    
     c = camera["camera"]
     s = c
     if 'Sofia' == st.session_state.current_city:
@@ -36,6 +55,8 @@ def get_camera_name(camera):
         s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
     elif 'Vienna' == st.session_state.current_city:
         s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
+    elif 'Limassol' == st.session_state.current_city:
+        s = limassol_name_mapping[c] if c in limassol_name_mapping else c
     return s
 
 def get_filtered_videos(city):
