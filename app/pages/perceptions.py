@@ -211,7 +211,7 @@ if st.session_state.current_city != 'Limassol':
             auto_highlight=True,
             get_text_size=10
         )
-    tooltip_template = '{v} <br> <img src="https://precrisis.smartcommunitylab.it/show/plot/images/{st.session_state.current_city.lower()}/{img}.jpeg" width="100">' if st.session_state.current_city != 'Limassol' else '{v}'
+    tooltip_template = '{v} <br> <img src="https://precrisis.smartcommunitylab.it/show/plot/images/'+st.session_state.current_city.lower()+'/{img}.jpeg" width="100">' if st.session_state.current_city != 'Limassol' else '{v}'
     r = pdk.Deck(
         layers=[geojson],
         initial_view_state=INITIAL_VIEW_STATE,
