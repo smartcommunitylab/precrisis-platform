@@ -106,7 +106,7 @@ def get_pois_list():
 def get_pois(ls, types=['Safe', 'Unsafe']):
     res = {"type": "FeatureCollection", "features": []}
     colors = {'Safe': [25, 115, 14], 'Unsafe': [224, 47, 68]}
-    res['features'] = [{"type": "Feature", "properties": {"v": x["Keywords"], "color": colors[x["SClassification"]]}, "geometry": {"type": "Point", "coordinates": [x["slon"], x["slat"]]}, "id": "poi"+str(i), "keywords": x["Keywords"], "type": "poi"} for i,x in enumerate(ls) if x["SClassification"] in types]  
+    res['features'] = [{"type": "Feature", "properties": {"img": x["SID"], "v": x["Keywords"], "color": colors[x["SClassification"]]}, "geometry": {"type": "Point", "coordinates": [x["slon"], x["slat"]]}, "id": "poi"+str(i), "keywords": x["Keywords"], "type": "poi"} for i,x in enumerate(ls) if x["SClassification"] in types]  
     return res
 
 
@@ -210,12 +210,13 @@ geojson = pdk.Layer(
         auto_highlight=True,
         get_text_size=10
     )
+tooltip_template = '{v} <br> <img src="https://precrisis.smartcommunitylab.it/show/plot/images/{st.session_state.current_city.lower()}/{img}.jpeg" width="100">' if st.session_state.current_city != 'Limassol' else '{v}'
 r = pdk.Deck(
     layers=[geojson],
     initial_view_state=INITIAL_VIEW_STATE,
     map_provider="mapbox",
     map_style=None,
-    # tooltip={"html": '{v} <br> <img src="http://localhost:8501/media/f42afbbfb6ff8685cdb944530356e1bef387b91bd99659536d8b87a1.png" width="100">'}
-    tooltip={"html": '{v}'}
+    tooltip={"html": tooltip_template}
+    # tooltip={"html": '{v}'}
 )
 st.pydeck_chart(r, use_container_width=True)

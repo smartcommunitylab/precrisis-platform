@@ -16,6 +16,7 @@ def get_database_session():
 
 SERVER_URL = os.environ['SERVER_URL'] if 'SERVER_URL' in os.environ else '.'
 
+
 TIMINGMAP = {
     "Vienna": {
         "video_anomaly_score": 0.06,
@@ -27,12 +28,34 @@ TIMINGMAP = {
         "video_anomaly_score": 0.033,
     }
 }
+def get_camera_name(camera):
+    c = camera["camera"]
+    s = c
+    if 'Sofia' == st.session_state.current_city:
+        c = c.replace("poligon2", "").replace("ipcamera", "")
+        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
+    elif 'Vienna' == st.session_state.current_city:
+        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
+    return s
 
-def get_cameras():
+def get_filtered_videos(city):
+    try:
+        df = pd.read_csv(f"../data/filteredvideos_{city.lower()}.csv")
+        return df
+    except Exception as e:
+        print(e)
+        return None
+
+def get_cameras(filtered):
     if st.session_state.current_city == "Vienna":
         ls = list(get_database_session().query('select camera, max(score) as score from video_anomaly_score where  "location"::tag =~ /^' + st.session_state.current_location + '$/ and camera !~/^cam.*/ and camera !~/.*20240529.*/ group by camera').get_points())
     else:
         ls = list(get_database_session().query('select camera, max(score) as score from video_anomaly_score where  "location"::tag =~ /^' + st.session_state.current_location + '$/ group by camera').get_points())
+    if filtered is not None:
+        ldf = filtered[filtered['LOCATION'] == st.session_state.current_location]
+        print(ldf)
+        if len(ldf) > 0:
+            ls = [x for x in ls if get_camera_name(x) in ldf["CAMERA"].values]
     return ls
 
 # def get_camera_anomaly(camera):
@@ -60,7 +83,6 @@ def get_pois():
 def get_poi_df(pois):
     df = pd.DataFrame.from_records(pois)
     return df[["id", "v"]]
-
 
 def adjust_timeseries(res, interval, has_frame, total=None):
     if len(res) == 0:
@@ -98,21 +120,40 @@ def adjust_timeseries(res, interval, has_frame, total=None):
     return new_res
 
 
-def video_anomaly(camera):
+def video_anomaly(camera, filtered_videos = None):
     ls = list(get_database_session().query('SELECT score, frame, time FROM "video_anomaly_score" WHERE ("camera"::tag =~ /^' + camera + '$/) '))
     res = ls[0] if len(ls) > 0 else []
     # print("video_anomaly", len(res))
+    if filtered_videos is not None:
+        s = get_camera_name({"camera":  camera})
+        row = filtered_videos[filtered_videos["CAMERA"] == s]
+        if "ADJUST_ANOMALY" in row['ADJUSTMENT'].values:
+            for x in res:
+                x["score"] = x["score"] * 0.5
     return adjust_timeseries(res, TIMINGMAP[st.session_state.current_city]['video_anomaly_score'], True)
 
-def violence(camera, fr = None, total = None):
+def violence(camera, fr = None, total = None, filtered_videos = None):
     ls = list(get_database_session().query('SELECT prob, time FROM "crowd_violence" WHERE ("camera"::tag =~ /^' + camera + '$/) and time >= \'' + fr+'\''))
     res = ls[0] if len(ls) > 0 else []
     # print("violence", len(res))
+    if filtered_videos is not None:
+        s = get_camera_name({"camera":  camera})
+        row = filtered_videos[filtered_videos["CAMERA"] == s]
+        if "ADJUST_VIOLENCE" in row['ADJUSTMENT'].values:
+            for x in res:
+                x["prob"] = x["prob"] * 0.5
+
     return adjust_timeseries(res, None, False, total)
 
-def panic(camera, fr = None, total = None):
+def panic(camera, fr = None, total = None, filtered_videos = None):
     ls = list(get_database_session().query('SELECT score, time FROM "panic_module" WHERE ("camera"::tag =~ /^' + camera + '$/) and time >= \'' + fr+'\''))
     res = ls[0] if len(ls) > 0 else []
+    if filtered_videos is not None:
+        s = get_camera_name({"camera":  camera})
+        row = filtered_videos[filtered_videos["CAMERA"] == s]
+        if "ADJUST_PANIC" in row['ADJUSTMENT'].values:
+            for x in res:
+                x["score"] = x["score"] * 0.5
     # print("panic", len(res))
     return adjust_timeseries(res, None, False, total)
 
@@ -184,19 +225,6 @@ def get_dataframe(date):
         return 'background-color:#e6ffe6;' if v >= 0 and v <= 0.6 else 'background-color:#ffe6e6;' if v> 0.6 else ''
     return df.style.format(lambda v: ' ').map(hl, props='')
 
-def get_camera_name(camera):
-    c = camera["camera"]
-    s = c
-    if 'Sofia' == st.session_state.current_city:
-        c = c.replace("poligon2", "").replace("ipcamera", "")
-        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
-    elif 'Vienna' == st.session_state.current_city:
-        s = 'Cam' + c[0] + '-' + datetime.strptime(c[1:13], "%Y%m%d%H%M").strftime("%d-%m-%Y %H:%M")
-
-    if camera["score"] > 0.6:
-        s = s + ' (anomaly detected)'
-    return s
-
 # PAGE (VIDEO)
 style = '''
 <style>
@@ -219,15 +247,27 @@ st.write(
 # pois = get_pois()
 # df = get_poi_df(pois["features"])
 
-
 cam1, cam2, cam3 = st.columns([1,1,1], vertical_alignment="bottom")
 with cam1:
-    cameras = get_cameras()
+    filtered_videos = get_filtered_videos(st.session_state.current_city)
+    cameras = get_cameras(filtered_videos)
     cameras.sort(key=lambda x: x["camera"])
+
+    def get_camera_text(camera):
+        s = get_camera_name(camera)
+        if filtered_videos is not None:
+            row = filtered_videos[filtered_videos["CAMERA"] == s]
+            print(row['LABEL'].values)
+            if "ANOMALY_EVENT" in row['LABEL'].values: s += ' (anomaly detected)'      
+            elif "PANIC_EVENT" in row['LABEL'].values: s += ' (panic detected)'
+            elif "VIOLENCE_EVENT" in row['LABEL'].values: s += ' (violence detected)'
+        elif camera["score"] > 0.6:
+            s = s + ' (anomaly detected)'
+        return s
 
     curr_camera = None
     if len(cameras) > 0:
-        curr_camera = st.selectbox("Camera", [x for x in cameras], format_func=get_camera_name)["camera"]
+        curr_camera = st.selectbox("Camera", [x for x in cameras], format_func=get_camera_text)["camera"]
         st.session_state.current_camera = curr_camera
     else:
         st.write("No camera data available")
@@ -250,10 +290,16 @@ if curr_camera:
     with cam3:
         with_tracking = st.toggle("Anomaly Detection", value=False)
 
-    va = video_anomaly(curr_camera)
+    va = video_anomaly(curr_camera, filtered_videos)
     vadf = pd.DataFrame.from_records(va)
-    vdf = pd.DataFrame.from_records(violence(curr_camera, __from, va[-1]["time"]))
-    pdf = pd.DataFrame.from_records(panic(curr_camera, __from, va[-1]["time"]))
+    vdf = pd.DataFrame.from_records(violence(curr_camera, __from, va[-1]["time"], filtered_videos=filtered_videos))
+    pdf = pd.DataFrame.from_records(panic(curr_camera, __from, va[-1]["time"], filtered_videos=filtered_videos))
+
+    #duration in minutes
+    dur = int((va[-1]["time"].timestamp() - va[0]["time"].timestamp()) / 60)
+    
+    DTICK = 60000 if dur < 10 else (int(dur / 10 + 1) * 60000) 
+
 
     ct1, ct2 = st.columns([2,1])
     with ct1:
@@ -274,7 +320,7 @@ if curr_camera:
                 fig.add_hline(y=0.6, line_width=3, line_dash="dash", line_color="red")
                 fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
                 fig.update_layout( title=dict( text='Anomaly Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0}, 
-                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 60000, tickformat="%M:%S"))
+                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = DTICK, tickformat="%M:%S"))
                 with st.container(border=True):
                     st.plotly_chart(fig, use_container_width=True)
 
@@ -285,7 +331,7 @@ if curr_camera:
                 fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
                 fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
                 fig.update_layout( title=dict( text='Crowd Violence Activity Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0}, 
-                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 60000, tickformat="%M:%S"))
+                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = DTICK, tickformat="%M:%S"))
 
                 with st.container(border=True):
                     st.plotly_chart(fig, use_container_width=True)
@@ -298,7 +344,7 @@ if curr_camera:
         fig = go.Figure()
         fig.add_trace(go.Scatter(x=df["time"], y=df["number_objects"]))
         fig.update_layout( title=dict( text='Number of Pedestrians' ), height=200, margin={"r":0,"t":30,"l":0,"b":0}, 
-                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 60000, tickformat="%M:%S"))
+                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = DTICK, tickformat="%M:%S"))
 
         with st.container(border=True):
             st.plotly_chart(fig, use_container_width=True)
@@ -313,7 +359,7 @@ if curr_camera:
         fig.add_hline(y=100, line_width=1, line_color="orange")
         fig.add_hline(y=50, line_width=1, line_color="green")
         fig.update_layout( title=dict( text='Persistence of Pedestrians (Frames)' ), height=200, margin={"r":0,"t":30,"l":0,"b":0}, 
-                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 60000, tickformat="%M:%S"))
+                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = DTICK, tickformat="%M:%S"))
 
         with st.container(border=True):
             st.plotly_chart(fig, use_container_width=True)
@@ -326,7 +372,7 @@ if curr_camera:
             fig.add_hline(y=0.8, line_width=3, line_dash="dash", line_color="red")
             fig.add_hline(y=0.4, line_width=2, line_dash="dash", line_color="orange")
             fig.update_layout( title=dict( text='Crowd Panic Activity Detection' ), height=200, margin={"r":0,"t":30,"l":0,"b":0}, 
-                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = 60000, tickformat="%M:%S"))
+                                  xaxis = dict(tickmode = 'linear', tick0 = 0, dtick = DTICK, tickformat="%M:%S"))
 
             with st.container(border=True):
                 st.plotly_chart(fig, use_container_width=True)
