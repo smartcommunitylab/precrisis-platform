@@ -14,8 +14,13 @@ def get_database_session():
 st.session_state.current_city = os.getenv('CITY', "Vienna")
 st.session_state.current_country = os.getenv('COUNTRY', "Austria")
 
+def get_thumb(name):
+    url = f"../data/thumbs/{name}.jpg"
+    with open(url, "rb") as image_file:
+        return image_file.read()
+
 if 'locations' not in st.session_state:
-    result = get_database_session().query(f"select city,lat,long,location, thumb from locations;")
+    result = get_database_session().query(f"select city,lat,long,location from locations;")
     ls = list(result.get_points())
     ls.sort(key=lambda x: x["location"])
 
@@ -31,6 +36,7 @@ if 'locations' not in st.session_state:
     alert_names.sort()
     st.session_state.alert_location_names = alert_names
     st.session_state.current_location = alert_names[0] if len(alert_names) > 0 else ls[0]["location"]
+    st.session_state.current_location_index = st.session_state.locations.index([x for x in st.session_state.locations if x["location"] == st.session_state.current_location][0])
 
 
 pos = st.Page("pages/urban.py", title="Urban Layer")
@@ -68,11 +74,11 @@ with st.sidebar:
 
     index = st.session_state.locations.index([x for x in st.session_state.locations if x["location"] == st.session_state.current_location][0])
 
-    place = st.radio("Locations", [x for x in st.session_state.locations], format_func=format_func, index=index)
+    place = st.radio("Locations", [x for x in st.session_state.locations], format_func=format_func, index=st.session_state.current_location_index)
     st.session_state.current_location = place["location"]
     location_container.header("Selected Location")
     location_container.subheader(place['location'].replace("_", " "))
     location = [x for x in st.session_state.locations if x["location"] == place["location"]][0]
-    location_container.image(base64.decodebytes(bytes(location["thumb"], "utf-8")), use_container_width=True)
-    
+    # location_container.image(base64.decodebytes(bytes(location["thumb"], "utf-8")), use_container_width=True)
+    location_container.image(get_thumb(location["location"]), use_container_width=True)
 pg.run()

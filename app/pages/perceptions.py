@@ -60,7 +60,7 @@ def get_emotions():
     # ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
     # return ls[0]
     url = f"../data/perception/{st.session_state.current_city.lower()}/{st.session_state.current_city.lower()}-emotion-distribution.json"
-    emotions = ["anger", "joy", "sadness", "fear"]
+    emotions = ["anger", "joy", "sadness", "fear"] if st.session_state.current_city != "Limassol" else ["Happyness", "Anger", "Sadness", "Surprise", "Fear", "Disgust"]
     with open(url, "r") as file:
         j = json.load(file)
         res = []
@@ -215,6 +215,7 @@ r = pdk.Deck(
     initial_view_state=INITIAL_VIEW_STATE,
     map_provider="mapbox",
     map_style=None,
-    tooltip={"text": "{v}"}
+    # tooltip={"html": '{v} <br> <img src="http://localhost:8501/media/f42afbbfb6ff8685cdb944530356e1bef387b91bd99659536d8b87a1.png" width="100">'}
+    tooltip={"html": '{v}'}
 )
 st.pydeck_chart(r, use_container_width=True)

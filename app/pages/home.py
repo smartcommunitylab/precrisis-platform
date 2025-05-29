@@ -109,7 +109,7 @@ fig.update_layout(
             lon=center_lon
         ),
         pitch=0,
-        zoom=11,
+        zoom=11 if st.session_state.current_city != "Limassol" else 13,
         style='light'
     ),
     margin={"r":0,"t":0,"l":0,"b":0},
