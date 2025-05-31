@@ -28,6 +28,13 @@ TIMINGMAP = {
         "video_anomaly_score": 0.033,
     }
 }
+
+PANIC_ADJUSTMENT = {
+    "Vienna": 0.5,
+    "Sofia": 0.1,
+    "Limassol": 0.1
+}
+
 # HARDCODED CAMERA NAMES FOR LIMASSOL
 limassol_name_mapping = {
     "cam1scenario1mp4.mp4": "Cam 1-04-16-2025 09:04",
@@ -38,7 +45,7 @@ limassol_name_mapping = {
     "cam1scenario4mp4.mp4": "Cam 1-04-16-2025 10:32",
     "cam1scenario5mp4.mp4": "Cam 1-04-16-2025 11:01",
     "cam2scenario1mp4.mp4": "Cam 2-04-16-2025 09:04",
-    "cam3scenario5mp4.mp4": "Cam 3-04-16-2025 11:01",
+    "cam3scenario5mp4.mp4": "Cam 3-04-16-2025 11:01",    
     "cam2scenario2mp4.mp4": "Cam 2-04-16-2025 09:44",
     "cam2scenario3mp4.mp4": "Cam 2-04-16-2025 10:11",
     "cam2scenario4mp4.mp4": "Cam 2-04-16-2025 10:32",
@@ -164,6 +171,7 @@ def violence(camera, fr = None, total = None, filtered_videos = None):
             for x in res:
                 x["prob"] = x["prob"] * 0.5
 
+    print("violence", len(res))
     return adjust_timeseries(res, None, False, total)
 
 def panic(camera, fr = None, total = None, filtered_videos = None):
@@ -174,8 +182,8 @@ def panic(camera, fr = None, total = None, filtered_videos = None):
         row = filtered_videos[filtered_videos["CAMERA"] == s]
         if "ADJUST_PANIC" in row['ADJUSTMENT'].values:
             for x in res:
-                x["score"] = x["score"] * 0.5
-    # print("panic", len(res))
+                x["score"] = x["score"] * (PANIC_ADJUSTMENT[st.session_state.current_city] if st.session_state.current_city in PANIC_ADJUSTMENT else  0.5)
+    print("panic", len(res))
     return adjust_timeseries(res, None, False, total)
 
 def pedestrian_num(camera, fr = None, total = None):
