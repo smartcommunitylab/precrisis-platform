@@ -15,7 +15,8 @@ st.session_state.current_city = os.getenv('CITY', "Vienna")
 st.session_state.current_country = os.getenv('COUNTRY', "Austria")
 
 def get_thumb(name):
-    url = f"../data/thumbs/{name}.jpg"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/thumbs/{name}.jpg"
     with open(url, "rb") as image_file:
         return image_file.read()
 

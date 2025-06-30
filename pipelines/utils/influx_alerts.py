@@ -5,9 +5,9 @@ import pandas as pd
 client = InfluxDBClient(host="localhost", port=8086, database="precrisis")
 client.drop_measurement("alerts")
 
-alerts = list(client.query('select * from video_anomaly_score where "score"::field > 0.6;').get_points())
+alerts = list(client.query('select * from video_anomaly_score where "score"::field > 0.4;').get_points())
 locations = list(client.query('select lat,long,location from locations;').get_points())
-print(client.query('select lat,long,location from locations;'))
+print(alerts)
 ld = {}
 for l in locations:
     ld[l["location"]] = l

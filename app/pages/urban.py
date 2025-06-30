@@ -84,14 +84,6 @@ def get_alerts():
     res['features'] = [{"type": "Feature", "properties": {"v": x["location"].replace("_", " "), "color": [255,0,0], "fill_color": [255,0,0,70]}, "geometry": {"type": "Point", "coordinates": [x["long"], x["lat"]]}, "id": "alert"+str(i), "type": "alert"} for i,x in enumerate(ls)]    
     return res
 
-def get_emotions():
-    ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
-    return ls[0]
-
-def get_wordcloud():
-    ls = list(get_database_session().query('SELECT "image" FROM "wordclouds" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/)'))
-    return ls[0]
-
 def search_address(address):
     geolocator = Nominatim(user_agent="precrisis")
     str = f"{address}, {st.session_state.current_city}, {st.session_state.current_country}"

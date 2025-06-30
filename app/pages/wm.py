@@ -22,7 +22,8 @@ def get_alerts_as_df():
 def get_alert_text(location):
     return alert_texts[location]
 
-url = f"../data/{st.session_state.current_city.lower()}-alerts.json"
+path = os.getenv('DATA_PATH', "../data")
+url = f"{path}/{st.session_state.current_city.lower()}-alerts.json"
 with open(url, "r") as file:
     alert_texts = json.load(file)
 

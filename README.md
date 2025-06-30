@@ -19,3 +19,7 @@ Instructions on how to generate data for Video Analysis.
 ## Videoplayback
 
 Flask server to host video streaming for Grafana.
+
+## Dashboard UI
+
+Streamlit App for the visualization of the analysis data.

@@ -68,7 +68,8 @@ def get_camera_name(camera):
 
 def get_filtered_videos(city):
     try:
-        df = pd.read_csv(f"../data/filteredvideos_{city.lower()}.csv")
+        path = os.getenv('DATA_PATH', "../data")
+        df = pd.read_csv(f"{path}/filteredvideos_{city.lower()}.csv")
         return df
     except Exception as e:
         print(e)
@@ -94,10 +95,6 @@ def get_interval(camera):
     ls = list(get_database_session().query('SELECT score, time FROM "video_anomaly_score" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/) order by time ').get_points())
     return ls[0]["time"], ls[-1]["time"]
 
-
-def get_camera_details(camera):
-    ls = list(get_database_session().query('SELECT "image" FROM "thumbnails_busca_full" WHERE ("camera"::field =~ /^' + camera + '$/) or ("camera"::field=~/^cam01001mp4.mp4$/)').get_points())
-    return ls[0] if len(ls) > 0 else []
 
 def get_pois():
     type = "buildings"
@@ -300,15 +297,6 @@ with cam1:
         st.session_state.current_camera = curr_camera
     else:
         st.write("No camera data available")
-
-    # if curr_camera:
-    #     # camera_container.write("Camera sample")
-    #     # st.image(base64.decodebytes(bytes(get_camera_details(curr_camera)["image"], "utf-8")))
-    #     try:
-    #         st.image(f"{SERVER_URL}/videos/{curr_camera}.jpg", use_container_width=True)
-    #     except Exception as e: 
-    #         print(e)
-    #         st.image(f"./assets/placeholder.jpg", use_container_width=True)
 
 if curr_camera:
     with cam2:

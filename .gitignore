@@ -211,3 +211,5 @@ pyrightconfig.json
 # End of https://www.toptal.com/developers/gitignore/api/linux,python,visualstudiocode
 
 data
+output
+videoplayback/plot

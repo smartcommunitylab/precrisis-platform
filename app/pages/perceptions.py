@@ -57,9 +57,8 @@ def get_alerts():
     return res
 
 def get_emotions():
-    # ls = list(get_database_session().query('SELECT "score", "emotion" FROM "emotions" WHERE ("city"::tag = \'Vienna\' AND "location"::tag =~ /^' + st.session_state.current_location + '$/)'))
-    # return ls[0]
-    url = f"../data/perception/{st.session_state.current_city.lower()}/{st.session_state.current_city.lower()}-emotion-distribution.json"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/perception/{st.session_state.current_city.lower()}/{st.session_state.current_city.lower()}-emotion-distribution.json"
     emotions = ["anger", "joy", "sadness", "fear"] if st.session_state.current_city != "Limassol" else ["Happyness", "Anger", "Sadness", "Surprise", "Fear", "Disgust"]
     with open(url, "r") as file:
         j = json.load(file)
@@ -72,28 +71,28 @@ def get_emotions():
 
 
 def get_emotions_svg():
-    url = f"../data/perception/{st.session_state.current_city.lower()}/piecharts/{st.session_state.current_city.lower()}_{st.session_state.current_location}_emotion_piechart.svg"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/perception/{st.session_state.current_city.lower()}/piecharts/{st.session_state.current_city.lower()}_{st.session_state.current_location}_emotion_piechart.svg"
     with open(url, "r") as image_file:
         return image_file.read()
         # encoded_string = base64.b64encode(image_file.read())
         # return encoded_string.decode('utf-8')
 
-def get_wordcloud():
-    ls = list(get_database_session().query('SELECT "image" FROM "wordclouds" WHERE ("location"::tag =~ /^' + st.session_state.current_location + '$/)'))
-    return ls[0]
-
 def get_wordcloud_pos_img():
-    url = f"../data/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_positive.png"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_positive.png"
     with open(url, "rb") as image_file:
         return image_file.read()
 
 def get_wordcloud_neg_img():
-    url = f"../data/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_negative.png"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/perception/{st.session_state.current_city.lower()}/wordclouds/{st.session_state.current_city}_{st.session_state.current_location}_negative.png"
     with open(url, "rb") as image_file:
         return image_file.read()
 
 def get_summary():
-    url = f"../data/perception/{st.session_state.current_city.lower()}/summaries/{st.session_state.current_city.lower()}_{st.session_state.current_location}_top_sentiment.json"
+    path = os.getenv('DATA_PATH', "../data")
+    url = f"{path}/perception/{st.session_state.current_city.lower()}/summaries/{st.session_state.current_city.lower()}_{st.session_state.current_location}_top_sentiment.json"
     with open(url, "r") as file:
         summary = json.load(file)
         return summary['positive_summarization'], summary['negative_summarization']
@@ -147,7 +146,6 @@ with st.expander("Social Media Analysis", expanded=True):
         st.subheader("Summary of positive aspects")
         st.write("*Summaries of positive aspects mentioned in social media posts about this location.*")
         st.write(pos)
-        # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
 
     with c3:
         st.subheader("Negative posts word cloud")
@@ -156,7 +154,6 @@ with st.expander("Social Media Analysis", expanded=True):
         st.subheader("Summary of negative aspects")
         st.write("*Summaries of negative aspects mentioned in social media posts about this location.*")
         st.write(neg)
-        # st.image(base64.decodebytes(bytes(get_wordcloud()[0]["image"], "utf-8")))
     
     st.subheader("Topic Analysis")
     st.write("*Main topics that are discussed on social media posts about this location, extracted automatically. Each post is represented as a dot, the color of the dot indicates the topic discussed in the post. You can hover over the dots to read (pseudonymized) posts.*")

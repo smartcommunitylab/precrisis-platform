@@ -41,7 +41,7 @@ def create_thumbnail(location):
 client = InfluxDBClient(host="localhost", port=8086, database="precrisis")
 client.drop_measurement("locations")
 
-city = "Sofia"
+city = "Limassol"
 df = pd.read_csv(f"./data/{city.lower()}-locations.csv")
 ls = df.to_dict(orient="records")
 res = []
